@@ -3,7 +3,7 @@
 #ifndef STATEMACHINE_HPP
 #define STATEMACHINE_HPP
 
-#include "GameState.hpp"
+#include "../GameStates/GameState.hpp"
 
 #include <SFML/System.hpp>
 

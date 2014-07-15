@@ -11,23 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="IntroState.cpp" />
+    <ClCompile Include="Collision\Collision.cpp" />
+    <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="Entities\Tile.cpp" />
+    <ClCompile Include="GameStateMachine\StateMachine.cpp" />
+    <ClCompile Include="GameStates\GameState.cpp" />
+    <ClCompile Include="GameStates\IntroState.cpp" />
+    <ClCompile Include="GameStates\PlayState.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayState.cpp" />
-    <ClCompile Include="StateMachine.cpp" />
-    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.hpp" />
-    <ClInclude Include="GameState.hpp" />
-    <ClInclude Include="IntroState.hpp" />
-    <ClInclude Include="Player.hpp" />
-    <ClInclude Include="PlayState.hpp" />
-    <ClInclude Include="StateMachine.hpp" />
-    <ClInclude Include="Tile.hpp" />
+    <ClInclude Include="Collision\Collision.hpp" />
+    <ClInclude Include="Entities\Player.hpp" />
+    <ClInclude Include="Entities\Tile.hpp" />
+    <ClInclude Include="GameStateMachine\StateMachine.hpp" />
+    <ClInclude Include="GameStates\GameState.hpp" />
+    <ClInclude Include="GameStates\IntroState.hpp" />
+    <ClInclude Include="GameStates\PlayState.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E8515512-DD6F-4863-8C30-A47CB4D176AC}</ProjectGuid>

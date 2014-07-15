@@ -1,5 +1,5 @@
 #include "PlayState.hpp"
-#include "StateMachine.hpp"
+#include "../GameStateMachine/StateMachine.hpp"
 
 
 PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool replace)

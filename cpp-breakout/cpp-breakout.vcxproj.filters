@@ -15,51 +15,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IntroState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Collision\Collision.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayState.cpp">
+    <ClCompile Include="Entities\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
+    <ClCompile Include="Entities\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
+    <ClCompile Include="GameStateMachine\StateMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStates\GameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStates\IntroState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStates\PlayState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.hpp">
+    <ClInclude Include="Collision\Collision.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameState.hpp">
+    <ClInclude Include="Entities\Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IntroState.hpp">
+    <ClInclude Include="Entities\Tile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Player.hpp">
+    <ClInclude Include="GameStateMachine\StateMachine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayState.hpp">
+    <ClInclude Include="GameStates\GameState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StateMachine.hpp">
+    <ClInclude Include="GameStates\IntroState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.hpp">
+    <ClInclude Include="GameStates\PlayState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

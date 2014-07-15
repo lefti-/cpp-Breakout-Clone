@@ -1,5 +1,5 @@
 #include "IntroState.hpp"
-#include "StateMachine.hpp"
+#include "../GameStateMachine/StateMachine.hpp"
 
 
 IntroState::IntroState(StateMachine& machine, sf::RenderWindow& window, bool replace)

@@ -3,11 +3,11 @@
 #ifndef PLAYSTATE_HPP
 #define PLAYSTATE_HPP
 
-#include "Tile.hpp"
+#include "../Entities/Tile.hpp"
 #include "GameState.hpp"
-#include "Player.hpp"
+#include "../Entities/Player.hpp"
 #include "IntroState.hpp"
-#include "Collision.hpp"
+#include "../Collision/Collision.hpp"
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
