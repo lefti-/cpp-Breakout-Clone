@@ -19,13 +19,17 @@
 #include <SFML/Graphics.hpp>
 #include <Windows.h>
 
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <direct.h>
+
 
 int main() {
-
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time deltaTime = sf::seconds(1.f / 60.f);
-    // Create a render window.
+
     sf::RenderWindow m_window;
     m_window.create(sf::VideoMode{1024, 768}, "Game State Machine Test v0.1");
 

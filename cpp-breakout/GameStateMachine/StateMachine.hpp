@@ -1,5 +1,3 @@
-// The header file should have a header guard to prevent multiple inclusion errors.
-// header guard at start of header file
 #ifndef STATEMACHINE_HPP
 #define STATEMACHINE_HPP
 
@@ -48,5 +46,4 @@ template <typename T>
 std::unique_ptr<T> StateMachine::build(StateMachine& machine, sf::RenderWindow& window, bool replace) {
     return std::move(std::unique_ptr<T>(new T(machine, window, replace)));
 }
-// end header guard at bottom of header file
 #endif // STATEMACHINE_HPP

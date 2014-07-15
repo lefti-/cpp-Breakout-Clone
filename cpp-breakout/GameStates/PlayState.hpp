@@ -1,12 +1,11 @@
-// The header file should have a header guard to prevent multiple inclusion errors.
-// header guard at start of header file
 #ifndef PLAYSTATE_HPP
 #define PLAYSTATE_HPP
 
-#include "../Entities/Tile.hpp"
 #include "GameState.hpp"
-#include "../Entities/Player.hpp"
 #include "IntroState.hpp"
+#include "../Entities/Ball.hpp"
+#include "../Entities/Tile.hpp"
+#include "../Entities/Player.hpp"
 #include "../Collision/Collision.hpp"
 
 #include <SFML/Window.hpp>
@@ -43,6 +42,7 @@ public:
     void draw();
 private:
     sf::Texture playerTex;
+    sf::Texture ballTex;
     sf::Font font;
     sf::Text text;
     sf::Time deltaTime;
@@ -56,6 +56,6 @@ private:
     std::vector<Tile> moveableTiles;
     std::vector<Tile> changePlayerColorTiles;
     Player player;
+    Ball ball;
 };
-// end header guard at bottom of header file
 #endif // PLAYSTATE_HPP

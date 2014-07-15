@@ -5,21 +5,25 @@
 PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(machine, window, replace) {
 
-    if(playerTex.loadFromFile("C:/Users/Harry/Documents/Visual Studio 2013/Projects/cpp SFML test/Debug/data/images/gizmo_alpha_52x52.png"))
+    if(playerTex.loadFromFile("data/images/gizmo_alpha_52x52.png"))
     {
         player.sprite.setTexture(playerTex);
+
     }
     player.sprite.setPosition(sf::Vector2f(300, 300));
 
-    font.loadFromFile("C:/Users/Harry/Documents/Visual Studio 2013/Projects/cpp SFML test/Debug/data/fonts/centurygothic.ttf");
+    if(ballTex.loadFromFile("data/images/ball_24x24.png")) {
+        ball.sprite.setTexture(ballTex);
+    }
+
+    font.loadFromFile("data/fonts/centurygothic.ttf");
 
     text.setFont(font);
     text.setCharacterSize(40);
     text.setColor(sf::Color::White);
     text.setPosition(sf::Vector2f(900, 10));
 
-    PlayState::loadMap("C:/Users/Harry/Documents/Visual Studio 2013/Projects/cpp SFML test/Game State Machine/data/levels/Map1.txt",
-                       "C:/Users/Harry/Documents/Visual Studio 2013/Projects/cpp SFML test/Game State Machine/data/levels/tiles.png");
+    PlayState::loadMap("data/levels/Map1.txt", "data/levels/tiles.png");
                            
     // Loop through the map and set the tile position and sprites to the tiles.
     for(unsigned int i = 0; i < map.size(); i++) {
@@ -34,15 +38,19 @@ PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool repla
 
                 // Go through the numbered grid cells and add the tiles to their appropriate vectors.
                 if(map[i][j].x == 0 && map[i][j].y == 0) {
+                    tempTile.armor = 1;
                     changePlayerColorTiles.push_back(tempTile);
                 }
                 if(map[i][j].x == 0 && map[i][j].y == 1) {
+                    tempTile.armor = 1;
                     changePlayerColorTiles.push_back(tempTile);
                 }
                 if(map[i][j].x == 1 && map[i][j].y == 0) {
+                    tempTile.armor = 2;
                     moveableTiles.push_back(tempTile);
                 }
                 if(map[i][j].x == 1 && map[i][j].y == 1) {
+                    tempTile.armor = 2;
                     moveableTiles.push_back(tempTile);
                 }
 
@@ -137,22 +145,6 @@ void PlayState::processEvents() {
 
             switch(event.key.code) {
 
-            case sf::Keyboard::Right:
-                player.movingRight = true;
-                break;
-
-            case sf::Keyboard::Left:
-                player.movingLeft = true;
-                break;
-
-            case sf::Keyboard::Up:
-                player.movingUp = true;
-                break;
-
-            case sf::Keyboard::Down:
-                player.movingDown = true;
-                break;
-
             case sf::Keyboard::Space:
                 m_next = StateMachine::build<IntroState>(state_machine, m_window, true);
                 break;
@@ -168,40 +160,19 @@ void PlayState::processEvents() {
             break;
         }
 
-        case sf::Event::KeyReleased: {
-
-            switch(event.key.code)
-            {
-
-            case sf::Keyboard::Right:
-                player.movingRight = false;
-                break;
-
-            case sf::Keyboard::Left:
-                player.movingLeft = false;
-                break;
-
-            case sf::Keyboard::Up:
-                player.movingUp = false;
-                break;
-
-            case sf::Keyboard::Down:
-                player.movingDown = false;
-                break;
-
-            default:
-                break;
-            }
-            break;
-        }
-
         case sf::Event::MouseButtonPressed:
         {
             switch(event.mouseButton.button) {
             case sf::Mouse::Right:
+                if(ball.playerHasBall == true) {
+                    ball.launch("right");
+                }
                 break;
 
             case sf::Mouse::Left:
+                if(ball.playerHasBall == true) {
+                    ball.launch("left");
+                }
                 break;
 
             case sf::Mouse::Middle:
@@ -239,18 +210,19 @@ void PlayState::update(sf::Time deltaTime) {
     */
 
     player.update(m_window, deltaTime);
+    ball.update(m_window, player, deltaTime);
 
     for(unsigned int i = 0; i < changePlayerColorTiles.size(); i++) {
         if(Collision::BoundingBoxTest(player.sprite, changePlayerColorTiles[i].tile)) {
-            player.sprite.setColor(sf::Color::Red);
+
             changePlayerColorTiles.erase(changePlayerColorTiles.begin() + i);
         }
     }
 
     for(unsigned int i = 0; i < moveableTiles.size(); i++) {
         if(Collision::BoundingBoxTest(player.sprite, moveableTiles[i].tile)) {
+
             std::cout << "Collision between sprite and tile" << std::endl;
-            //player.sprite.setColor(sf::Color::Red);
             moveableTiles[i].tile.move(player.velocity * deltaTime.asSeconds());
         }
     }
@@ -261,13 +233,15 @@ void PlayState::draw() {
     m_window.clear(sf::Color(0, 0, 0));
 
     for(unsigned int i = 0; i < moveableTiles.size(); i++) {
+        std::cout << "Armor: " << moveableTiles[i].armor << std::endl;
         m_window.draw(moveableTiles[i].tile);
     }
     for(unsigned int i = 0; i < changePlayerColorTiles.size(); i++)
     {
+        std::cout << "Armor: " << changePlayerColorTiles[i].armor << std::endl;
         m_window.draw(changePlayerColorTiles[i].tile);
     }
-
+    m_window.draw(ball.sprite);
     m_window.draw(player.sprite);
     m_window.draw(text);
 

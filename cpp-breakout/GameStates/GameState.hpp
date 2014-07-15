@@ -1,5 +1,3 @@
-// The header file should have a header guard to prevent multiple inclusion errors.
-// header guard at start of header file
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
 
@@ -37,5 +35,4 @@ protected:
 
     std::unique_ptr<GameState> m_next;
 };
-// end header guard at bottom of header file
 #endif // GAMESTATE_HPP

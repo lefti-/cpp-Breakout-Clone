@@ -1,5 +1,3 @@
-// The header file should have a header guard to prevent multiple inclusion errors.
-// header guard at start of header file
 #ifndef INTROSTATE_HPP
 #define INTROSTATE_HPP
 
@@ -34,5 +32,4 @@ private:
     sf::RectangleShape intro_fader;
     sf::Color intro_alpha;
 };
-// end header guard at bottom of header file
 #endif // INTROSTATE_HPP

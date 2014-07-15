@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collision\Collision.cpp" />
+    <ClCompile Include="Entities\Ball.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Entities\Tile.cpp" />
     <ClCompile Include="GameStateMachine\StateMachine.cpp" />
@@ -22,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision\Collision.hpp" />
+    <ClInclude Include="Entities\Ball.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
     <ClInclude Include="Entities\Tile.hpp" />
     <ClInclude Include="GameStateMachine\StateMachine.hpp" />
