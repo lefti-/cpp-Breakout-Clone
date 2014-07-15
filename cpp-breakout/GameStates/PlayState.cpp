@@ -1,16 +1,21 @@
 #include "PlayState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
+#include "../Collision/Collision.hpp"
+
+#define _USE_MATH_DEFINES
+
+#include <math.h>
 
 
 PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(machine, window, replace) {
 
-    if(playerTex.loadFromFile("data/images/gizmo_alpha_52x52.png"))
+    if(playerTex.loadFromFile("data/images/gizmo_32x32.png"))
     {
         player.sprite.setTexture(playerTex);
 
     }
-    player.sprite.setPosition(sf::Vector2f(300, 300));
+    player.sprite.setPosition(sf::Vector2f(500, 100));
 
     if(ballTex.loadFromFile("data/images/ball_24x24.png")) {
         ball.sprite.setTexture(ballTex);
@@ -106,7 +111,6 @@ void PlayState::loadMap(const char* fileName, const char* tileTextureFile) {
 
                 // If i is equal to xx.length(), then  x will be equal to atoi(xx.c_str()) else, it will be equal to -1.
                 x = (i == xx.length()) ? atoi(xx.c_str()) : -1;
-
                 y = (j == yy.length()) ? atoi(yy.c_str()) : -1;
 
                 tempMap.push_back(sf::Vector2i(x, y));
@@ -145,6 +149,22 @@ void PlayState::processEvents() {
 
             switch(event.key.code) {
 
+            case sf::Keyboard::Right:
+                player.movingRight = true;
+                break;
+
+            case sf::Keyboard::Left:
+                player.movingLeft = true;
+                break;
+
+            case sf::Keyboard::Up:
+                player.movingUp = true;
+                break;
+
+            case sf::Keyboard::Down:
+                player.movingDown = true;
+                break;
+
             case sf::Keyboard::Space:
                 m_next = StateMachine::build<IntroState>(state_machine, m_window, true);
                 break;
@@ -152,6 +172,32 @@ void PlayState::processEvents() {
             case sf::Keyboard::Escape:
                 std::cout << "Quit via Esc!" << std::endl;
                 state_machine.quit();
+                break;
+
+            default:
+                break;
+            }
+            break;
+        }
+
+        case sf::Event::KeyReleased: {
+
+            switch(event.key.code) {
+
+            case sf::Keyboard::Right:
+                player.movingRight = false;
+                break;
+
+            case sf::Keyboard::Left:
+                player.movingLeft = false;
+                break;
+
+            case sf::Keyboard::Up:
+                player.movingUp = false;
+                break;
+
+            case sf::Keyboard::Down:
+                player.movingDown = false;
                 break;
 
             default:
@@ -189,56 +235,65 @@ void PlayState::processEvents() {
     }
 }
 
+
+
 void PlayState::update(sf::Time deltaTime) {
+
+    // Measure FPS
     time = fpsClock.getElapsedTime();
     sf::Int64 fps = 1000000 / time.asMicroseconds();
-
     std::string fpsString = std::to_string(fps);;
     text.setString(fpsString + " fps");
-    //std::cout << "FPS: " << fps << std::endl;
-
     fpsClock.restart();
 
-    /*
-    // C# - code, taken from spin-pong.
-    // Transform the mouse position from window coordinates to world coordinates.
-    Vector2f mousePos = window.MapPixelToCoords(Mouse.GetPosition(window)) / PixelsToMeter;
-    // Moving mouse cursor up or down from player's center.
-    if(mousePos.Y - playerPosY > 0.01f || mousePos.Y - playerPosY < -0.01f) {
-    playerVelocity.Y = (mousePos.Y - playerPosY) * 60;
-    }
-    */
-
+    ball.update(player, deltaTime);
     player.update(m_window, deltaTime);
-    ball.update(m_window, player, deltaTime);
 
+    // Collision Detection
     for(unsigned int i = 0; i < changePlayerColorTiles.size(); i++) {
-        if(Collision::BoundingBoxTest(player.sprite, changePlayerColorTiles[i].tile)) {
-
+        if(Collision::checkCollisionBothWays(player.sprite, changePlayerColorTiles[i].tile)) {
             changePlayerColorTiles.erase(changePlayerColorTiles.begin() + i);
         }
     }
 
     for(unsigned int i = 0; i < moveableTiles.size(); i++) {
-        if(Collision::BoundingBoxTest(player.sprite, moveableTiles[i].tile)) {
+        if(Collision::checkCollisionBothWays(ball.sprite, moveableTiles[i].tile)) {
+            // Find the angle between the two sprites' centers.
+            double angle = std::atan2(ball.sprite.getPosition().y - moveableTiles[i].tile.getPosition().y,
+                                     ball.sprite.getPosition().x - moveableTiles[i].tile.getPosition().x) * 180 / M_PI;
 
-            std::cout << "Collision between sprite and tile" << std::endl;
-            moveableTiles[i].tile.move(player.velocity * deltaTime.asSeconds());
+            // Collision Handling
+            //moveableTiles[i].tile.move(player.velocity * deltaTime.asSeconds());
+
+            if (angle <= -45 && angle >= -135) {    // collision from TOP
+                ball.velocity.y = -ball.velocity.y;
+                std::cout << "Collision from TOP." << std::endl;
+            }
+            if(angle > 45 && angle <= 135) {        // collision from BOTTOM
+                ball.velocity.y = -ball.velocity.y;
+                std::cout << "Collision from BOTTOM." << std::endl;
+            }
+            if(angle > -45 && angle <= 45) {        // collision from RIGHT
+                std::cout << "Collision from RIGHT." << std::endl;
+                ball.velocity.x = -ball.velocity.x;
+            }
+            if((angle > 135 && angle <= 180) ||
+                (angle > -180 && angle < -135)) {  // collision from LEFT
+                ball.velocity.x = -ball.velocity.x;
+                std::cout << "Collision from LEFT." << std::endl;
+            }
         }
     }
-
 }
 
 void PlayState::draw() {
     m_window.clear(sf::Color(0, 0, 0));
 
     for(unsigned int i = 0; i < moveableTiles.size(); i++) {
-        std::cout << "Armor: " << moveableTiles[i].armor << std::endl;
         m_window.draw(moveableTiles[i].tile);
     }
     for(unsigned int i = 0; i < changePlayerColorTiles.size(); i++)
     {
-        std::cout << "Armor: " << changePlayerColorTiles[i].armor << std::endl;
         m_window.draw(changePlayerColorTiles[i].tile);
     }
     m_window.draw(ball.sprite);

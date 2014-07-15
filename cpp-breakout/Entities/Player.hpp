@@ -12,9 +12,12 @@ public:
     void update(sf::RenderWindow& window, sf::Time deltaTime);
 
     sf::Sprite sprite;
-
+    int boxLeft, boxRight, boxTop, boxBottom;
+    bool movingUp, movingDown, movingLeft, movingRight;
     std::vector<sf::Vector2i> tilesTouching;
     sf::Vector2f velocity;
     sf::Vector2f mousePos;
+    sf::Vector2f newPosition;
+    sf::Vector2f oldPosition;
 };
 #endif // PLAYER_HPP

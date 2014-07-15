@@ -38,6 +38,7 @@ public:
     void resume();
 
     void processEvents();
+
     void update(sf::Time deltaTime);
     void draw();
 private:

@@ -13,16 +13,14 @@
 // SFML Game Development
 // http://books.google.fi/books?id=4oYlKBl5g24C&pg=PT510&lpg=PT510&dq=sfml+releasing+resources&source=bl&ots=1LVGlh1Zev&sig=ahMWifPoGGksj0g-YfIvQ_NSDE8&hl=fi&sa=X&ei=a8HDU6KDKMS6ygPL8oB4&ved=0CCYQ6AEwATgK#v=onepage&q&f=false
 
+// Based Collision Detection and Resolution on the thread "C++ Rectangle to rectangle Collision"
+// http://stackoverflow.com/questions/16228969/c-rectangle-to-rectangle-collision
+
 #include "GameStates/IntroState.hpp"
 #include "GameStateMachine/StateMachine.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <Windows.h>
-
-#include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <direct.h>
 
 
 int main() {

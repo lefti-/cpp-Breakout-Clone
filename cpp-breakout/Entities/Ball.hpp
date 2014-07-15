@@ -13,7 +13,7 @@ public:
 
     void launch(std::string direction);
 
-    void update(sf::RenderWindow& window, Player player, sf::Time deltaTime);
+    void update(Player player, sf::Time deltaTime);
 
     bool playerHasBall = true;
 
