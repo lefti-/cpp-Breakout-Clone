@@ -1,6 +1,5 @@
 #include "PlayState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
-#include "../Collision/Collision.hpp"
 
 #define _USE_MATH_DEFINES
 
@@ -33,15 +32,18 @@ PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool repla
     // Loop through the map and set the tile position and sprites to the tiles.
     for(unsigned int i = 0; i < map.size(); i++) {
         for(unsigned int j = 0; j < map[i].size(); j++) {
-            std::cout << "Map[x][y]: " << map[i][j].x << "," << map[i][j].y << std::endl;
             // Set sprites to the tiles in every grid cell which is not -1,-1.
             if(map[i][j].x != -1 && map[i][j].y != -1) {
                 sprite = tiles;
-                sprite.setTextureRect(sf::IntRect(map[i][j].x * 32, map[i][j].y * 32, 32, 32));
-                sprite.setPosition(sf::Vector2f(j * 32.0f, i * 32.0f));
+                sprite.setTextureRect(sf::IntRect(map[i][j].x * TILESIZE, map[i][j].y * TILESIZE, TILESIZE, TILESIZE));
+                sprite.setPosition(sf::Vector2f(j * TILESIZE, i * TILESIZE));
+                std::cout << "sprite pos.x: " << sprite.getPosition().x << " | pos.y: " << sprite.getPosition().y << std::endl;
                 Tile tempTile(sprite);
 
-                // Go through the numbered grid cells and add the tiles to their appropriate vectors.
+                tempTile.mapColumn = i;
+                tempTile.mapRow = j;
+
+                // Go through the numbered grid cells and add the tiles to their appropriate containers.
                 if(map[i][j].x == 0 && map[i][j].y == 0) {
                     tempTile.armor = 1;
                     changePlayerColorTiles.push_back(tempTile);
@@ -65,6 +67,7 @@ PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool repla
   
     std::cout << "<< PlayState initialized >>" << std::endl;
 }
+
 
 void PlayState::loadMap(const char* fileName, const char* tileTextureFile) {
 
@@ -90,9 +93,9 @@ void PlayState::loadMap(const char* fileName, const char* tileTextureFile) {
 
                 if(value.length() > 0) {
                 // Get the value before the comma
-                std::string xx = value.substr(0, value.find(','));
+                std::string xx = value.substr(0, value.find('.'));
                 // Get the value after the comma
-                std::string yy = value.substr(value.find(',') + 1);
+                std::string yy = value.substr(value.find('.') + 1);
 
                 unsigned int x, y, i, j;
 
@@ -200,6 +203,9 @@ void PlayState::processEvents() {
                 player.movingDown = false;
                 break;
 
+            case sf::Keyboard::T:
+                break;
+
             default:
                 break;
             }
@@ -236,55 +242,25 @@ void PlayState::processEvents() {
 }
 
 
-
 void PlayState::update(sf::Time deltaTime) {
-
-    // Measure FPS
+    // Measure FPS.
     time = fpsClock.getElapsedTime();
     sf::Int64 fps = 1000000 / time.asMicroseconds();
     std::string fpsString = std::to_string(fps);;
     text.setString(fpsString + " fps");
     fpsClock.restart();
 
-    ball.update(player, deltaTime);
+    ball.update(player, deltaTime, moveableTiles);
     player.update(m_window, deltaTime);
 
-    // Collision Detection
+    // Collision Detection.
     for(unsigned int i = 0; i < changePlayerColorTiles.size(); i++) {
-        if(Collision::checkCollisionBothWays(player.sprite, changePlayerColorTiles[i].tile)) {
+        if(Collision::BoundingBoxTest(player.sprite, changePlayerColorTiles[i].tile)) {
             changePlayerColorTiles.erase(changePlayerColorTiles.begin() + i);
         }
-    }
-
-    for(unsigned int i = 0; i < moveableTiles.size(); i++) {
-        if(Collision::checkCollisionBothWays(ball.sprite, moveableTiles[i].tile)) {
-            // Find the angle between the two sprites' centers.
-            double angle = std::atan2(ball.sprite.getPosition().y - moveableTiles[i].tile.getPosition().y,
-                                     ball.sprite.getPosition().x - moveableTiles[i].tile.getPosition().x) * 180 / M_PI;
-
-            // Collision Handling
-            //moveableTiles[i].tile.move(player.velocity * deltaTime.asSeconds());
-
-            if (angle <= -45 && angle >= -135) {    // collision from TOP
-                ball.velocity.y = -ball.velocity.y;
-                std::cout << "Collision from TOP." << std::endl;
-            }
-            if(angle > 45 && angle <= 135) {        // collision from BOTTOM
-                ball.velocity.y = -ball.velocity.y;
-                std::cout << "Collision from BOTTOM." << std::endl;
-            }
-            if(angle > -45 && angle <= 45) {        // collision from RIGHT
-                std::cout << "Collision from RIGHT." << std::endl;
-                ball.velocity.x = -ball.velocity.x;
-            }
-            if((angle > 135 && angle <= 180) ||
-                (angle > -180 && angle < -135)) {  // collision from LEFT
-                ball.velocity.x = -ball.velocity.x;
-                std::cout << "Collision from LEFT." << std::endl;
-            }
-        }
-    }
+    }               
 }
+
 
 void PlayState::draw() {
     m_window.clear(sf::Color(0, 0, 0));
@@ -303,4 +279,3 @@ void PlayState::draw() {
     m_window.display();
 
 }
-

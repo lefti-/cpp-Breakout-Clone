@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <utility>
 
 
 class StateMachine;
@@ -39,9 +40,12 @@ public:
 
     void processEvents();
 
+    void PlayState::findAllEqualLines();
+    void PlayState::giveTilePoints();
     void update(sf::Time deltaTime);
     void draw();
 private:
+    const int TILESIZE = 32;
     sf::Texture playerTex;
     sf::Texture ballTex;
     sf::Font font;
@@ -52,11 +56,15 @@ private:
     sf::Texture tileTexture;
     sf::Sprite tiles;
     sf::Sprite sprite;
+    sf::Sprite tileSprite;
     std::vector<std::vector<sf::Vector2i>> map;
     std::vector<sf::Vector2i> tempMap;
     std::vector<Tile> moveableTiles;
+    std::vector<Tile> tempTileVector;
     std::vector<Tile> changePlayerColorTiles;
     Player player;
     Ball ball;
+    sf::IntRect tile1;
+    sf::IntRect tile2;
 };
 #endif // PLAYSTATE_HPP

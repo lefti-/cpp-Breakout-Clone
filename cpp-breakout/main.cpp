@@ -1,20 +1,8 @@
 // Started on 13.7.2014.
-// Resources used:
+// Breakout clone made in C++ and SFML.
 
 // A small game engine or better state machine.
 // https://github.com/eXpl0it3r/SmallGameEngine
-
-// C++ Sfml 2.0 Made Easy Tutorial 30 - Loading Tile Maps[Hard]
-// https://www.youtube.com/watch?v=NdOY8kuk4Ds&list=PLHJE4y54mpC5j_x90UkuoMZOdmmL9-_rg&index=30
-
-// C++ Sfml 2.0 Made Easy Tutorial 39 - Tile Map Collision[Hard]
-// https://www.youtube.com/watch?v=QCUZG9o4AVY&index=39&list=PLHJE4y54mpC5j_x90UkuoMZOdmmL9-_rg
-
-// SFML Game Development
-// http://books.google.fi/books?id=4oYlKBl5g24C&pg=PT510&lpg=PT510&dq=sfml+releasing+resources&source=bl&ots=1LVGlh1Zev&sig=ahMWifPoGGksj0g-YfIvQ_NSDE8&hl=fi&sa=X&ei=a8HDU6KDKMS6ygPL8oB4&ved=0CCYQ6AEwATgK#v=onepage&q&f=false
-
-// Based Collision Detection and Resolution on the thread "C++ Rectangle to rectangle Collision"
-// http://stackoverflow.com/questions/16228969/c-rectangle-to-rectangle-collision
 
 #include "GameStates/IntroState.hpp"
 #include "GameStateMachine/StateMachine.hpp"

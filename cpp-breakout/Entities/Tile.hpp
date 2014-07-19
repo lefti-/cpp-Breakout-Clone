@@ -5,11 +5,16 @@
 
 #include <SFML/Graphics.hpp>
 
+
 class Tile {
 public:
     Tile(sf::Sprite sprite);
 
-    sf::Sprite tile;
+    int getTile(int mapRow, int mapColumn);
+
     int armor;
+    int mapRow;
+    int mapColumn;
+    sf::Sprite tile;
 };
 #endif // TILE_HPP
