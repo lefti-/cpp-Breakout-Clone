@@ -19,10 +19,8 @@ namespace sf {
 class IntroState : public GameState {
 public:
     IntroState(StateMachine& machine, sf::RenderWindow& window, bool replace = true);
-
     void pause();
     void resume();
-
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();

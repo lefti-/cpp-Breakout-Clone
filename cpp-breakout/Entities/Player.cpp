@@ -3,7 +3,6 @@
 
 Player::Player() { }
 
-
 void Player::update(sf::RenderWindow& window, sf::Time deltaTime) {
     /*
     if(movingRight) {

@@ -44,5 +44,15 @@ namespace Collision {
     /// Supports scaling and rotation
     //////
     bool BoundingBoxTest(const sf::Sprite& Object1, const sf::Sprite& Object2);
+
+    /// Calculates the signed depth of intersection between two rectangles.
+    /// <returns>
+    /// The amount of overlap between two intersecting rectangles. These
+    /// depth values can be negative depending on which wides the rectangles
+    /// intersect. This allows callers to determine the correct direction
+    /// to push objects in order to resolve collisions.
+    /// If the rectangles are not intersecting, Vector2.Zero is returned.
+    /// </returns>
+    sf::Vector2f getIntersectionDepth(sf::FloatRect rectA, sf::FloatRect rectB);
 }
 #endif

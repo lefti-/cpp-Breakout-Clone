@@ -30,22 +30,18 @@ namespace sf {
 class PlayState : public GameState {
 public:
     PlayState(StateMachine& machine, sf::RenderWindow& window, bool replace = true);
-
-    bool intersects(const sf::RectangleShape& rect1, const sf::RectangleShape& rect2);
     void loadMap(const char* fileName, const char* tileTextureFile);
-    void loadColMap(const char* fileName);
-
     void pause();
     void resume();
-
     void processEvents();
-
-    void PlayState::findAllEqualLines();
-    void PlayState::giveTilePoints();
     void update(sf::Time deltaTime);
+    sf::Vector2f getIntersectionDepth(sf::FloatRect rectA, sf::FloatRect rectB);
     void draw();
 private:
-    const int TILESIZE = 32;
+    const int TILE_WIDTH = 64;
+    const int TILE_HEIGHT = 32;
+    float distanceX;
+    float distanceY;
     sf::Texture playerTex;
     sf::Texture ballTex;
     sf::Font font;
@@ -57,14 +53,13 @@ private:
     sf::Sprite tiles;
     sf::Sprite sprite;
     sf::Sprite tileSprite;
+    sf::Vector2u windowSize;
     std::vector<std::vector<sf::Vector2i>> map;
     std::vector<sf::Vector2i> tempMap;
+    std::vector<Tile> tilesNearBall;
     std::vector<Tile> moveableTiles;
-    std::vector<Tile> tempTileVector;
     std::vector<Tile> changePlayerColorTiles;
     Player player;
     Ball ball;
-    sf::IntRect tile1;
-    sf::IntRect tile2;
 };
 #endif // PLAYSTATE_HPP

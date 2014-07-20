@@ -19,25 +19,19 @@ namespace sf {
 class StateMachine {
 public:
     StateMachine();
-
     void run(std::unique_ptr<GameState> state);
-
     void nextState();
     void lastState();
-    
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();
-
     bool running() { return m_running; }
     void quit() { m_running = false; }
-
     template <typename T>
     static std::unique_ptr<T> build(StateMachine& machine, sf::RenderWindow& window, bool replace = true );
 private:
     // The stack of states
     std::stack<std::unique_ptr<GameState>> m_states;
-
     bool m_resume;
     bool m_running;
 };

@@ -9,16 +9,17 @@
 PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(machine, window, replace) {
 
-    if(playerTex.loadFromFile("data/images/gizmo_32x32.png"))
-    {
+    if(playerTex.loadFromFile("data/images/gizmo_32x32.png")) {
         player.sprite.setTexture(playerTex);
-
     }
+
     player.sprite.setPosition(sf::Vector2f(500, 100));
 
     if(ballTex.loadFromFile("data/images/ball_24x24.png")) {
         ball.sprite.setTexture(ballTex);
     }
+
+    windowSize = window.getSize();
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
@@ -35,9 +36,8 @@ PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool repla
             // Set sprites to the tiles in every grid cell which is not -1,-1.
             if(map[i][j].x != -1 && map[i][j].y != -1) {
                 sprite = tiles;
-                sprite.setTextureRect(sf::IntRect(map[i][j].x * TILESIZE, map[i][j].y * TILESIZE, TILESIZE, TILESIZE));
-                sprite.setPosition(sf::Vector2f(j * TILESIZE, i * TILESIZE));
-                std::cout << "sprite pos.x: " << sprite.getPosition().x << " | pos.y: " << sprite.getPosition().y << std::endl;
+                sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+                sprite.setPosition(sf::Vector2f(j * TILE_WIDTH, i * TILE_HEIGHT));
                 Tile tempTile(sprite);
 
                 tempTile.mapColumn = i;
@@ -46,17 +46,25 @@ PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool repla
                 // Go through the numbered grid cells and add the tiles to their appropriate containers.
                 if(map[i][j].x == 0 && map[i][j].y == 0) {
                     tempTile.armor = 1;
-                    changePlayerColorTiles.push_back(tempTile);
+                    moveableTiles.push_back(tempTile);
                 }
                 if(map[i][j].x == 0 && map[i][j].y == 1) {
                     tempTile.armor = 1;
-                    changePlayerColorTiles.push_back(tempTile);
+                    moveableTiles.push_back(tempTile);
+                }
+                if(map[i][j].x == 0 && map[i][j].y == 2) {
+                    tempTile.armor = 1;
+                    moveableTiles.push_back(tempTile);
                 }
                 if(map[i][j].x == 1 && map[i][j].y == 0) {
-                    tempTile.armor = 2;
+                    tempTile.armor = 4;
                     moveableTiles.push_back(tempTile);
                 }
                 if(map[i][j].x == 1 && map[i][j].y == 1) {
+                    tempTile.armor = 2;
+                    moveableTiles.push_back(tempTile);
+                }
+                if(map[i][j].x == 1 && map[i][j].y == 2) {
                     tempTile.armor = 2;
                     moveableTiles.push_back(tempTile);
                 }
@@ -64,10 +72,8 @@ PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool repla
             }
         }
     }
-  
     std::cout << "<< PlayState initialized >>" << std::endl;
 }
-
 
 void PlayState::loadMap(const char* fileName, const char* tileTextureFile) {
 
@@ -127,7 +133,6 @@ void PlayState::loadMap(const char* fileName, const char* tileTextureFile) {
         }
     }
 }
-
 
 void PlayState::pause() {
     std::cout << "PlayState  Pause" << std::endl;
@@ -241,7 +246,6 @@ void PlayState::processEvents() {
     }
 }
 
-
 void PlayState::update(sf::Time deltaTime) {
     // Measure FPS.
     time = fpsClock.getElapsedTime();
@@ -250,17 +254,67 @@ void PlayState::update(sf::Time deltaTime) {
     text.setString(fpsString + " fps");
     fpsClock.restart();
 
-    ball.update(player, deltaTime, moveableTiles);
+    ball.update(player, deltaTime);
     player.update(m_window, deltaTime);
 
-    // Collision Detection.
-    for(unsigned int i = 0; i < changePlayerColorTiles.size(); i++) {
-        if(Collision::BoundingBoxTest(player.sprite, changePlayerColorTiles[i].tile)) {
-            changePlayerColorTiles.erase(changePlayerColorTiles.begin() + i);
-        }
-    }               
-}
+    // Ball collides with window borders.
+    if(ball.sprite.getPosition().x < 0 || ball.sprite.getPosition().x > windowSize.x - ball.sprite.getTextureRect().width) {
+        ball.velocity.x = -ball.velocity.x;
+    }
+    if(ball.sprite.getPosition().y < 0 || ball.sprite.getPosition().y > windowSize.y - ball.sprite.getTextureRect().height) {
+        ball.velocity.y = -ball.velocity.y;
+    }
 
+    // Detects and resolves all collisions between the ball and tiles.
+    // When a collision is detected, the player is pushed away along one axis to prevent overlapping. 
+    // For each potentially colliding tile,
+    for(unsigned int i = 0; i < moveableTiles.size(); i++) {
+        if(Collision::BoundingBoxTest(ball.sprite, moveableTiles[i].tile)) {
+            // Get the ball's and tiles' bounding rectangle
+            sf::FloatRect ballBounds = ball.sprite.getGlobalBounds();
+            sf::FloatRect tileBounds = moveableTiles[i].tile.getGlobalBounds();
+
+            // Determine collision depth (with direction) and magnitude.
+            sf::Vector2f depth = Collision::getIntersectionDepth(ballBounds, tileBounds);
+
+            if(depth != sf::Vector2f(0, 0)) {
+                float absDepthX = std::abs(depth.x);
+                float absDepthY = std::abs(depth.y);
+
+                // Resolve the collision along the shallow axis.
+                if(absDepthY < absDepthX) {
+                    // Resolve the collision along the Y axis.
+                    ball.sprite.setPosition(ball.sprite.getPosition().x, ball.sprite.getPosition().y + depth.y);
+
+                    if(distanceY < 0) {
+                        std::cout << "Collided from TOP." << std::endl;
+                        ball.velocity.y = -ball.velocity.y;
+                        moveableTiles.erase(moveableTiles.begin() + i);
+                    }
+                    else {
+                        std::cout << "Collided from BOTTOM." << std::endl;
+                        ball.velocity.y = -ball.velocity.y;
+                        moveableTiles.erase(moveableTiles.begin() + i);
+                    }
+                }
+                else {
+                    if(distanceX < 0) {
+                        std::cout << "Collided from LEFT." << std::endl;
+                        ball.velocity.x = -ball.velocity.x;
+                        moveableTiles.erase(moveableTiles.begin() + i);
+                    }
+                    else {
+                        std::cout << "Collided from RIGHT." << std::endl;
+                        ball.velocity.x = -ball.velocity.x;
+                        moveableTiles.erase(moveableTiles.begin() + i);
+                    }
+                    // Resolve the collision along the X axis.
+                    ball.sprite.setPosition(ball.sprite.getPosition().x + depth.x, ball.sprite.getPosition().y);
+                }
+            }
+        }
+    }
+}
 
 void PlayState::draw() {
     m_window.clear(sf::Color(0, 0, 0));
@@ -277,5 +331,4 @@ void PlayState::draw() {
     m_window.draw(text);
 
     m_window.display();
-
 }

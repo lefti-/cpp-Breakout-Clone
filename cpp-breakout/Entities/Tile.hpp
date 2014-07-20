@@ -9,7 +9,6 @@
 class Tile {
 public:
     Tile(sf::Sprite sprite);
-
     int getTile(int mapRow, int mapColumn);
 
     int armor;

@@ -39,7 +39,6 @@ int main() {
             state_machine.processEvents();
             state_machine.update(deltaTime);
         }
-
         // If rendering is slow, the inner loop is called multiple times before one draw() call.
         state_machine.draw();
     }
