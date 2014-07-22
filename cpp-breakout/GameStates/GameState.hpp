@@ -1,9 +1,9 @@
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
 
-#include <memory>
-
 #include <SFML/System.hpp>
+
+#include <memory>
 
 
 class StateMachine;

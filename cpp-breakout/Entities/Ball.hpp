@@ -6,21 +6,25 @@
 #include <SFML/Graphics.hpp>
 
 #include <string>
-#include <algorithm>
 
 
 class Ball {
 public:
     Ball();
     void launch(std::string direction);
+    void setBodyAndSprite(b2World* world);
     void update(Player player, sf::Time deltaTime);
+    void draw(sf::RenderWindow& window);
 
+    const float PX_TO_METER = 32.f;
+    const int HALF_WIDTH = 12;
+    const int HALF_HEIGHT = 12;
+    bool collided = false;
     bool playerHasBall = true;
-    sf::Vector2f topLeft;
-    sf::Vector2f topRight;
-    sf::Vector2f bottomLeft;
-    sf::Vector2f bottomRight;
+    b2BodyDef ballBodyDef;
+    b2Body* ballBody;
+    b2Vec2 velocity;
+    sf::Texture texture;
     sf::Sprite sprite;
-    sf::Vector2f velocity;
 };
 #endif

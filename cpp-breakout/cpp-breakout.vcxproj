@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Collision\Collision.cpp" />
+    <ClCompile Include="Collision\MyContactListener.cpp" />
     <ClCompile Include="Entities\Ball.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Entities\Tile.cpp" />
@@ -19,10 +19,11 @@
     <ClCompile Include="GameStates\GameState.cpp" />
     <ClCompile Include="GameStates\IntroState.cpp" />
     <ClCompile Include="GameStates\PlayState.cpp" />
+    <ClCompile Include="Levels\Level.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision\Collision.hpp" />
+    <ClInclude Include="Collision\MyContactListener.hpp" />
     <ClInclude Include="Entities\Ball.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
     <ClInclude Include="Entities\Tile.hpp" />
@@ -30,6 +31,13 @@
     <ClInclude Include="GameStates\GameState.hpp" />
     <ClInclude Include="GameStates\IntroState.hpp" />
     <ClInclude Include="GameStates\PlayState.hpp" />
+    <ClInclude Include="Levels\Level.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\Box2D.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\box2d.pdb" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E8515512-DD6F-4863-8C30-A47CB4D176AC}</ProjectGuid>
@@ -74,13 +82,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\code\SFML-2.1-build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\code\SFML-2.1-build\include;./</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\code\SFML-2.1-build\lib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\code\SFML-2.1-build\lib\Debug;./lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

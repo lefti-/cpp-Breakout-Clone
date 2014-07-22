@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,7 +36,13 @@
     <ClCompile Include="Entities\Ball.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collision\Collision.cpp">
+    <ClCompile Include="Collision\MyContactListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Levels\Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,8 +68,17 @@
     <ClInclude Include="Entities\Ball.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collision\Collision.hpp">
+    <ClInclude Include="Collision\MyContactListener.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Levels\Level.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\Box2D.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\box2d.pdb" />
   </ItemGroup>
 </Project>
