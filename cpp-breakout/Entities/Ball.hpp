@@ -2,13 +2,12 @@
 #define BALL_HPP
 
 #include "Player.hpp"
+#include "Entity.hpp"
 
 #include <SFML/Graphics.hpp>
 
-#include <string>
 
-
-class Ball {
+class Ball : public Entity {
 public:
     Ball();
     void launch(std::string direction);
@@ -16,14 +15,14 @@ public:
     void update(Player player, sf::Time deltaTime);
     void draw(sf::RenderWindow& window);
 
-    const float PX_TO_METER = 32.f;
+    bool playerHasBall = true;
+    b2Vec2 velocity;
+private:
+    const float PTM_RATIO = 32.f;
     const int HALF_WIDTH = 12;
     const int HALF_HEIGHT = 12;
-    bool collided = false;
-    bool playerHasBall = true;
     b2BodyDef ballBodyDef;
     b2Body* ballBody;
-    b2Vec2 velocity;
     sf::Texture texture;
     sf::Sprite sprite;
 };

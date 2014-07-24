@@ -1,48 +1,57 @@
 #include "MyContactListener.hpp"
 
 
-/// Called when two fixtures begin to touch.
+// Called when two fixtures begin to touch.
 void MyContactListener::BeginContact(b2Contact* contact) {
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();
+    b2Body* bodyB = contact->GetFixtureA()->GetBody();
 
-    void* typeA = contact->GetFixtureA()->GetUserData();
-    void* typeB = contact->GetFixtureB()->GetUserData();
+    bUserData* budA = (bUserData*)contact->GetFixtureA()->GetUserData();
+    bUserData* budB = (bUserData*)contact->GetFixtureB()->GetUserData();
 
-    if((typeA == "Player" && typeB == "Ball") || (typeB == "Ball" && typeA == "Player")) {
-        std::cout << ">> Player and Ball started colliding." << std::endl;
+    Entity* entityA = (Entity*)contact->GetFixtureA()->GetBody()->GetUserData();
+    Entity* entityB = (Entity*)contact->GetFixtureB()->GetBody()->GetUserData();
+
+    if((budA->entityType == PLAYER && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == PLAYER)) {
+        
+        std::cout << ">>> Player and ball BEGAN colliding. Velocity. " << std::endl;
     }
-    if((typeA == "Tile" && typeB == "Player") || (typeB == "Player" && typeA == "Tile")) {
-        std::cout << ">> Player and Tile started colliding." << std::endl;
+    else if((budA->entityType == PLAYER && budB->entityType == TILE) || (budB->entityType == TILE && budA->entityType == PLAYER)) {
+
+        std::cout << ">>> Tile and player BEGAN colliding." << std::endl;
     }
-    if((typeA == "Ball" && typeB == "Tile") || (typeB == "Tile" && typeA == "Ball")) {
-        std::cout << ">> Ball and Tile started colliding." << std::endl;
+    else if((budA->entityType == TILE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == TILE)) {
+        Tile* tile = (Tile*)entityA;
+        std::cout << "tile->flaggedToErase: " << tile->flaggedToErase << std::endl;
+        tile->flaggedToErase = true; // HERE IS THE BUG !! Doesn't work on objects which are in a vector, their variables get reset to originals
+        tilesToRemove.push_back(bodyA);
+        std::cout << "tile->flaggedToErase: " << tile->flaggedToErase << std::endl;
+        
+        std::cout << ">>> Ball and tile BEGAN colliding." << std::endl;
     }
 }
 
 /// Called when two fixtures cease to touch.
 void MyContactListener::EndContact(b2Contact* contact) {
-    void* typeA = contact->GetFixtureA()->GetUserData();
-    void* typeB = contact->GetFixtureB()->GetUserData();
+    b2Body* bodyA = contact->GetFixtureA()->GetBody();
+    b2Body* bodyB = contact->GetFixtureA()->GetBody();
 
-    if((typeA == "Player" && typeB == "Ball") || (typeB == "Ball" && typeA == "Player")) {
-        std::cout << "<< Player and Ball stopped colliding." << std::endl;
+    bUserData* budA = (bUserData*)contact->GetFixtureA()->GetUserData();
+    bUserData* budB = (bUserData*)contact->GetFixtureB()->GetUserData();
+
+    Entity* entityA = (Entity*)contact->GetFixtureA()->GetBody()->GetUserData();
+    Entity* entityB = (Entity*)contact->GetFixtureB()->GetBody()->GetUserData();
+
+    if((budA->entityType == PLAYER && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == PLAYER)) {
+
+        std::cout << "<<< Player and ball STOPPED colliding." << std::endl;
     }
-    if((typeA == "Tile" && typeB == "Player") || (typeB == "Player" && typeA == "Tile")) {
-        std::cout << "<< Player and Tile stopped colliding." << std::endl;
+    else if((budA->entityType == PLAYER && budB->entityType == TILE) || (budB->entityType == TILE && budA->entityType == PLAYER)) {
+
+        std::cout << "<<< Tile and player STOPPED colliding." << std::endl;
     }
-    if((typeA == "Ball" && typeB == "Tile") || (typeB == "Tile" && typeA == "Ball")) {
-        std::cout << "<< Ball and Tile stopped colliding." << std::endl;
+    else if((budA->entityType == TILE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == TILE)) {
+
+        std::cout << "<<< Ball and tile STOPPED colliding." << std::endl;
     }
 }
-
-/*
-std::cout << "Contact... " << std::endl;
-
-void* bodyUserData = contact->GetFixtureA()->GetBody()->GetUserData();
-if(bodyUserData)
-static_cast<Player*>(bodyUserData)->startContact();
-
-//check if fixture B was a ball
-bodyUserData = contact->GetFixtureB()->GetBody()->GetUserData();
-if(bodyUserData)
-static_cast<Player*>(bodyUserData)->startContact();
-*/

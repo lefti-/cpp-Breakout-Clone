@@ -5,13 +5,11 @@ Ball::Ball() { }
 
 void Ball::launch(std::string direction) {
     if(direction == "left") {
-        velocity.x = -1;
-        velocity.y = -1;
+        ballBody->ApplyLinearImpulse(b2Vec2(-20, -20), ballBodyDef.position, true);
         playerHasBall = false;
     }
     if(direction == "right") {
-        velocity.x = 1;
-        velocity.y = -1;
+        ballBody->ApplyLinearImpulse(b2Vec2(20, -20), ballBodyDef.position, true);
         playerHasBall = false;
     }
 }
@@ -20,23 +18,27 @@ void Ball::setBodyAndSprite(b2World* world) {
     // Define a body.
     b2BodyDef ballBodyDef;
     ballBodyDef.type = b2_dynamicBody;
-    ballBodyDef.position.Set(700 / PX_TO_METER, 700 / PX_TO_METER);
+    ballBodyDef.position.Set(700 / PTM_RATIO, 700 / PTM_RATIO);
 
     // Use the body definition to create the actual body instance.
     ballBody = world->CreateBody(&ballBodyDef);
-    ballBody->SetUserData(this);
+    ballBody->SetUserData(static_cast<Entity*>(this));
 
     // Define shape.
-    b2PolygonShape ballShape;
-    ballShape.SetAsBox(HALF_WIDTH / PX_TO_METER, HALF_HEIGHT / PX_TO_METER);
+    b2CircleShape ballShape;
+    ballShape.m_radius = 12.0 / PTM_RATIO;
 
     // Define fixture.
     b2FixtureDef ballFixtureDef;
     ballFixtureDef.shape = &ballShape;
-    ballFixtureDef.density = 1;
-    ballFixtureDef.restitution = 1;
-    //ballFixtureDef.isSensor = true;
-    ballFixtureDef.userData = "Ball";
+    ballFixtureDef.density = 1.f;
+    ballFixtureDef.friction = 0.f;
+    ballFixtureDef.restitution = 1.f;
+
+    // Create user data.
+    bUserData* bud = new bUserData;
+    bud->entityType = BALL;
+    ballFixtureDef.userData = bud;
 
     // Create fixture.
     ballBody->CreateFixture(&ballFixtureDef);
@@ -48,17 +50,25 @@ void Ball::setBodyAndSprite(b2World* world) {
 }
 
 void Ball::update(Player player, sf::Time deltaTime) {
-    b2Vec2 velocity(ballBody->GetLinearVelocity());
-    /*
     if(playerHasBall) {
-        ballBody->SetTransform(b2Vec2(player.playerBody->GetPosition().x + 50 / PX_TO_METER, player.playerBody->GetPosition().y - 50 / PX_TO_METER), 0);
-        ballBodyDef.position.Set(player.playerBody->GetPosition().x * PX_TO_METER, player.playerBody->GetPosition().y);
+        ballBody->SetTransform(b2Vec2(player.playerBody->GetPosition().x + 1 / PTM_RATIO, player.playerBody->GetPosition().y - 50 / PTM_RATIO), 0);
     }
-    */
-    ballBody->SetLinearVelocity(velocity);
+    
+    int maxSpeed = 30;
+    b2Vec2 velocity = ballBody->GetLinearVelocity();
+    float32 speed = velocity.Length();
+
+    // If the ball is too fast, apply linear damping to indirectly affect the velocity of the ball.
+    // If the velocity is too large, increase the linear damping so it will eventually slow down.
+    if(speed > maxSpeed) {
+        ballBody->SetLinearDamping(0.5);
+    }
+    else if(speed < maxSpeed) {
+        ballBody->SetLinearDamping(0.0);
+    }
 }
 
 void Ball::draw(sf::RenderWindow& window) {
-    sprite.setPosition(sf::Vector2f(ballBody->GetPosition().x * PX_TO_METER, ballBody->GetPosition().y * PX_TO_METER));
+    sprite.setPosition(sf::Vector2f(ballBody->GetPosition().x * PTM_RATIO, ballBody->GetPosition().y * PTM_RATIO));
     window.draw(sprite);
 }

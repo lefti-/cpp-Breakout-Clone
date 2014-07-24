@@ -20,7 +20,6 @@ int main() {
     m_window.create(sf::VideoMode{1024, 768}, "Game State Machine Test v0.1");
 
     //m_window.setVerticalSyncEnabled(true);
-    //m_window.setFramerateLimit(60);
 
     // Initialize the Game State engine.
     StateMachine state_machine;

@@ -25,18 +25,21 @@ class StateMachine;
 class PlayState : public GameState, b2ContactListener {
 public:
     PlayState(StateMachine& machine, sf::RenderWindow& window, bool replace = true);
-    Tile getTile(int x, int y);
-    sf::FloatRect getTileBounds(int x, int y);
+    void createEdgesAroundScreen();
     void pause();
     void resume();
     void processEvents();
     void update(sf::Time deltaTime);
-    void handleCollisions();
+    void removeBodies();
+    void removeSprites();
     void draw();
 private:
-    const float PX_TO_METER = 32.f;
+    const float PTM_RATIO = 32.f;
+    std::vector<Tile> solidTiles;
     b2World* world;
-    b2Body* playerBody;
+    b2Body* borderBody;
+    b2MouseJointDef md;
+    b2MouseJoint* m_mouseJoint;
     sf::Vector2f depth;
     sf::Font font;
     sf::Text text;

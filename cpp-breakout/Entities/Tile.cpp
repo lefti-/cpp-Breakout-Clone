@@ -1,34 +1,42 @@
 #include "Tile.hpp"
-
 #include <iostream>
 
-Tile::Tile() { }
 
-Tile::Tile(sf::Sprite sprite) {
-    tile = sprite;
-}
-
-void Tile::setBody(b2World* world, float posX, float posY) {
+Tile::Tile(b2World* world, float posX, float posY)
+{
     // Define a body.
-    b2BodyDef tileBodyDef;
     tileBodyDef.type = b2_staticBody;
-    tileBodyDef.position.Set((posX + HALF_WIDTH) / PX_TO_METER, (posY + HALF_HEIGHT) / PX_TO_METER);
+    tileBodyDef.position.Set((posX + HALF_WIDTH) / PTM_RATIO, (posY + HALF_HEIGHT) / PTM_RATIO);
 
     // Use the body definition to create the actual body instance.
     tileBody = world->CreateBody(&tileBodyDef);
-    tileBody->SetUserData(this);
+    tileBody->SetUserData(static_cast<Entity*>(this));
 
     // Define shape.
-    b2PolygonShape tileShape;
-    tileShape.SetAsBox(HALF_WIDTH / PX_TO_METER, HALF_HEIGHT / PX_TO_METER);
+    tileShape.SetAsBox(HALF_WIDTH / PTM_RATIO, HALF_HEIGHT / PTM_RATIO);
 
     // Define fixture.
-    b2FixtureDef tileFixtureDef;
     tileFixtureDef.shape = &tileShape;
-    //tileFixtureDef.restitution = 1;
-    //tileFixtureDef.isSensor = true;
-    tileFixtureDef.userData = "Tile";
+    tileFixtureDef.density = 10.0f;
+    tileFixtureDef.restitution = 0.1f;
+    tileFixtureDef.friction = 0.0f;
+
+    // Create user data.
+    bUserData* bud = new bUserData;
+    bud->entityType = TILE;
+    tileFixtureDef.userData = bud;
 
     // Create fixture.
     tileBody->CreateFixture(&tileFixtureDef);
+}
+
+void Tile::draw(sf::RenderWindow& window) {
+    //sprite.setPosition(sf::Vector2f(tileBody->GetPosition().x * PTM_RATIO, tileBody->GetPosition().y * PTM_RATIO));
+    window.draw(sprite);
+}
+
+void Tile::saySomething() {
+    std::cout << "flaggedToErase: " << flaggedToErase << std::endl;
+    flaggedToErase = true;
+    std::cout << "flaggedToErase: " << flaggedToErase << std::endl;
 }

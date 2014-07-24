@@ -2,22 +2,30 @@
 #define TILE_HPP
 
 #include "Player.hpp"
+#include "Entity.hpp"
 
 #include <SFML/Graphics.hpp>
 
+// Maybe add destructor??
+//m_body->DestroyFixture(m_body->GetFixtureList());
+//m_body->GetWorld()->DestroyBody(m_body);
 
-class Tile {
+class Tile : public Entity {
 public:
-    Tile();
-    Tile(sf::Sprite sprite);
-    void setBody(b2World* world, float posX, float posY);
+    Tile(b2World* world, float posX, float posY);
+    void draw(sf::RenderWindow& window);
+    void saySomething();
 
-    const float PX_TO_METER = 32.f;
-    const int HALF_WIDTH = 32;
-    const int HALF_HEIGHT = 16;
     int armor;
-
+    bool flaggedToErase = false;
     b2Body* tileBody;
-    sf::Sprite tile;
+    sf::Sprite sprite;
+private:
+    float PTM_RATIO = 32.f;
+    int HALF_WIDTH = 32;
+    int HALF_HEIGHT = 16;
+    b2BodyDef tileBodyDef;
+    b2PolygonShape tileShape;
+    b2FixtureDef tileFixtureDef;
 };
 #endif // TILE_HPP

@@ -74,11 +74,8 @@
     <ClInclude Include="Levels\Level.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lib\Box2D.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\box2d.pdb" />
+    <ClInclude Include="Entities\Entity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

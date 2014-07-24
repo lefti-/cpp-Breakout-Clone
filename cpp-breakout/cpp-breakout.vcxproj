@@ -25,6 +25,7 @@
   <ItemGroup>
     <ClInclude Include="Collision\MyContactListener.hpp" />
     <ClInclude Include="Entities\Ball.hpp" />
+    <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="Entities\Player.hpp" />
     <ClInclude Include="Entities\Tile.hpp" />
     <ClInclude Include="GameStateMachine\StateMachine.hpp" />
@@ -32,12 +33,6 @@
     <ClInclude Include="GameStates\IntroState.hpp" />
     <ClInclude Include="GameStates\PlayState.hpp" />
     <ClInclude Include="Levels\Level.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lib\Box2D.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\box2d.pdb" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E8515512-DD6F-4863-8C30-A47CB4D176AC}</ProjectGuid>
