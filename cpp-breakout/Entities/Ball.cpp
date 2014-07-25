@@ -1,16 +1,17 @@
 #include "Ball.hpp"
+#include <iostream>
 
 
 Ball::Ball() { }
 
 void Ball::launch(std::string direction) {
     if(direction == "left") {
-        ballBody->ApplyLinearImpulse(b2Vec2(-20, -20), ballBodyDef.position, true);
-        playerHasBall = false;
+        ballBody->ApplyLinearImpulse(b2Vec2(-10, -15), ballBodyDef.position, true);
+        paddleHasBall = false;
     }
     if(direction == "right") {
-        ballBody->ApplyLinearImpulse(b2Vec2(20, -20), ballBodyDef.position, true);
-        playerHasBall = false;
+        ballBody->ApplyLinearImpulse(b2Vec2(10, -15), ballBodyDef.position, true);
+        paddleHasBall = false;
     }
 }
 
@@ -49,22 +50,35 @@ void Ball::setBodyAndSprite(b2World* world) {
     sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
 }
 
-void Ball::update(Player player, sf::Time deltaTime) {
-    if(playerHasBall) {
-        ballBody->SetTransform(b2Vec2(player.playerBody->GetPosition().x + 1 / PTM_RATIO, player.playerBody->GetPosition().y - 50 / PTM_RATIO), 0);
+void Ball::update(Paddle paddle, sf::Time deltaTime) {
+    if(paddleHasBall) {
+        ballBody->SetTransform(b2Vec2(paddle.paddleBody->GetPosition().x + 1 / PTM_RATIO, paddle.paddleBody->GetPosition().y - 24 / PTM_RATIO), 0);
     }
-    
-    int maxSpeed = 30;
-    b2Vec2 velocity = ballBody->GetLinearVelocity();
-    float32 speed = velocity.Length();
+    else {
+        int maxSpeed = 25;
+        b2Vec2 velocity = ballBody->GetLinearVelocity();
+        float32 speed = velocity.Length();
 
-    // If the ball is too fast, apply linear damping to indirectly affect the velocity of the ball.
-    // If the velocity is too large, increase the linear damping so it will eventually slow down.
-    if(speed > maxSpeed) {
-        ballBody->SetLinearDamping(0.5);
-    }
-    else if(speed < maxSpeed) {
-        ballBody->SetLinearDamping(0.0);
+        // If the ball is too fast, apply linear damping to gradually slow down the ball.
+        if(speed > maxSpeed) {
+            ballBody->SetLinearDamping(0.5);
+        }
+        // If the ball is too slow, apply linear impulse to gradually fasten the ball.
+        else if(speed < maxSpeed - 1) {
+            ballBody->SetLinearDamping(0.0);
+            if(ballBody->GetLinearVelocity().x > 0) {
+                ballBody->ApplyLinearImpulse(b2Vec2(0.25f, 0), ballBodyDef.position, true);
+            }
+            else {
+                ballBody->ApplyLinearImpulse(b2Vec2(-0.25f, 0), ballBodyDef.position, true);
+            }
+            if(ballBody->GetLinearVelocity().y > 0) {
+                ballBody->ApplyLinearImpulse(b2Vec2(0, 0.25f), ballBodyDef.position, true);
+            }
+            else {
+                ballBody->ApplyLinearImpulse(b2Vec2(0, -0.25f), ballBodyDef.position, true);
+            }
+        }
     }
 }
 

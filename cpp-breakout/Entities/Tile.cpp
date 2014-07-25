@@ -17,9 +17,9 @@ Tile::Tile(b2World* world, float posX, float posY)
 
     // Define fixture.
     tileFixtureDef.shape = &tileShape;
-    tileFixtureDef.density = 10.0f;
-    tileFixtureDef.restitution = 0.1f;
-    tileFixtureDef.friction = 0.0f;
+    tileFixtureDef.density = 1.f;
+    tileFixtureDef.restitution = 0.f;
+    tileFixtureDef.friction = 0.f;
 
     // Create user data.
     bUserData* bud = new bUserData;
@@ -30,13 +30,10 @@ Tile::Tile(b2World* world, float posX, float posY)
     tileBody->CreateFixture(&tileFixtureDef);
 }
 
-void Tile::draw(sf::RenderWindow& window) {
-    //sprite.setPosition(sf::Vector2f(tileBody->GetPosition().x * PTM_RATIO, tileBody->GetPosition().y * PTM_RATIO));
-    window.draw(sprite);
+Tile::~Tile() {
+    delete bud;
 }
 
-void Tile::saySomething() {
-    std::cout << "flaggedToErase: " << flaggedToErase << std::endl;
-    flaggedToErase = true;
-    std::cout << "flaggedToErase: " << flaggedToErase << std::endl;
+void Tile::draw(sf::RenderWindow& window) {
+    window.draw(sprite);
 }

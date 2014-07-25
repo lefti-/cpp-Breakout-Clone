@@ -1,10 +1,10 @@
 // Started on 13.7.2014.
-// Breakout clone made in C++ and SFML.
+// Breakout clone made in C++, SFML and Box2D.
 
 // A small game engine or better state machine.
 // https://github.com/eXpl0it3r/SmallGameEngine
 
-#include "GameStates/IntroState.hpp"
+#include "GameStates/MainMenuState.hpp"
 #include "GameStateMachine/StateMachine.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -23,7 +23,7 @@ int main() {
 
     // Initialize the Game State engine.
     StateMachine state_machine;
-    state_machine.run(StateMachine::build<IntroState>(state_machine, m_window, true));
+    state_machine.run(StateMachine::build<MainMenuState>(state_machine, m_window, true));
 
     // Main loop.
     while(state_machine.running())

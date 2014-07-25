@@ -12,8 +12,10 @@
 class Level {
 public:
     Level();
-    void loadLevel(b2World* world, std::vector<Tile> &solidTiles);
+    void loadLevel(b2World* world);
     void loadMap(const char* fileName, const char* tileTextureFile);
+
+    std::vector<std::unique_ptr<Tile>> solidTiles;
 private:
     const float PTM_RATIO = 32.f;
     const int HALF_WIDTH = 32;

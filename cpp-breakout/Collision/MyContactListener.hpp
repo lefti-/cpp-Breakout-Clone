@@ -2,7 +2,7 @@
 #define MYCONTACTLISTENER_HPP
 
 #include "../Entities/Tile.hpp"
-#include "../Entities/Player.hpp"
+#include "../Entities/Paddle.hpp"
 #include "../Entities/Ball.hpp"
 #include "../Entities/Entity.hpp"
 

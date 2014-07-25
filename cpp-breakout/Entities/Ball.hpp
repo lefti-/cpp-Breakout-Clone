@@ -1,7 +1,7 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
-#include "Player.hpp"
+#include "Paddle.hpp"
 #include "Entity.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -12,17 +12,18 @@ public:
     Ball();
     void launch(std::string direction);
     void setBodyAndSprite(b2World* world);
-    void update(Player player, sf::Time deltaTime);
+    void update(Paddle paddle, sf::Time deltaTime);
     void draw(sf::RenderWindow& window);
 
-    bool playerHasBall = true;
-    b2Vec2 velocity;
+    bool paddleHasBall = true;
+    int lives = 3;
 private:
     const float PTM_RATIO = 32.f;
     const int HALF_WIDTH = 12;
     const int HALF_HEIGHT = 12;
     b2BodyDef ballBodyDef;
     b2Body* ballBody;
+    b2Vec2 velocity;
     sf::Texture texture;
     sf::Sprite sprite;
 };

@@ -5,7 +5,7 @@
 enum entityType {
     TILE,
     BALL,
-    PLAYER,
+    PADDLE,
     BORDER,
     BOTTOM
 };

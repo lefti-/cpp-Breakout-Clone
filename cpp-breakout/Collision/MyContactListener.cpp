@@ -1,4 +1,5 @@
 #include "MyContactListener.hpp"
+#include "../GameStates/PlayState.hpp"
 
 
 // Called when two fixtures begin to touch.
@@ -12,22 +13,26 @@ void MyContactListener::BeginContact(b2Contact* contact) {
     Entity* entityA = (Entity*)contact->GetFixtureA()->GetBody()->GetUserData();
     Entity* entityB = (Entity*)contact->GetFixtureB()->GetBody()->GetUserData();
 
-    if((budA->entityType == PLAYER && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == PLAYER)) {
-        
-        std::cout << ">>> Player and ball BEGAN colliding. Velocity. " << std::endl;
-    }
-    else if((budA->entityType == PLAYER && budB->entityType == TILE) || (budB->entityType == TILE && budA->entityType == PLAYER)) {
+    if((budA->entityType == PADDLE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == PADDLE)) {
 
-        std::cout << ">>> Tile and player BEGAN colliding." << std::endl;
+        std::cout << ">>> Paddle and ball BEGAN colliding. Velocity. " << std::endl;
+    }
+    else if((budA->entityType == PADDLE && budB->entityType == TILE) || (budB->entityType == TILE && budA->entityType == PADDLE)) {
+
+        std::cout << ">>> Tile and paddle BEGAN colliding." << std::endl;
     }
     else if((budA->entityType == TILE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == TILE)) {
         Tile* tile = (Tile*)entityA;
-        std::cout << "tile->flaggedToErase: " << tile->flaggedToErase << std::endl;
-        tile->flaggedToErase = true; // HERE IS THE BUG !! Doesn't work on objects which are in a vector, their variables get reset to originals
-        tilesToRemove.push_back(bodyA);
-        std::cout << "tile->flaggedToErase: " << tile->flaggedToErase << std::endl;
+        tile->flaggedToErase = true; // Flag the tile instance for erase.
+        tilesToRemove.push_back(bodyA); // Push the tile body to a vector, which contents will be removed.
         
         std::cout << ">>> Ball and tile BEGAN colliding." << std::endl;
+    }
+    else if((budA->entityType == BOTTOM && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == BOTTOM)) {
+        Ball* ball = (Ball*)entityB;
+        ball->lives -= 1;
+
+        std::cout << ">>> Ball and bottom BEGAN colliding." << std::endl;
     }
 }
 
@@ -42,16 +47,20 @@ void MyContactListener::EndContact(b2Contact* contact) {
     Entity* entityA = (Entity*)contact->GetFixtureA()->GetBody()->GetUserData();
     Entity* entityB = (Entity*)contact->GetFixtureB()->GetBody()->GetUserData();
 
-    if((budA->entityType == PLAYER && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == PLAYER)) {
+    if((budA->entityType == PADDLE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == PADDLE)) {
 
-        std::cout << "<<< Player and ball STOPPED colliding." << std::endl;
+        std::cout << "<<< Paddle and ball STOPPED colliding." << std::endl;
     }
-    else if((budA->entityType == PLAYER && budB->entityType == TILE) || (budB->entityType == TILE && budA->entityType == PLAYER)) {
+    else if((budA->entityType == PADDLE && budB->entityType == TILE) || (budB->entityType == TILE && budA->entityType == PADDLE)) {
 
-        std::cout << "<<< Tile and player STOPPED colliding." << std::endl;
+        std::cout << "<<< Tile and paddle STOPPED colliding." << std::endl;
     }
     else if((budA->entityType == TILE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == TILE)) {
 
         std::cout << "<<< Ball and tile STOPPED colliding." << std::endl;
+    }
+    else if((budA->entityType == BOTTOM && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == BOTTOM)) {
+
+        std::cout << "<<< Ball and bottom STOPPED colliding." << std::endl;
     }
 }

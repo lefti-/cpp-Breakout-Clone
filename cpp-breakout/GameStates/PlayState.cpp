@@ -21,45 +21,54 @@ PlayState::PlayState(StateMachine& machine, sf::RenderWindow& window, bool repla
     world->SetContactListener(&m_contactListener);
 
     // Create objects.
-    player.setBodyAndSprite(world, 300, 700);
+    paddle.setBodyAndSprite(world, 300, 700);
     ball.setBodyAndSprite(world);
 
-    font.loadFromFile("data/fonts/centurygothic.ttf");
-    text.setFont(font);
-    text.setCharacterSize(40);
-    text.setColor(sf::Color::White);
-    text.setPosition(sf::Vector2f(900, 10));
-
-    createEdgesAroundScreen();
+    createUITexts();
+    createBordersAroundScreen();
 
     // Load level.
-    level1.loadLevel(world, solidTiles);
-    
-    // Create a mouse joint for moving the player.
+    level1.loadLevel(world);
+
+    // Create a mouse joint for moving the paddle.
     b2MouseJointDef md;
     md.bodyA = borderBody;
-    md.bodyB = player.playerBody;
-    md.target.Set(player.playerBody->GetPosition().x, player.playerBody->GetPosition().y);
+    md.bodyB = paddle.paddleBody;
+    md.target.Set(paddle.paddleBody->GetPosition().x, paddle.paddleBody->GetPosition().y);
     md.collideConnected = true;
-    md.maxForce = 10000.0f * player.playerBody->GetMass();
+    md.maxForce = 10000.0f * paddle.paddleBody->GetMass();
     md.dampingRatio = 0;
     md.frequencyHz = 100;
     m_mouseJoint = static_cast<b2MouseJoint*>(world->CreateJoint(&md));
-    player.playerBody->SetAwake(true);
+    paddle.paddleBody->SetAwake(true);
 
     // Restrict paddle along the x axis.
     b2PrismaticJointDef jointDef;
     b2Vec2 worldAxis(1.0f, 0.0f);
     jointDef.collideConnected = true;
-    jointDef.Initialize(player.playerBody, borderBody,
-                        player.playerBody->GetWorldCenter(), worldAxis);
+    jointDef.Initialize(paddle.paddleBody, borderBody,
+                        paddle.paddleBody->GetWorldCenter(), worldAxis);
     world->CreateJoint(&jointDef);
     
     std::cout << "World created, bodycount: " << world->GetBodyCount() << std::endl;
     std::cout << "<< PlayState initialized >>" << std::endl;
 }
 
-void PlayState::createEdgesAroundScreen() {
+void PlayState::createUITexts() {
+    font.loadFromFile("data/fonts/centurygothic.ttf");
+
+    fpsText.setFont(font);
+    fpsText.setCharacterSize(30);
+    fpsText.setColor(sf::Color::White);
+    fpsText.setPosition(sf::Vector2f(930, 10));
+
+    livesText.setFont(font);
+    livesText.setCharacterSize(30);
+    livesText.setColor(sf::Color::White);
+    livesText.setPosition(sf::Vector2f(10, 10));
+}
+
+void PlayState::createBordersAroundScreen() {
     sf::Vector2u windowSize = m_window.getSize();
     
     b2BodyDef borderBodyDef;
@@ -75,24 +84,41 @@ void PlayState::createEdgesAroundScreen() {
 
     b2FixtureDef borderFixtureDef;
     bUserData* bud1 = new bUserData;
-    bud->entityType = BORDER;
+    bud1->entityType = BORDER;
     borderFixtureDef.userData = bud1;
 
-    edgeShape.Set(b2Vec2(0, 0), b2Vec2(windowSize.x / PTM_RATIO, 0));
+    edgeShape.Set(b2Vec2(0, windowSize.y / PTM_RATIO), b2Vec2(windowSize.x / PTM_RATIO, windowSize.y / PTM_RATIO));
     bottomFixtureDef.shape = &edgeShape;
     borderBody->CreateFixture(&bottomFixtureDef);
+
+    edgeShape.Set(b2Vec2(0, 0), b2Vec2(windowSize.x / PTM_RATIO, 0));
+    borderFixtureDef.shape = &edgeShape;
+    borderBody->CreateFixture(&borderFixtureDef);
 
     edgeShape.Set(b2Vec2(0, 0), b2Vec2(0, windowSize.y / PTM_RATIO));
     borderFixtureDef.shape = &edgeShape;
     borderBody->CreateFixture(&borderFixtureDef);
 
-    edgeShape.Set(b2Vec2(0, windowSize.y / PTM_RATIO), b2Vec2(windowSize.x / PTM_RATIO, windowSize.y / PTM_RATIO));
-    borderFixtureDef.shape = &edgeShape;
-    borderBody->CreateFixture(&borderFixtureDef);
 
     edgeShape.Set(b2Vec2(windowSize.x / PTM_RATIO, windowSize.y / PTM_RATIO), b2Vec2(windowSize.x / PTM_RATIO, 0));
     borderFixtureDef.shape = &edgeShape;
     borderBody->CreateFixture(&borderFixtureDef);
+}
+
+void PlayState::removeTileBodies() {
+    for(unsigned int i = 0; i < m_contactListener.tilesToRemove.size(); i++) {
+        world->DestroyBody(m_contactListener.tilesToRemove[i]);
+    }
+    m_contactListener.tilesToRemove.clear();
+}
+
+void PlayState::removeTiles() {
+
+    for(unsigned int i = 0; i < level1.solidTiles.size(); i++) {
+        if(level1.solidTiles[i]->flaggedToErase == true) {
+            level1.solidTiles.erase(level1.solidTiles.begin() + i);
+        }
+    }
 }
 
 void PlayState::pause() {
@@ -119,32 +145,27 @@ void PlayState::processEvents() {
             switch(event.key.code) {
 
             case sf::Keyboard::Right:
-                player.movingRight = true;
+                paddle.movingRight = true;
                 break;
 
             case sf::Keyboard::Left:
-                player.movingLeft = true;
+                std::cout << level1.solidTiles.size() << std::endl;
                 break;
 
             case sf::Keyboard::Up:
-                removeSprites();
                 break;
 
             case sf::Keyboard::Down:
-                for(unsigned int i = 0; i < solidTiles.size(); i++) {
-                    //if(level1.moveableTiles[i].tileBody == nullptr) {
-                    solidTiles[i].flaggedToErase = true;
-                    std::cout << "solidTiles[i].flaggedToErase: " << solidTiles[i].flaggedToErase << std::endl;
+                for(unsigned int i = 0; i < level1.solidTiles.size(); i++) {
+                    std::cout << "solidTiles.size(): " << level1.solidTiles.size() << std::endl;
                     }
                 break;
 
             case sf::Keyboard::Space:
-                m_next = StateMachine::build<IntroState>(state_machine, m_window, true);
                 break;
 
             case sf::Keyboard::Escape:
-                std::cout << "Quit via Esc!" << std::endl;
-                state_machine.quit();
+                m_next = StateMachine::build<MainMenuState>(state_machine, m_window, true);
                 break;
 
             default:
@@ -158,19 +179,19 @@ void PlayState::processEvents() {
             switch(event.key.code) {
 
             case sf::Keyboard::Right:
-                player.movingRight = false;
+                paddle.movingRight = false;
                 break;
 
             case sf::Keyboard::Left:
-                player.movingLeft = false;
+                paddle.movingLeft = false;
                 break;
 
             case sf::Keyboard::Up:
-                player.movingUp = false;
+                paddle.movingUp = false;
                 break;
 
             case sf::Keyboard::Down:
-                player.movingDown = false;
+                paddle.movingDown = false;
                 break;
 
             default:
@@ -183,13 +204,13 @@ void PlayState::processEvents() {
         {
             switch(event.mouseButton.button) {
             case sf::Mouse::Right:
-                if(ball.playerHasBall == true) {
+                if(ball.paddleHasBall == true) {
                     ball.launch("right");
                 }
                 break;
 
             case sf::Mouse::Left:
-                if(ball.playerHasBall == true) {
+                if(ball.paddleHasBall == true) {
                     ball.launch("left");
                 }
                 break;
@@ -213,45 +234,39 @@ void PlayState::update(sf::Time deltaTime) {
     time = fpsClock.getElapsedTime();
     sf::Int64 fps = 1000000 / time.asMicroseconds();
     std::string fpsString = std::to_string(fps);;
-    text.setString(fpsString + " fps");
+    fpsText.setString(fpsString + " fps");
     fpsClock.restart();
+
+    // Track lives.
+    std::string livesString = std::to_string(ball.lives);
+    livesText.setString("Lives: " + livesString);
 
     // Simulate a smaller timestep, to prevent tunneling on high velocities.
     float subSteps = 1;
     for(int i = 0; i < subSteps; i++) {
         world->Step(1.f / 60.f / subSteps, 6, 2);
-        ball.update(player, deltaTime);
-        player.update(m_window, deltaTime);
+        ball.update(paddle, deltaTime);
+        paddle.update(m_window, deltaTime);
         sf::Vector2f mousePos(sf::Vector2f(sf::Mouse::getPosition(m_window)) / PTM_RATIO);
         m_mouseJoint->SetTarget(b2Vec2(mousePos.x, mousePos.y));
     }
-    removeBodies();
+    removeTiles();
+    removeTileBodies();
 }
 
-void PlayState::removeBodies(){
-    for(unsigned int i = 0; i < m_contactListener.tilesToRemove.size(); i++) {
-        world->DestroyBody(m_contactListener.tilesToRemove[i]);
-    }
-    m_contactListener.tilesToRemove.clear();
-}
 
-void PlayState::removeSprites() {
-
-    for(unsigned int i = 0; i < solidTiles.size(); i++) {
-        //solidTiles.erase(solidTiles.begin() + i);
-        std::cout << "Tile: " << i << " flagged: " << solidTiles[i].flaggedToErase << std::endl;
-    }
-}
 
 void PlayState::draw() {
     m_window.clear(sf::Color(0, 0, 0));
 
-    for(unsigned int i = 0; i < solidTiles.size(); i++) {
-        solidTiles[i].draw(m_window);
+    for(unsigned int i = 0; i < level1.solidTiles.size(); i++) {
+        level1.solidTiles[i]->draw(m_window);
     }
+
     ball.draw(m_window);
-    player.draw(m_window);
-    m_window.draw(text);
+    paddle.draw(m_window);
+    m_window.draw(fpsText);
+    m_window.draw(livesText);
 
     m_window.display();
 }
