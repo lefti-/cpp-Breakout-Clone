@@ -31,6 +31,7 @@ namespace GlobalVar {
 class PlayState : public GameState {
 public:
     PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
+    void createLifeIcons();
     void createUITexts();
     void createBordersAroundScreen();
     void removeTileBodies();
@@ -49,12 +50,17 @@ private:
     sf::Font font;
     sf::Text fpsText;
     sf::Text scoreText;
-    sf::Text livesText;
     sf::Time deltaTime;
     sf::Clock fpsClock;
     sf::Time time;
     sf::Sprite tileSprite;
     sf::Vector2u windowSize;
+    sf::Texture lifeTexture;
+    sf::Sprite lifeSprite1;
+    sf::Sprite lifeSprite2;
+    sf::Sprite lifeSprite3;
+    sf::Sprite lifeSprite4;
+    sf::Sprite lifeSprite5;
     MyContactListener m_contactListener;
     Paddle paddle;
     Ball ball;

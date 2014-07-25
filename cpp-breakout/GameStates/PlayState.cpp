@@ -1,11 +1,6 @@
 ﻿#include "PlayState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
-#include <algorithm>
-#include <math.h>
-
-#define _USE_MATH_DEFINES
-
 
 namespace GlobalVar{
     int score = 0;
@@ -30,6 +25,7 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     paddle.setBodyAndSprite(world, window.getSize().x / 2, window.getSize().y - paddle.HEIGHT);
     ball.setBodyAndSprite(world);
 
+    createLifeIcons();
     createUITexts();
     createBordersAroundScreen();
 
@@ -60,6 +56,22 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     std::cout << "<< PlayState initialized >>" << std::endl;
 }
 
+void PlayState::createLifeIcons() {
+    // Create lives.
+    if(lifeTexture.loadFromFile("data/images/life_icon.png")) {
+        lifeSprite1.setTexture(lifeTexture);
+        lifeSprite2.setTexture(lifeTexture);
+        lifeSprite3.setTexture(lifeTexture);
+        lifeSprite4.setTexture(lifeTexture);
+        lifeSprite5.setTexture(lifeTexture);
+    }
+
+    lifeSprite1.setPosition(10, 10);
+    lifeSprite2.setPosition(75, 10);
+    lifeSprite3.setPosition(140, 10);
+    lifeSprite4.setPosition(205, 10);
+    lifeSprite5.setPosition(270, 10);
+}
 void PlayState::createUITexts() {
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
@@ -72,11 +84,6 @@ void PlayState::createUITexts() {
     scoreText.setCharacterSize(40);
     scoreText.setColor(sf::Color::White);
     scoreText.setPosition(sf::Vector2f(900, 10));
-
-    livesText.setFont(font);
-    livesText.setCharacterSize(30);
-    livesText.setColor(sf::Color::White);
-    livesText.setPosition(sf::Vector2f(10, 10));
 }
 
 void PlayState::createBordersAroundScreen() {
@@ -230,10 +237,6 @@ void PlayState::update(sf::Time deltaTime) {
     std::string scoreString = std::to_string(GlobalVar::score);
     scoreText.setString(scoreString);
 
-    // Track lives.
-    std::string livesString = std::to_string(GlobalVar::lives);
-    livesText.setString("Lives: " + livesString);
-
     // Simulate a smaller timestep, to prevent tunneling on high velocities.
     float subSteps = 1;
     for(int i = 0; i < subSteps; i++) {
@@ -254,11 +257,37 @@ void PlayState::draw() {
         level.solidTiles[i]->draw(m_window);
     }
 
-    ball.draw(m_window);
     paddle.draw(m_window);
     m_window.draw(fpsText);
     m_window.draw(scoreText);
-    m_window.draw(livesText);
+
+    if(GlobalVar::lives == 5) {
+        m_window.draw(lifeSprite1);
+        m_window.draw(lifeSprite2);
+        m_window.draw(lifeSprite3);
+        m_window.draw(lifeSprite4);
+        m_window.draw(lifeSprite5);
+    }
+    else if(GlobalVar::lives == 4) {
+        m_window.draw(lifeSprite1);
+        m_window.draw(lifeSprite2);
+        m_window.draw(lifeSprite3);
+        m_window.draw(lifeSprite4);
+    }
+    else if(GlobalVar::lives == 3) {
+        m_window.draw(lifeSprite1);
+        m_window.draw(lifeSprite2);
+        m_window.draw(lifeSprite3);
+    }
+    else if(GlobalVar::lives == 2) {
+        m_window.draw(lifeSprite1);
+        m_window.draw(lifeSprite2);
+    }
+    else if(GlobalVar::lives == 1) {
+        m_window.draw(lifeSprite1);
+    }
+
+    ball.draw(m_window);
 
     m_window.display();
 }
