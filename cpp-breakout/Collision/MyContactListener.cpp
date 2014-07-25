@@ -18,23 +18,36 @@ void MyContactListener::BeginContact(b2Contact* contact) {
     }
     else if((budA->entityType == TILE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == TILE)) {
         Tile* tile = (Tile*)entityA;
-        Ball* ball = (Ball*)entityB;
-        tile->flaggedToErase = true; // Flag the tile instance for erase.
-        tilesToRemove.push_back(bodyA); // Push the tile body to a vector, which contents will be removed.
 
-        if(budA->tileLevel == LEVEL1) {
-           // ball->score += 50;
-            GlobalVar::score += 50;
+        tile->armor -= 1;
+
+        if(tile->armor == 1) {
+            tile->cracked();
         }
-        else if(budA->tileLevel == LEVEL2) {
-           // ball->score += 100;
-            GlobalVar::score += 100;
+
+        if(tile->armor == 0) {
+            tile->flaggedToErase = true; // Flag the tile instance for erase.
+            tilesToRemove.push_back(bodyA); // Push the tile body to a vector, which contents will be removed.
+
+            if(budA->tileLevel == LEVEL1) {
+                GlobalVar::score += 50;
+            }
+            else if(budA->tileLevel == LEVEL2) {
+                GlobalVar::score += 100;
+            }
+            else if(budA->tileLevel == LEVEL3) {
+                GlobalVar::score += 150;
+            }
+            else if(budA->tileLevel == LEVEL4) {
+                GlobalVar::score += 200;
+            }
+            else if(budA->tileLevel == LEVEL5) {
+                GlobalVar::score += 250;
+            }
+            else if(budA->tileLevel == LEVEL6) {
+                GlobalVar::score += 300;
+            }
         }
-        else if(budA->tileLevel == LEVEL3) {
-           // ball->score += 150;
-            GlobalVar::score += 150;
-        }
-        
     }
     else if((budA->entityType == BOTTOM && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == BOTTOM)) {
         Ball* ball = (Ball*)entityB;

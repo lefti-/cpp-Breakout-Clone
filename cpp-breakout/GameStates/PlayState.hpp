@@ -39,9 +39,10 @@ public:
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();
+    int currentLevel;
 private:
     const float PTM_RATIO = 32.f;
-    int currentLevel;
+
     b2World* world;
     b2Body* borderBody;
     b2MouseJointDef md;

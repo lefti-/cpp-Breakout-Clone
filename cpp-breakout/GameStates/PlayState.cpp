@@ -30,7 +30,7 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     createBordersAroundScreen();
 
     // Load level.
-    level.loadLevel(world, levelNumber);
+    level.loadLevel(world, currentLevel);
 
     // Create a mouse joint for moving the paddle.
     b2MouseJointDef md;

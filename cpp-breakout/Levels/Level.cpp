@@ -20,18 +20,10 @@ void Level::loadLevel(b2World* world, int levelNumber) {
             // Set sprites to the tiles in every grid cell which is not -1,-1.
             if(map[i][j].x != -1 && map[i][j].y != -1) {
                 // Go through the numbered grid cells and add the tiles to their appropriate containers.
-                if(map[i][j].x == 0 && map[i][j].y == 5) {
-                    std::unique_ptr<Tile> tempTile(new Tile(world, j * TILE_WIDTH, i * TILE_HEIGHT, 1));
-                    tempTile->sprite = tiles;
-                    tempTile->sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
-                    tempTile->sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
-                    tempTile->sprite.setPosition(sf::Vector2f(tempTile->tileBody->GetPosition().x * PTM_RATIO, tempTile->tileBody->GetPosition().y * PTM_RATIO));
-
-                    tempTile->armor = 1;
-                    solidTiles.push_back(std::move(tempTile));
-                }
                 if(map[i][j].x == 0 && map[i][j].y == 0) {
                     std::unique_ptr<Tile> tempTile(new Tile(world, j * TILE_WIDTH, i * TILE_HEIGHT, 2));
+                    tempTile->textRectX = map[i][j].x;
+                    tempTile->textRectY = map[i][j].y;
                     tempTile->sprite = tiles;
                     tempTile->sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
                     tempTile->sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
@@ -42,12 +34,62 @@ void Level::loadLevel(b2World* world, int levelNumber) {
                 }
                 if(map[i][j].x == 0 && map[i][j].y == 1) {
                     std::unique_ptr<Tile> tempTile(new Tile(world, j * TILE_WIDTH, i * TILE_HEIGHT, 3));
+                    tempTile->textRectX = map[i][j].x;
+                    tempTile->textRectY = map[i][j].y;
                     tempTile->sprite = tiles;
                     tempTile->sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
                     tempTile->sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
                     tempTile->sprite.setPosition(sf::Vector2f(tempTile->tileBody->GetPosition().x * PTM_RATIO, tempTile->tileBody->GetPosition().y * PTM_RATIO));
 
                     tempTile->armor = 1;
+                    solidTiles.push_back(std::move(tempTile));
+                }
+                if(map[i][j].x == 0 && map[i][j].y == 2) {
+                    std::unique_ptr<Tile> tempTile(new Tile(world, j * TILE_WIDTH, i * TILE_HEIGHT, 6));
+                    tempTile->textRectX = map[i][j].x;
+                    tempTile->textRectY = map[i][j].y;
+                    tempTile->sprite = tiles;
+                    tempTile->sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
+                    tempTile->sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+                    tempTile->sprite.setPosition(sf::Vector2f(tempTile->tileBody->GetPosition().x * PTM_RATIO, tempTile->tileBody->GetPosition().y * PTM_RATIO));
+
+                    tempTile->armor = 2;
+                    solidTiles.push_back(std::move(tempTile));
+                }
+                if(map[i][j].x == 0 && map[i][j].y == 3) {
+                    std::unique_ptr<Tile> tempTile(new Tile(world, j * TILE_WIDTH, i * TILE_HEIGHT, 4));
+                    tempTile->textRectX = map[i][j].x;
+                    tempTile->textRectY = map[i][j].y;
+                    tempTile->sprite = tiles;
+                    tempTile->sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
+                    tempTile->sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+                    tempTile->sprite.setPosition(sf::Vector2f(tempTile->tileBody->GetPosition().x * PTM_RATIO, tempTile->tileBody->GetPosition().y * PTM_RATIO));
+
+                    tempTile->armor = 2;
+                    solidTiles.push_back(std::move(tempTile));
+                }
+                if(map[i][j].x == 0 && map[i][j].y == 4) {
+                    std::unique_ptr<Tile> tempTile(new Tile(world, j * TILE_WIDTH, i * TILE_HEIGHT, 5));
+                    tempTile->textRectX = map[i][j].x;
+                    tempTile->textRectY = map[i][j].y;
+                    tempTile->sprite = tiles;
+                    tempTile->sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
+                    tempTile->sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+                    tempTile->sprite.setPosition(sf::Vector2f(tempTile->tileBody->GetPosition().x * PTM_RATIO, tempTile->tileBody->GetPosition().y * PTM_RATIO));
+
+                    tempTile->armor = 1;
+                    solidTiles.push_back(std::move(tempTile));
+                }
+                if(map[i][j].x == 0 && map[i][j].y == 5) {
+                    std::unique_ptr<Tile> tempTile(new Tile(world, j * TILE_WIDTH, i * TILE_HEIGHT, 1));
+                    tempTile->textRectX = map[i][j].x;
+                    tempTile->textRectY = map[i][j].y;
+                    tempTile->sprite = tiles;
+                    tempTile->sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));
+                    tempTile->sprite.setTextureRect(sf::IntRect(map[i][j].x * TILE_WIDTH, map[i][j].y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+                    tempTile->sprite.setPosition(sf::Vector2f(tempTile->tileBody->GetPosition().x * PTM_RATIO, tempTile->tileBody->GetPosition().y * PTM_RATIO));
+
+                    tempTile->armor = 2;
                     solidTiles.push_back(std::move(tempTile));
                 }
 

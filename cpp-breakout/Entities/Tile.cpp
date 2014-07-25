@@ -54,6 +54,10 @@ Tile::~Tile() {
     delete bud;
 }
 
+void Tile::cracked() {
+    sprite.setTextureRect(sf::IntRect((textRectX + 1) * TILE_WIDTH, textRectY * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT));
+}
+
 void Tile::draw(sf::RenderWindow& window) {
     window.draw(sprite);
 }
