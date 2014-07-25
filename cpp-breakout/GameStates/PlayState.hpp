@@ -21,20 +21,19 @@
 
 class StateMachine;
 
-class PlayState : public GameState, b2ContactListener {
+class PlayState : public GameState {
 public:
-    PlayState(StateMachine& machine, sf::RenderWindow& window, bool replace = true);
+    PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
     void createUITexts();
     void createBordersAroundScreen();
     void removeTileBodies();
     void removeTiles();
-    void pause();
-    void resume();
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();
 private:
     const float PTM_RATIO = 32.f;
+    int currentLevel;
     b2World* world;
     b2Body* borderBody;
     b2MouseJointDef md;
@@ -51,6 +50,6 @@ private:
     MyContactListener m_contactListener;
     Paddle paddle;
     Ball ball;
-    Level level1;
+    Level level;
 };
 #endif // PLAYSTATE_HPP

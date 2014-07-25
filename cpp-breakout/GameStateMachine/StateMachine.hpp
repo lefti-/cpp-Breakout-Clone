@@ -28,16 +28,15 @@ public:
     bool running() { return m_running; }
     void quit() { m_running = false; }
     template <typename T>
-    static std::unique_ptr<T> build(StateMachine& machine, sf::RenderWindow& window, bool replace = true );
+    static std::unique_ptr<T> build(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
 private:
     // The stack of states
     std::stack<std::unique_ptr<GameState>> m_states;
-    bool m_resume;
     bool m_running;
 };
 
 template <typename T>
-std::unique_ptr<T> StateMachine::build(StateMachine& machine, sf::RenderWindow& window, bool replace) {
-    return std::move(std::unique_ptr<T>(new T(machine, window, replace)));
+std::unique_ptr<T> StateMachine::build(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace) {
+    return std::move(std::unique_ptr<T>(new T(levelNumber, machine, window, replace)));
 }
 #endif // STATEMACHINE_HPP

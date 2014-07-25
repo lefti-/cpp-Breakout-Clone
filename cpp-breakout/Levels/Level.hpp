@@ -7,13 +7,14 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 
 class Level {
 public:
     Level();
-    void loadLevel(b2World* world);
-    void loadMap(const char* fileName, const char* tileTextureFile);
+    void loadLevel(b2World* world, int levelNumber);
+    void loadMap(std::string fileName, std::string tileTextureFile);
 
     std::vector<std::unique_ptr<Tile>> solidTiles;
 private:

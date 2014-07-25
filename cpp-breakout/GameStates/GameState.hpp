@@ -14,10 +14,8 @@ namespace sf {
 
 class GameState {
 public:
-    GameState(StateMachine& machine, sf::RenderWindow& window, bool replace = true);
+    GameState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
     virtual ~GameState();
-    virtual void pause() = 0;
-    virtual void resume() = 0;
     virtual void processEvents() = 0;
     virtual void update(sf::Time deltaTime) = 0;
     virtual void draw() = 0;
@@ -28,5 +26,6 @@ protected:
     sf::RenderWindow& m_window;
     bool m_replacing;
     std::unique_ptr<GameState> m_next;
+    int levelNumber;
 };
 #endif // GAMESTATE_HPP

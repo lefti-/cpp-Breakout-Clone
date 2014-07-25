@@ -52,6 +52,7 @@ void Ball::setBodyAndSprite(b2World* world) {
 
 void Ball::update(Paddle paddle, sf::Time deltaTime) {
     if(paddleHasBall) {
+        ballBody->SetLinearVelocity(b2Vec2(0, 0));
         ballBody->SetTransform(b2Vec2(paddle.paddleBody->GetPosition().x + 1 / PTM_RATIO, paddle.paddleBody->GetPosition().y - 24 / PTM_RATIO), 0);
     }
     else {

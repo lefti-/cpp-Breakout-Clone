@@ -2,8 +2,8 @@
 #include "../GameStateMachine/StateMachine.hpp"
 
 
-IntroState::IntroState(StateMachine& machine, sf::RenderWindow& window, bool replace)
-    : GameState(machine, window, replace) {
+IntroState::IntroState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
+    : GameState(levelNumber, machine, window, replace) {
     intro_bgTex.loadFromFile("C:/Users/Harry/Documents/Visual Studio 2013/Projects/cpp SFML test/Game State Machine/data/images/episode_2_unlocked.png");
     intro_bg.setTexture(intro_bgTex, true);
 
@@ -15,14 +15,6 @@ IntroState::IntroState(StateMachine& machine, sf::RenderWindow& window, bool rep
     intro_fader.setSize(static_cast<sf::Vector2f>(intro_bgTex.getSize()));
 
     std::cout << "<< IntroState initialized >>" << std::endl;
-}
-
-void IntroState::pause() {
-    std::cout << "IntroState Pause" << std::endl;
-}
-
-void IntroState::resume() {
-    std::cout << "IntroState Resume" << std::endl;
 }
 
 void IntroState::processEvents() {
@@ -41,7 +33,7 @@ void IntroState::processEvents() {
             switch(event.key.code) {
 
             case sf::Keyboard::Space:
-                m_next = StateMachine::build<PlayState>(state_machine, m_window, true);
+                m_next = StateMachine::build<PlayState>(0, state_machine, m_window, true);
                 std::cout << "Pressed SPACE in IntroState." << std::endl;
                 break;
 

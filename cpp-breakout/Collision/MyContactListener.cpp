@@ -30,6 +30,7 @@ void MyContactListener::BeginContact(b2Contact* contact) {
     }
     else if((budA->entityType == BOTTOM && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == BOTTOM)) {
         Ball* ball = (Ball*)entityB;
+        ball->paddleHasBall = true;
         ball->lives -= 1;
 
         std::cout << ">>> Ball and bottom BEGAN colliding." << std::endl;

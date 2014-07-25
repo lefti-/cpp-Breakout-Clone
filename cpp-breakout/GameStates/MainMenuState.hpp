@@ -18,9 +18,7 @@ namespace sf {
 
 class MainMenuState : public GameState {
 public:
-    MainMenuState(StateMachine& machine, sf::RenderWindow& window, bool replace = true);
-    void pause();
-    void resume();
+    MainMenuState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();

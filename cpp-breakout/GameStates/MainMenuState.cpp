@@ -2,8 +2,8 @@
 #include "../GameStateMachine/StateMachine.hpp"
 
 
-MainMenuState::MainMenuState(StateMachine& machine, sf::RenderWindow& window, bool replace)
-    : GameState(machine, window, replace) {
+MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
+    : GameState(levelNumber, machine, window, replace) {
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
@@ -33,14 +33,6 @@ MainMenuState::MainMenuState(StateMachine& machine, sf::RenderWindow& window, bo
     quitText.setOrigin(sf::Vector2f(quitTextRect.left + quitTextRect.width / 2, quitTextRect.top + quitTextRect.height / 2));
     quitText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 500));
 
-}
-
-void MainMenuState::pause() {
-    std::cout << "PlayState  Pause" << std::endl;
-}
-
-void MainMenuState::resume() {
-    std::cout << "IntroState Resume" << std::endl;
 }
 
 void MainMenuState::processEvents() {
@@ -78,7 +70,7 @@ void MainMenuState::processEvents() {
                 sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
 
                 if(playTextBounds.contains(mousePos)) {
-                    m_next = StateMachine::build<PlayState>(state_machine, m_window, true);
+                    m_next = StateMachine::build<PlayState>(1, state_machine, m_window, true);
                 }
                 if(quitTextBounds.contains(mousePos)) {
                     state_machine.quit();
@@ -97,7 +89,7 @@ void MainMenuState::processEvents() {
 }
 
 void MainMenuState::update(sf::Time deltaTime) {
-    sf::Vector2f mousePos(sf::Vector2f(sf::Mouse::getPosition(m_window)));
+    sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)));
 
     sf::FloatRect playTextBounds = playText.getGlobalBounds();
     sf::FloatRect quitTextBounds = quitText.getGlobalBounds();

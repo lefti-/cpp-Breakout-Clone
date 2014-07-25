@@ -14,8 +14,8 @@ public:
     void update(sf::RenderWindow& window, sf::Time deltaTime);
     void draw(sf::RenderWindow& window);
 
+    const int HEIGHT = 24;
     b2Body* paddleBody;
-    bool movingUp, movingDown, movingLeft, movingRight = false;
 private:
     const float PTM_RATIO = 32.f;
     const int HALF_WIDTH = 64;

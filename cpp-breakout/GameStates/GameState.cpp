@@ -1,7 +1,7 @@
 #include "GameState.hpp"
 
 
-GameState::GameState(StateMachine& machine, sf::RenderWindow& window, bool replace)
+GameState::GameState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : state_machine(machine), m_window(window), m_replacing(replace) { }
 
 GameState::~GameState() { }

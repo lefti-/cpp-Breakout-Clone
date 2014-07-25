@@ -1,11 +1,18 @@
 #include "Level.hpp"
 #include "../GameStates/PlayState.hpp"
 
+
 Level::Level() { }
 
-void Level::loadLevel(b2World* world) {
+void Level::loadLevel(b2World* world, int levelNumber) {
 
-    Level::loadMap("data/levels/Map1.txt", "data/images/tiles.png");
+    // Create the path for map.txt using argument levelNumber.
+    std::string levelNumberStr = std::to_string(levelNumber);
+    std::string mapStr = "data/levels/Map";
+    std::string txt = ".txt";
+    std::string mapPath = mapStr + levelNumberStr + txt;
+
+    Level::loadMap(mapPath, "data/images/tiles.png");
 
     // Loop through the map and set the tile position and sprites to the tiles.
     for(unsigned int i = 0; i < map.size(); i++) {
@@ -28,7 +35,7 @@ void Level::loadLevel(b2World* world) {
     }
 }
 
-void Level::loadMap(const char* fileName, const char* tileTextureFile) {
+void Level::loadMap(std::string fileName, std::string tileTextureFile) {
 
     std::ifstream openfile(fileName);
 

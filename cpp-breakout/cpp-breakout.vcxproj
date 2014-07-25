@@ -36,6 +36,12 @@
     <ClInclude Include="GameStates\PlayState.hpp" />
     <ClInclude Include="Levels\Level.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\Box2D.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\box2d.pdb" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E8515512-DD6F-4863-8C30-A47CB4D176AC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

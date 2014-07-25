@@ -23,12 +23,12 @@ int main() {
 
     // Initialize the Game State engine.
     StateMachine state_machine;
-    state_machine.run(StateMachine::build<MainMenuState>(state_machine, m_window, true));
+    state_machine.run(StateMachine::build<MainMenuState>(0, state_machine, m_window, true));
 
     // Main loop.
     while(state_machine.running())
     {
-        // Fixed timestep
+    // Fixed timestep
         timeSinceLastUpdate += clock.restart();
         // This loop is executed at a constant rate.
         while(timeSinceLastUpdate > deltaTime) {
