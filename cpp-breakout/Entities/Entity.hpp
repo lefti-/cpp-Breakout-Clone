@@ -9,9 +9,18 @@ enum entityType {
     BORDER,
     BOTTOM
 };
+enum tileLevel {
+    LEVEL1,
+    LEVEL2,
+    LEVEL3,
+    LEVEL4,
+    LEVEL5,
+    LEVEL6
+};
 
 struct bUserData {
     int entityType;
+    int tileLevel;
 };
 
 class Entity { };

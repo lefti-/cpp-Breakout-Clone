@@ -21,6 +21,13 @@
 
 class StateMachine;
 
+// Score and lives are global variables, so they don't change across multiple playstates (levels).
+// Will only be reset when starting a new game.
+namespace GlobalVar {
+    extern int score;
+    extern int lives;
+}
+
 class PlayState : public GameState {
 public:
     PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
@@ -41,6 +48,7 @@ private:
     sf::Vector2f depth;
     sf::Font font;
     sf::Text fpsText;
+    sf::Text scoreText;
     sf::Text livesText;
     sf::Time deltaTime;
     sf::Clock fpsClock;

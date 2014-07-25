@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-Tile::Tile(b2World* world, float posX, float posY)
+Tile::Tile(b2World* world, float posX, float posY, int tileLevel)
 {
     // Define a body.
     tileBodyDef.type = b2_staticBody;
@@ -24,6 +24,26 @@ Tile::Tile(b2World* world, float posX, float posY)
     // Create user data.
     bUserData* bud = new bUserData;
     bud->entityType = TILE;
+
+    if(tileLevel == 1) {
+        bud->tileLevel = LEVEL1;
+    }
+    else if(tileLevel == 2) {
+        bud->tileLevel = LEVEL2;
+    }
+    else if(tileLevel == 3) {
+        bud->tileLevel = LEVEL3;
+    }
+    else if(tileLevel == 4) {
+        bud->tileLevel = LEVEL4;
+    }
+    else if(tileLevel == 5) {
+        bud->tileLevel = LEVEL5;
+    }
+    else if(tileLevel == 6) {
+        bud->tileLevel = LEVEL6;
+    }
+
     tileFixtureDef.userData = bud;
 
     // Create fixture.

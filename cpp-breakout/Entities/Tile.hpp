@@ -11,7 +11,7 @@
 
 class Tile : public Entity {
 public:
-    Tile(b2World* world, float posX, float posY);
+    Tile(b2World* world, float posX, float posY, int tileLevel);
     ~Tile();
     void draw(sf::RenderWindow& window);
 

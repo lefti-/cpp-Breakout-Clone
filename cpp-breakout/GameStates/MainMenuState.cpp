@@ -71,6 +71,8 @@ void MainMenuState::processEvents() {
 
                 if(playTextBounds.contains(mousePos)) {
                     m_next = StateMachine::build<PlayState>(1, state_machine, m_window, true);
+                    GlobalVar::lives = 5;
+                    GlobalVar::score = 0;
                 }
                 if(quitTextBounds.contains(mousePos)) {
                     state_machine.quit();

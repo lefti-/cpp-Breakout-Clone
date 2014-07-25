@@ -7,6 +7,11 @@
 #define _USE_MATH_DEFINES
 
 
+namespace GlobalVar{
+    int score = 0;
+    int lives = 5;
+}
+
 PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
 
@@ -61,7 +66,12 @@ void PlayState::createUITexts() {
     fpsText.setFont(font);
     fpsText.setCharacterSize(30);
     fpsText.setColor(sf::Color::White);
-    fpsText.setPosition(sf::Vector2f(930, 10));
+    fpsText.setPosition(sf::Vector2f(10, 60));
+
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(40);
+    scoreText.setColor(sf::Color::White);
+    scoreText.setPosition(sf::Vector2f(900, 10));
 
     livesText.setFont(font);
     livesText.setCharacterSize(30);
@@ -147,6 +157,7 @@ void PlayState::processEvents() {
                 break;
 
             case sf::Keyboard::Up:
+                std::cout << "Global score: " << GlobalVar::score << std::endl;
                 break;
 
             case sf::Keyboard::Down:
@@ -211,12 +222,16 @@ void PlayState::update(sf::Time deltaTime) {
     // Measure FPS.
     time = fpsClock.getElapsedTime();
     sf::Int64 fps = 1000000 / time.asMicroseconds();
-    std::string fpsString = std::to_string(fps);;
+    std::string fpsString = std::to_string(fps);
     fpsText.setString(fpsString + " fps");
     fpsClock.restart();
 
+    // Track score.
+    std::string scoreString = std::to_string(GlobalVar::score);
+    scoreText.setString(scoreString);
+
     // Track lives.
-    std::string livesString = std::to_string(ball.lives);
+    std::string livesString = std::to_string(GlobalVar::lives);
     livesText.setString("Lives: " + livesString);
 
     // Simulate a smaller timestep, to prevent tunneling on high velocities.
@@ -242,6 +257,7 @@ void PlayState::draw() {
     ball.draw(m_window);
     paddle.draw(m_window);
     m_window.draw(fpsText);
+    m_window.draw(scoreText);
     m_window.draw(livesText);
 
     m_window.display();

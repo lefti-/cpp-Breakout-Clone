@@ -16,7 +16,6 @@ public:
     void draw(sf::RenderWindow& window);
 
     bool paddleHasBall = true;
-    int lives = 3;
 private:
     const float PTM_RATIO = 32.f;
     const int HALF_WIDTH = 12;
