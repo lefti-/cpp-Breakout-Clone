@@ -25,8 +25,6 @@ public:
 private:
     int currentLevel;
     int alphaCounter = 0;
-    sf::Texture intro_bgTex;
-    sf::Sprite intro_bg;
     sf::RectangleShape introFader;
     sf::RectangleShape introFader2;
     sf::RectangleShape currentLevelIntro;
@@ -36,4 +34,4 @@ private:
     sf::Text levelNumberText;
     sf::Text getReadyText;
 };
-#endif // INTROSTATE_HPP
+#endif // LEVELINTROSTATE_HPP

@@ -1,33 +1,34 @@
-#include "MainMenuState.hpp"
+#include "GameOverState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
 
-MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
+GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
-    // Create the menu buttons.
-    titleText.setString("Breakout");
-    titleText.setFont(font);
-    titleText.setCharacterSize(80);
+    // Create the menu texts.
+    gameOverText.setString("Game Over");
+    gameOverText.setFont(font);
+    gameOverText.setStyle(sf::Text::Bold | sf::Text::Italic);
+    gameOverText.setCharacterSize(80);
 
-    playText.setString("Play");
-    playText.setFont(font);
-    playText.setCharacterSize(60);
+    mainMenuText.setString("Main menu");
+    mainMenuText.setFont(font);
+    mainMenuText.setCharacterSize(60);
 
     quitText.setString("Quit");
     quitText.setFont(font);
     quitText.setCharacterSize(60);
 
     // Center the texts.
-    sf::FloatRect titleTextRect = titleText.getLocalBounds();
-    titleText.setOrigin(sf::Vector2f(titleTextRect.left + titleTextRect.width / 2, titleTextRect.top + titleTextRect.height / 2));
-    titleText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 100));
+    sf::FloatRect gameOverTextRect = gameOverText.getLocalBounds();
+    gameOverText.setOrigin(sf::Vector2f(gameOverTextRect.left + gameOverTextRect.width / 2, gameOverTextRect.top + gameOverTextRect.height / 2));
+    gameOverText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 100));
 
-    sf::FloatRect playTextRect = playText.getLocalBounds();
-    playText.setOrigin(sf::Vector2f(playTextRect.left + playTextRect.width / 2, playTextRect.top + playTextRect.height / 2));
-    playText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 400));
+    sf::FloatRect mainMenuTextRect = mainMenuText.getLocalBounds();
+    mainMenuText.setOrigin(sf::Vector2f(mainMenuTextRect.left + mainMenuTextRect.width / 2, mainMenuTextRect.top + mainMenuTextRect.height / 2));
+    mainMenuText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 400));
 
     sf::FloatRect quitTextRect = quitText.getLocalBounds();
     quitText.setOrigin(sf::Vector2f(quitTextRect.left + quitTextRect.width / 2, quitTextRect.top + quitTextRect.height / 2));
@@ -35,7 +36,7 @@ MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderW
 
 }
 
-void MainMenuState::processEvents() {
+void GameOverState::processEvents() {
     sf::Event event;
 
     while(m_window.pollEvent(event)) {
@@ -66,13 +67,11 @@ void MainMenuState::processEvents() {
             case sf::Mouse::Button::Left: {
                 sf::Vector2f mousePos(sf::Vector2f(sf::Mouse::getPosition(m_window)));
 
-                sf::FloatRect playTextBounds = playText.getGlobalBounds();
+                sf::FloatRect mainMenuTextBounds = mainMenuText.getGlobalBounds();
                 sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
 
-                if(playTextBounds.contains(mousePos)) {
-                    m_next = StateMachine::build<LevelIntroState>(1, state_machine, m_window, true);
-                    GlobalVar::lives = 5;
-                    GlobalVar::score = 0;
+                if(mainMenuTextBounds.contains(mousePos)) {
+                    m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
                 }
                 if(quitTextBounds.contains(mousePos)) {
                     state_machine.quit();
@@ -90,13 +89,13 @@ void MainMenuState::processEvents() {
     }
 }
 
-void MainMenuState::update(sf::Time deltaTime) {
+void GameOverState::update(sf::Time deltaTime) {
     sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)));
 
-    sf::FloatRect playTextBounds = playText.getGlobalBounds();
+    sf::FloatRect mainMenuTextBounds = mainMenuText.getGlobalBounds();
     sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
 
-    if(playTextBounds.contains(mousePos)) {
+    if(mainMenuTextBounds.contains(mousePos)) {
         mouseOnPlayButton = true;
     }
     else {
@@ -110,14 +109,14 @@ void MainMenuState::update(sf::Time deltaTime) {
     }
 }
 
-void MainMenuState::draw() {
+void GameOverState::draw() {
     m_window.clear();
 
     if(mouseOnPlayButton) {
-        playText.setColor(sf::Color(255, 0, 0));
+        mainMenuText.setColor(sf::Color(255, 0, 0));
     }
     else {
-        playText.setColor(sf::Color(255, 255, 255));
+        mainMenuText.setColor(sf::Color(255, 255, 255));
     }
     if(mouseOnQuitButton) {
         quitText.setColor(sf::Color(255, 0, 0));
@@ -126,8 +125,8 @@ void MainMenuState::draw() {
         quitText.setColor(sf::Color(255, 255, 255));
     }
 
-    m_window.draw(titleText);
-    m_window.draw(playText);
+    m_window.draw(gameOverText);
+    m_window.draw(mainMenuText);
     m_window.draw(quitText);
 
     m_window.display();

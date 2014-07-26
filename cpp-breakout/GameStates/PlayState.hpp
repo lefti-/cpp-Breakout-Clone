@@ -3,6 +3,7 @@
 
 #include "GameState.hpp"
 #include "MainMenuState.hpp"
+#include "GameOverState.hpp"
 #include "../Levels//Level.hpp"
 #include "../Entities/Ball.hpp"
 #include "../Entities/Tile.hpp"

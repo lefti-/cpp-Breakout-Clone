@@ -10,6 +10,7 @@
 class Paddle : public Entity {
 public:
     Paddle();
+    ~Paddle();
     void setBodyAndSprite(b2World* world, float posX, float posY);
     void update(sf::RenderWindow& window, sf::Time deltaTime);
     void draw(sf::RenderWindow& window);
@@ -26,5 +27,6 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Vector2f mousePos;
+    bUserData* bud;
 };
 #endif // PADDLE_HPP

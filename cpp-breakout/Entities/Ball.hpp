@@ -10,6 +10,7 @@
 class Ball : public Entity {
 public:
     Ball();
+    ~Ball();
     void launch(std::string direction);
     void setBodyAndSprite(b2World* world);
     void update(Paddle paddle, sf::Time deltaTime);
@@ -25,5 +26,6 @@ private:
     b2Vec2 velocity;
     sf::Texture texture;
     sf::Sprite sprite;
+    bUserData* bud;
 };
 #endif

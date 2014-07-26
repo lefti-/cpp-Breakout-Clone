@@ -3,6 +3,10 @@
 
 Paddle::Paddle() { }
 
+Paddle::~Paddle() {
+    delete bud;
+}
+
 void Paddle::setBodyAndSprite(b2World* world, float posX, float posY) {
     // Define a body.
     b2BodyDef paddleBodyDef;

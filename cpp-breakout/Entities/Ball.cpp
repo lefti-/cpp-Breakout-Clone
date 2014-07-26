@@ -4,6 +4,10 @@
 
 Ball::Ball() { }
 
+Ball::~Ball() {
+    delete bud;
+}
+
 void Ball::launch(std::string direction) {
     if(direction == "left") {
         ballBody->ApplyLinearImpulse(b2Vec2(-10, -15), ballBodyDef.position, true);

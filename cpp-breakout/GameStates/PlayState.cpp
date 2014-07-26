@@ -4,14 +4,13 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 //// TO-DO:
+////    * WinState.
 ////    * GameOverState.
 ////    * More levels.
-////    * WinState.
 ////    * High-scores.
 ////    * Sounds.
 ////    * Restrict ball from going too horizontal or vertical!
 ////    * Multiply score by lives?
-////    * Level transitioning, fade from or to black? LEVEL 1. START. etc.
 //// MAYBE:
 ////    * Power-ups?
 ////    * Options.
@@ -240,8 +239,13 @@ void PlayState::processEvents() {
 }
 
 void PlayState::update(sf::Time deltaTime) {
+    // Condition for completing a level
     if(level.solidTiles.size() == 0) {
-        m_next = StateMachine::build<PlayState>(currentLevel + 1, state_machine, m_window, true);
+        m_next = StateMachine::build<LevelIntroState>(currentLevel + 1, state_machine, m_window, true);
+    }
+    // Game over condition
+    if(GlobalVar::lives == 0) {
+        m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
     }
 
     // Measure FPS.

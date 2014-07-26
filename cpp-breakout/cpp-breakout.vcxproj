@@ -16,6 +16,7 @@
     <ClCompile Include="Entities\Paddle.cpp" />
     <ClCompile Include="Entities\Tile.cpp" />
     <ClCompile Include="GameStateMachine\StateMachine.cpp" />
+    <ClCompile Include="GameStates\GameOverState.cpp" />
     <ClCompile Include="GameStates\GameState.cpp" />
     <ClCompile Include="GameStates\LevelIntroState.cpp" />
     <ClCompile Include="GameStates\MainMenuState.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="Entities\Paddle.hpp" />
     <ClInclude Include="Entities\Tile.hpp" />
     <ClInclude Include="GameStateMachine\StateMachine.hpp" />
+    <ClInclude Include="GameStates\GameOverState.hpp" />
     <ClInclude Include="GameStates\GameState.hpp" />
     <ClInclude Include="GameStates\LevelIntroState.hpp" />
     <ClInclude Include="GameStates\MainMenuState.hpp" />

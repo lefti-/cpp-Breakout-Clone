@@ -66,16 +66,8 @@ void LevelIntroState::processEvents() {
             switch(event.key.code) {
 
             case sf::Keyboard::Space:
-                m_next = StateMachine::build<PlayState>(0, state_machine, m_window, true);
+                m_next = StateMachine::build<PlayState>(currentLevel, state_machine, m_window, true);
                 std::cout << "Pressed SPACE in IntroState." << std::endl;
-                break;
-
-            case sf::Keyboard::Up:
-                std::cout << "Pressed UP arrow." << std::endl;
-                break;
-
-            case sf::Keyboard::Escape:
-                state_machine.quit();
                 break;
 
             default:
@@ -96,6 +88,7 @@ void LevelIntroState::update(sf::Time deltaTime) {
     }
 
     if(introAlpha.a == 0) {
+        // Start drawing fader 2.
         alphaCounter = 1;
     }
 
