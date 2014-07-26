@@ -45,7 +45,7 @@
     <ClCompile Include="GameStates\MainMenuState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameStates\IntroState.cpp">
+    <ClCompile Include="GameStates\LevelIntroState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,7 +80,7 @@
     <ClInclude Include="GameStates\MainMenuState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameStates\IntroState.hpp">
+    <ClInclude Include="GameStates\LevelIntroState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

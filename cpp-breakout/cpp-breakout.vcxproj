@@ -17,7 +17,7 @@
     <ClCompile Include="Entities\Tile.cpp" />
     <ClCompile Include="GameStateMachine\StateMachine.cpp" />
     <ClCompile Include="GameStates\GameState.cpp" />
-    <ClCompile Include="GameStates\IntroState.cpp" />
+    <ClCompile Include="GameStates\LevelIntroState.cpp" />
     <ClCompile Include="GameStates\MainMenuState.cpp" />
     <ClCompile Include="GameStates\PlayState.cpp" />
     <ClCompile Include="Levels\Level.cpp" />
@@ -31,7 +31,7 @@
     <ClInclude Include="Entities\Tile.hpp" />
     <ClInclude Include="GameStateMachine\StateMachine.hpp" />
     <ClInclude Include="GameStates\GameState.hpp" />
-    <ClInclude Include="GameStates\IntroState.hpp" />
+    <ClInclude Include="GameStates\LevelIntroState.hpp" />
     <ClInclude Include="GameStates\MainMenuState.hpp" />
     <ClInclude Include="GameStates\PlayState.hpp" />
     <ClInclude Include="Levels\Level.hpp" />

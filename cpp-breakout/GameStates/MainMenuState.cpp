@@ -75,7 +75,7 @@ void MainMenuState::processEvents() {
                     GlobalVar::score = 0;
                 }
                 if(quitTextBounds.contains(mousePos)) {
-                    state_machine.quit();
+                    m_next = StateMachine::build<LevelIntroState>(1, state_machine, m_window, true);
                 }
                 break;
             }

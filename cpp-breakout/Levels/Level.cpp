@@ -92,8 +92,6 @@ void Level::loadLevel(b2World* world, int levelNumber) {
                     tempTile->armor = 2;
                     solidTiles.push_back(std::move(tempTile));
                 }
-
- 
             }
         }
     }

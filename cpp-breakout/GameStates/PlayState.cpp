@@ -2,6 +2,24 @@
 #include "../GameStateMachine/StateMachine.hpp"
 
 
+///////////////////////////////////////////////////////////////////////////////////
+//// TO-DO:
+////    * GameOverState.
+////    * More levels.
+////    * WinState.
+////    * High-scores.
+////    * Sounds.
+////    * Restrict ball from going too horizontal or vertical!
+////    * Multiply score by lives?
+////    * Level transitioning, fade from or to black? LEVEL 1. START. etc.
+//// MAYBE:
+////    * Power-ups?
+////    * Options.
+////        - Volume
+///         - Control scheme (Keyboard, mouse).
+///////////////////////////////////////////////////////////////////////////////////
+
+
 namespace GlobalVar{
     int score = 0;
     int lives = 5;
@@ -21,7 +39,7 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     m_contactListener = MyContactListener();
     world->SetContactListener(&m_contactListener);
 
-    // Create objects.
+    // Create paddle and ball.
     paddle.setBodyAndSprite(world, window.getSize().x / 2, window.getSize().y - paddle.HEIGHT);
     ball.setBodyAndSprite(world);
 

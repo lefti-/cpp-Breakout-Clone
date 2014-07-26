@@ -3,6 +3,7 @@
 
 #include "PlayState.hpp"
 #include "GameState.hpp"
+#include "LevelIntroState.hpp"
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
