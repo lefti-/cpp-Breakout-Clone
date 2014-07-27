@@ -15,8 +15,9 @@ MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderW
     // Create texts.
     titleText.setString("Breakout");
     titleText.setFont(font);
-    titleText.setCharacterSize(80);
-
+    titleText.setCharacterSize(80); 
+    titleText.setColor(sf::Color(226, 90, 0));
+        
     playText.setString("Play");
     playText.setFont(font);
     playText.setCharacterSize(60);
@@ -119,16 +120,16 @@ void MainMenuState::draw() {
     m_window.clear();
 
     if(mouseOnPlayButton) {
-        playText.setColor(sf::Color(255, 0, 0));
+        playText.setColor(sf::Color(0, 32, 216));
     }
     else {
-        playText.setColor(sf::Color(255, 255, 255));
+        playText.setColor(sf::Color(226, 90, 0));
     }
     if(mouseOnQuitButton) {
-        quitText.setColor(sf::Color(255, 0, 0));
+        quitText.setColor(sf::Color(0, 32, 216));
     }
     else {
-        quitText.setColor(sf::Color(255, 255, 255));
+        quitText.setColor(sf::Color(226, 90, 0));
     }
 
     m_window.draw(titleText);

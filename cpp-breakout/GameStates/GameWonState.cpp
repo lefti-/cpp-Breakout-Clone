@@ -17,10 +17,12 @@ GameWonState::GameWonState(int levelNumber, StateMachine& machine, sf::RenderWin
     gratsText.setFont(font);
     gratsText.setStyle(sf::Text::Bold | sf::Text::Italic);
     gratsText.setCharacterSize(80);
+    gratsText.setColor(sf::Color(226, 90, 0));
 
     completionText.setString("You have completed the game!");
     completionText.setFont(font);
     completionText.setCharacterSize(50);
+    completionText.setColor(sf::Color(226, 90, 0));
 
     mainMenuText.setString("Main menu");
     mainMenuText.setFont(font);
@@ -126,16 +128,16 @@ void GameWonState::draw() {
     m_window.clear();
 
     if(mouseOnMenuButton) {
-        mainMenuText.setColor(sf::Color(255, 0, 0));
+        mainMenuText.setColor(sf::Color(0, 32, 216));
     }
     else {
-        mainMenuText.setColor(sf::Color(255, 255, 255));
+        mainMenuText.setColor(sf::Color(226, 90, 0));
     }
     if(mouseOnQuitButton) {
-        quitText.setColor(sf::Color(255, 0, 0));
+        quitText.setColor(sf::Color(0, 32, 216));
     }
     else {
-        quitText.setColor(sf::Color(255, 255, 255));
+        quitText.setColor(sf::Color(226, 90, 0));
     }
 
     m_window.draw(gratsText);

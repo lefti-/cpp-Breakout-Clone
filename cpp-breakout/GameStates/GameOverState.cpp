@@ -17,6 +17,7 @@ GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderW
     gameOverText.setFont(font);
     gameOverText.setStyle(sf::Text::Bold | sf::Text::Italic);
     gameOverText.setCharacterSize(80);
+    gameOverText.setColor(sf::Color(226, 90, 0));
 
     mainMenuText.setString("Main menu");
     mainMenuText.setFont(font);
@@ -118,16 +119,16 @@ void GameOverState::draw() {
     m_window.clear();
 
     if(mouseOnMenuButton) {
-        mainMenuText.setColor(sf::Color(255, 0, 0));
+        mainMenuText.setColor(sf::Color(0, 32, 216));
     }
     else {
-        mainMenuText.setColor(sf::Color(255, 255, 255));
+        mainMenuText.setColor(sf::Color(226, 90, 0));
     }
     if(mouseOnQuitButton) {
-        quitText.setColor(sf::Color(255, 0, 0));
+        quitText.setColor(sf::Color(0, 32, 216));
     }
     else {
-        quitText.setColor(sf::Color(255, 255, 255));
+        quitText.setColor(sf::Color(226, 90, 0));
     }
 
     m_window.draw(gameOverText);
