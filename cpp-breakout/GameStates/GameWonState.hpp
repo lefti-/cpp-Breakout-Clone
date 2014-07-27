@@ -12,8 +12,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-#include <iostream>
-
 
 class StateMachine;
 
@@ -36,4 +34,4 @@ private:
     sf::Text mainMenuText;
     sf::Text quitText;
 };
-#endif // GAMEWONSTATE_HPP
+#endif

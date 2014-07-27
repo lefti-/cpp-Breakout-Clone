@@ -33,4 +33,4 @@ protected:
     std::unique_ptr<GameState> m_next;
     int levelNumber;
 };
-#endif // GAMESTATE_HPP
+#endif

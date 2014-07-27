@@ -39,4 +39,4 @@ private:
     sf::Text levelNumberText;
     sf::Text getReadyText;
 };
-#endif // LEVELINTROSTATE_HPP
+#endif

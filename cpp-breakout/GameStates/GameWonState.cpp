@@ -12,7 +12,7 @@ GameWonState::GameWonState(int levelNumber, StateMachine& machine, sf::RenderWin
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
-    // Create the menu texts.
+    // Create texts.
     gratsText.setString("Congratulations !");
     gratsText.setFont(font);
     gratsText.setStyle(sf::Text::Bold | sf::Text::Italic);
@@ -30,7 +30,7 @@ GameWonState::GameWonState(int levelNumber, StateMachine& machine, sf::RenderWin
     quitText.setFont(font);
     quitText.setCharacterSize(60);
 
-    // Center the texts.
+    // Center texts.
     sf::FloatRect gratsTextRect = gratsText.getLocalBounds();
     gratsText.setOrigin(sf::Vector2f(gratsTextRect.left + gratsTextRect.width / 2, gratsTextRect.top + gratsTextRect.height / 2));
     gratsText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 100));
@@ -65,7 +65,7 @@ void GameWonState::processEvents() {
             switch(event.key.code) {
 
             case sf::Keyboard::Escape:
-                state_machine.quit();
+                m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
                 break;
 
             default:

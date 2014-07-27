@@ -12,7 +12,7 @@ GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderW
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
-    // Create the menu texts.
+    // Create texts.
     gameOverText.setString("Game Over");
     gameOverText.setFont(font);
     gameOverText.setStyle(sf::Text::Bold | sf::Text::Italic);
@@ -26,7 +26,7 @@ GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderW
     quitText.setFont(font);
     quitText.setCharacterSize(60);
 
-    // Center the texts.
+    // Center texts.
     sf::FloatRect gameOverTextRect = gameOverText.getLocalBounds();
     gameOverText.setOrigin(sf::Vector2f(gameOverTextRect.left + gameOverTextRect.width / 2, gameOverTextRect.top + gameOverTextRect.height / 2));
     gameOverText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 100));
@@ -57,7 +57,7 @@ void GameOverState::processEvents() {
             switch(event.key.code) {
 
             case sf::Keyboard::Escape:
-                state_machine.quit();
+                m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
                 break;
 
             default:

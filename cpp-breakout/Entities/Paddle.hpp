@@ -34,4 +34,4 @@ private:
     sf::Vector2f mousePos;
     bUserData* bud;
 };
-#endif // PADDLE_HPP
+#endif

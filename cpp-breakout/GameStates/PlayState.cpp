@@ -41,6 +41,7 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     : GameState(levelNumber, machine, window, replace) {
 
     currentLevel = levelNumber;
+
     // Set gravity value.
     b2Vec2 gravity = b2Vec2(0.f, 0.f);
 
@@ -95,7 +96,6 @@ void PlayState::createLifeIcons() {
         lifeSprite4.setTexture(lifeTexture);
         lifeSprite5.setTexture(lifeTexture);
     }
-
     lifeSprite1.setPosition(10, 10);
     lifeSprite2.setPosition(75, 10);
     lifeSprite3.setPosition(140, 10);
@@ -187,17 +187,22 @@ void PlayState::processEvents() {
 
             switch(event.key.code) {
 
-            case sf::Keyboard::Right:
-                break;
+            case sf::Keyboard::Space:
+                if(gamePaused == true) {
+                    gamePaused = false;
 
-            case sf::Keyboard::Left:
+                    // When unpaused, center mouse position to paddle body position.
+                    int playerPosX = (int)paddle.paddleBody->GetPosition().x * PTM_RATIO;
+                    int playerPosY = (int)paddle.paddleBody->GetPosition().y * PTM_RATIO;
+                    sf::Mouse::setPosition(sf::Vector2i(playerPosX, playerPosY), m_window);
+                }
+                else {
+                    gamePaused = true;
+                }
                 break;
 
             case sf::Keyboard::Up:
                 std::cout << "Global score: " << GlobalVar::score << std::endl;
-                break;
-
-            case sf::Keyboard::Down:
                 break;
 
             case sf::Keyboard::Escape:
@@ -237,9 +242,6 @@ void PlayState::processEvents() {
                 }
                 break;
 
-            case sf::Mouse::Middle:
-                break;
-
             default:
                 break;
             }
@@ -252,42 +254,45 @@ void PlayState::processEvents() {
 }
 
 void PlayState::update(sf::Time deltaTime) {
-    // Measure FPS.
-    time = fpsClock.getElapsedTime();
-    sf::Int64 fps = 1000000 / time.asMicroseconds();
-    std::string fpsString = std::to_string(fps);
-    fpsText.setString(fpsString + " fps");
-    fpsClock.restart();
+    if(gamePaused) { }
+    else {
+        // Measure FPS.
+        time = fpsClock.getElapsedTime();
+        sf::Int64 fps = 1000000 / time.asMicroseconds();
+        std::string fpsString = std::to_string(fps);
+        fpsText.setString(fpsString + " fps");
+        fpsClock.restart();
 
-    // Game over condition
-    if(GlobalVar::lives == 0) {
-        m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
-    }
-    // Condition for completing a level
-    if(level.solidTiles.size() == 0) {
-        // Condition for completing the game
-        if(currentLevel == lastLevel) {
-            m_next = StateMachine::build<GameWonState>(0, state_machine, m_window, true);
+        // Game over condition
+        if(GlobalVar::lives == 0) {
+            m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
         }
-        else {
-            m_next = StateMachine::build<LevelIntroState>(currentLevel + 1, state_machine, m_window, true);
+        // Condition for completing a level
+        if(level.solidTiles.size() == 0) {
+            // Condition for completing the game
+            if(currentLevel == lastLevel) {
+                m_next = StateMachine::build<GameWonState>(0, state_machine, m_window, true);
+            }
+            else {
+                m_next = StateMachine::build<LevelIntroState>(currentLevel + 1, state_machine, m_window, true);
+            }
         }
-    }
-    // Track score.
-    std::string scoreString = std::to_string(GlobalVar::score);
-    scoreText.setString(scoreString);
+        // Track score.
+        std::string scoreString = std::to_string(GlobalVar::score);
+        scoreText.setString(scoreString);
 
-    // Simulate a smaller timestep, to prevent tunneling on high velocities.
-    float subSteps = 1;
-    for(int i = 0; i < subSteps; i++) {
-        world->Step(1.f / 60.f / subSteps, 6, 2);
-        ball.update(paddle, deltaTime);
-        paddle.update(m_window, deltaTime);
-        sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)) / PTM_RATIO);
-        m_mouseJoint->SetTarget(b2Vec2(mousePos.x, mousePos.y));
+        // Simulate a smaller timestep, to prevent tunneling on high velocities.
+        float subSteps = 1;
+        for(int i = 0; i < subSteps; i++) {
+            world->Step(1.f / 60.f / subSteps, 6, 2);
+            ball.update(paddle, deltaTime);
+            paddle.update(m_window, deltaTime);
+            sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)) / PTM_RATIO);
+            m_mouseJoint->SetTarget(b2Vec2(mousePos.x, mousePos.y));
+        }
+        removeTiles();
+        removeTileBodies();
     }
-    removeTiles();
-    removeTileBodies();
 }
 
 void PlayState::draw() {

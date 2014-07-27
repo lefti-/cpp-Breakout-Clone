@@ -26,10 +26,10 @@
 #include <vector>
 #include <utility>
 
+
 class StateMachine;
 
 // Score and lives are global variables, so they don't change across multiple playstates (levels).
-// Will only be reset when starting a new game.
 namespace GlobalVar {
     extern int score;
     extern int lives;
@@ -49,6 +49,7 @@ public:
     int currentLevel;
 private:
     const float PTM_RATIO = 32.f;
+    bool gamePaused = false;
     int lastLevel = 3;
     b2World* world;
     b2Body* borderBody;

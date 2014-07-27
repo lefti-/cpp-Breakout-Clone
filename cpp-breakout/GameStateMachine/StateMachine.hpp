@@ -44,4 +44,4 @@ template <typename T>
 std::unique_ptr<T> StateMachine::build(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace) {
     return std::move(std::unique_ptr<T>(new T(levelNumber, machine, window, replace)));
 }
-#endif // STATEMACHINE_HPP
+#endif

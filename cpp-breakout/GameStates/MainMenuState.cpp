@@ -12,7 +12,7 @@ MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderW
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
-    // Create the menu buttons.
+    // Create texts.
     titleText.setString("Breakout");
     titleText.setFont(font);
     titleText.setCharacterSize(80);
@@ -25,7 +25,7 @@ MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderW
     quitText.setFont(font);
     quitText.setCharacterSize(60);
 
-    // Center the texts.
+    // Center texts.
     sf::FloatRect titleTextRect = titleText.getLocalBounds();
     titleText.setOrigin(sf::Vector2f(titleTextRect.left + titleTextRect.width / 2, titleTextRect.top + titleTextRect.height / 2));
     titleText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 100));

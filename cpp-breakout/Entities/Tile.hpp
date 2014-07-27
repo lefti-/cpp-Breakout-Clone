@@ -11,8 +11,6 @@
 
 #include <SFML/Graphics.hpp>
 
-// Maybe add destructor??
-
 
 class Tile : public Entity {
 public:
@@ -38,4 +36,4 @@ private:
     b2FixtureDef tileFixtureDef;
     bUserData* bud;
 };
-#endif // TILE_HPP
+#endif

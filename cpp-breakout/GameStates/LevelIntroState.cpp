@@ -14,7 +14,6 @@ LevelIntroState::LevelIntroState(int levelNumber, StateMachine& machine, sf::Ren
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
-    // Create the path for map.txt using argument levelNumber.
     std::string levelNumberStr = std::to_string(currentLevel);
     std::string levelStr = "Level ";
     std::string fullStr = levelStr + levelNumberStr;
@@ -28,7 +27,7 @@ LevelIntroState::LevelIntroState(int levelNumber, StateMachine& machine, sf::Ren
     getReadyText.setFont(font);
     getReadyText.setCharacterSize(60);
 
-    // Center the texts.
+    // Center texts.
     sf::FloatRect levelNumberTextRect = levelNumberText.getLocalBounds();
     levelNumberText.setOrigin(sf::Vector2f(levelNumberTextRect.left + levelNumberTextRect.width / 2, levelNumberTextRect.top + levelNumberTextRect.height / 2));
     levelNumberText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 250));
@@ -89,6 +88,7 @@ void LevelIntroState::processEvents() {
 
 void LevelIntroState::update(sf::Time deltaTime) {
     if(introAlpha.a > 0) {
+        // Draw fader 1.
         introAlpha.a -= 3;
     }
 

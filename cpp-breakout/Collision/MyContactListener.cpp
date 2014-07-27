@@ -18,10 +18,7 @@ void MyContactListener::BeginContact(b2Contact* contact) {
     Entity* entityA = (Entity*)contact->GetFixtureA()->GetBody()->GetUserData();
     Entity* entityB = (Entity*)contact->GetFixtureB()->GetBody()->GetUserData();
 
-    if((budA->entityType == PADDLE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == PADDLE)) {
-
-    }
-    else if((budA->entityType == TILE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == TILE)) {
+    if((budA->entityType == TILE && budB->entityType == BALL) || (budB->entityType == BALL && budA->entityType == TILE)) {
         Tile* tile = (Tile*)entityA;
 
         tile->armor -= 1;
@@ -62,13 +59,4 @@ void MyContactListener::BeginContact(b2Contact* contact) {
 }
 
 /// Called when two fixtures cease to touch.
-void MyContactListener::EndContact(b2Contact* contact) {
-    b2Body* bodyA = contact->GetFixtureA()->GetBody();
-    b2Body* bodyB = contact->GetFixtureA()->GetBody();
-
-    bUserData* budA = (bUserData*)contact->GetFixtureA()->GetUserData();
-    bUserData* budB = (bUserData*)contact->GetFixtureB()->GetUserData();
-
-    Entity* entityA = (Entity*)contact->GetFixtureA()->GetBody()->GetUserData();
-    Entity* entityB = (Entity*)contact->GetFixtureB()->GetBody()->GetUserData();
-}
+void MyContactListener::EndContact(b2Contact* contact) { }

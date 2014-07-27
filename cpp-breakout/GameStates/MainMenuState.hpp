@@ -36,4 +36,4 @@ private:
     sf::Text playText;
     sf::Text quitText;
 };
-#endif // INTROSTATE_HPP
+#endif
