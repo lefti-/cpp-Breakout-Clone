@@ -9,7 +9,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 //// TO-DO:
-////    * Change font/color of States with text. (now they're white)
 ////    * More levels.
 ////        - 5 levels?
 ////    * Level selection screen.

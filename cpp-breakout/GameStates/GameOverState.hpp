@@ -8,6 +8,7 @@
 
 #include "GameState.hpp"
 #include "MainMenuState.hpp"
+#include "../MenuButtons/TextButton.hpp"
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -26,11 +27,8 @@ public:
     void update(sf::Time deltaTime);
     void draw();
 private:
-    bool mouseOnMenuButton;
-    bool mouseOnQuitButton;
-    sf::Font font;
-    sf::Text gameOverText;
-    sf::Text mainMenuText;
-    sf::Text quitText;
+    TextButton gameOver;
+    TextButton mainMenu;
+    TextButton quit;
 };
 #endif

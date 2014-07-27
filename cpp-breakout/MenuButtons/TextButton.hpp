@@ -21,10 +21,10 @@ public:
     void setHoveredColor();
 
     bool mouseOnButton;
-    sf::Text levelText;
-    sf::FloatRect levelTextBounds;
+    sf::Text text;
+    sf::FloatRect textBounds;
 private:
     sf::Font font;
-    sf::FloatRect levelTextRect;
+    sf::FloatRect textRect;
 };
 #endif

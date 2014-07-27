@@ -10,45 +10,12 @@
 GameWonState::GameWonState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
 
-    font.loadFromFile("data/fonts/centurygothic.ttf");
-
     // Create texts.
-    gratsText.setString("Congratulations !");
-    gratsText.setFont(font);
-    gratsText.setStyle(sf::Text::Bold | sf::Text::Italic);
-    gratsText.setCharacterSize(80);
-    gratsText.setColor(sf::Color(226, 90, 0));
-
-    completionText.setString("You have completed the game!");
-    completionText.setFont(font);
-    completionText.setCharacterSize(50);
-    completionText.setColor(sf::Color(226, 90, 0));
-
-    mainMenuText.setString("Main menu");
-    mainMenuText.setFont(font);
-    mainMenuText.setCharacterSize(60);
-
-    quitText.setString("Quit");
-    quitText.setFont(font);
-    quitText.setCharacterSize(60);
-
-    // Center texts.
-    sf::FloatRect gratsTextRect = gratsText.getLocalBounds();
-    gratsText.setOrigin(sf::Vector2f(gratsTextRect.left + gratsTextRect.width / 2, gratsTextRect.top + gratsTextRect.height / 2));
-    gratsText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 100));
-
-    sf::FloatRect completionTextRect = completionText.getLocalBounds();
-    completionText.setOrigin(sf::Vector2f(completionTextRect.left + completionTextRect.width / 2, completionTextRect.top + completionTextRect.height / 2));
-    completionText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 300));
-
-    sf::FloatRect mainMenuTextRect = mainMenuText.getLocalBounds();
-    mainMenuText.setOrigin(sf::Vector2f(mainMenuTextRect.left + mainMenuTextRect.width / 2, mainMenuTextRect.top + mainMenuTextRect.height / 2));
-    mainMenuText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 500));
-
-    sf::FloatRect quitTextRect = quitText.getLocalBounds();
-    quitText.setOrigin(sf::Vector2f(quitTextRect.left + quitTextRect.width / 2, quitTextRect.top + quitTextRect.height / 2));
-    quitText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 600));
-
+    congratulations.init(80, sf::Vector2f(m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Congratulations!");
+    congratulations.text.setStyle(sf::Text::Bold);
+    completed.init(50, sf::Vector2f(m_window.getSize().x / 2, 300), sf::Color(226, 90, 0), "You have completed the game!");
+    mainMenu.init(60, sf::Vector2f(m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Main menu");
+    quit.init(60, sf::Vector2f(m_window.getSize().x / 2, 600), sf::Color(255, 255, 255), "Quit");
 }
 
 void GameWonState::processEvents() {
@@ -80,15 +47,10 @@ void GameWonState::processEvents() {
             switch(event.key.code) {
 
             case sf::Mouse::Button::Left: {
-                sf::Vector2f mousePos(sf::Vector2f(sf::Mouse::getPosition(m_window)));
-
-                sf::FloatRect mainMenuTextBounds = mainMenuText.getGlobalBounds();
-                sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
-
-                if(mainMenuTextBounds.contains(mousePos)) {
+                if(mainMenu.hovered(m_window)) {
                     m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
                 }
-                if(quitTextBounds.contains(mousePos)) {
+                if(quit.hovered(m_window)) {
                     state_machine.quit();
                 }
                 break;
@@ -105,45 +67,30 @@ void GameWonState::processEvents() {
 }
 
 void GameWonState::update(sf::Time deltaTime) {
-    sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)));
-
-    sf::FloatRect mainMenuTextBounds = mainMenuText.getGlobalBounds();
-    sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
-
-    if(mainMenuTextBounds.contains(mousePos)) {
-        mouseOnMenuButton = true;
+    if(mainMenu.hovered(m_window)) {
+        mainMenu.mouseOnButton = true;
     }
     else {
-        mouseOnMenuButton = false;
+        mainMenu.mouseOnButton = false;
     }
-    if(quitTextBounds.contains(mousePos)) {
-        mouseOnQuitButton = true;
+    if(quit.hovered(m_window)) {
+        quit.mouseOnButton = true;
     }
     else {
-        mouseOnQuitButton = false;
+        quit.mouseOnButton = false;
     }
 }
 
 void GameWonState::draw() {
     m_window.clear();
 
-    if(mouseOnMenuButton) {
-        mainMenuText.setColor(sf::Color(226, 90, 0));
-    }
-    else {
-        mainMenuText.setColor(sf::Color(255, 255, 255));
-    }
-    if(mouseOnQuitButton) {
-        quitText.setColor(sf::Color(226, 90, 0));
-    }
-    else {
-        quitText.setColor(sf::Color(255, 255, 255));
-    }
+    mainMenu.setHoveredColor();
+    quit.setHoveredColor();
 
-    m_window.draw(gratsText);
-    m_window.draw(completionText);
-    m_window.draw(mainMenuText);
-    m_window.draw(quitText);
+    congratulations.draw(m_window);
+    completed.draw(m_window);
+    mainMenu.draw(m_window);
+    quit.draw(m_window);
 
     m_window.display();
 }

@@ -54,10 +54,7 @@
     <ClCompile Include="GameStates\GameWonState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameStates\LevelSelectState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuButton\TextButton.cpp">
+    <ClCompile Include="MenuButtons\TextButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,10 +98,7 @@
     <ClInclude Include="GameStates\GameWonState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameStates\LevelSelectState.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuButton\TextButton.hpp">
+    <ClInclude Include="MenuButtons\TextButton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

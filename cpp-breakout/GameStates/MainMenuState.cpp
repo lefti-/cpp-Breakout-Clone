@@ -10,35 +10,10 @@
 MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
 
-    font.loadFromFile("data/fonts/centurygothic.ttf");
-
     // Create texts.
-    titleText.setString("Breakout");
-    titleText.setFont(font);
-    titleText.setCharacterSize(80); 
-    titleText.setColor(sf::Color(226, 90, 0));
-        
-    playText.setString("Play");
-    playText.setFont(font);
-    playText.setCharacterSize(60);
-
-    quitText.setString("Quit");
-    quitText.setFont(font);
-    quitText.setCharacterSize(60);
-
-    // Center texts.
-    sf::FloatRect titleTextRect = titleText.getLocalBounds();
-    titleText.setOrigin(sf::Vector2f(titleTextRect.left + titleTextRect.width / 2, titleTextRect.top + titleTextRect.height / 2));
-    titleText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 100));
-
-    sf::FloatRect playTextRect = playText.getLocalBounds();
-    playText.setOrigin(sf::Vector2f(playTextRect.left + playTextRect.width / 2, playTextRect.top + playTextRect.height / 2));
-    playText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 400));
-
-    sf::FloatRect quitTextRect = quitText.getLocalBounds();
-    quitText.setOrigin(sf::Vector2f(quitTextRect.left + quitTextRect.width / 2, quitTextRect.top + quitTextRect.height / 2));
-    quitText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 500));
-
+    title.init(80, sf::Vector2f(m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Breakout");
+    play.init(60, sf::Vector2f(m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Play");
+    quit.init(60, sf::Vector2f(m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Quit");
 }
 
 void MainMenuState::processEvents() {
@@ -70,17 +45,12 @@ void MainMenuState::processEvents() {
             switch(event.key.code) {
 
             case sf::Mouse::Button::Left: {
-                sf::Vector2f mousePos(sf::Vector2f(sf::Mouse::getPosition(m_window)));
-
-                sf::FloatRect playTextBounds = playText.getGlobalBounds();
-                sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
-
-                if(playTextBounds.contains(mousePos)) {
-                    m_next = StateMachine::build<LevelSelectState>(1, state_machine, m_window, true);
+                if(play.hovered(m_window)) {
+                    m_next = StateMachine::build<LevelIntroState>(1, state_machine, m_window, true);
                     GlobalVar::lives = 5;
                     GlobalVar::score = 0;
                 }
-                if(quitTextBounds.contains(mousePos)) {
+                if(quit.hovered(m_window)) {
                     state_machine.quit();
                 }
                 break;
@@ -97,44 +67,29 @@ void MainMenuState::processEvents() {
 }
 
 void MainMenuState::update(sf::Time deltaTime) {
-    sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)));
-
-    sf::FloatRect playTextBounds = playText.getGlobalBounds();
-    sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
-
-    if(playTextBounds.contains(mousePos)) {
-        mouseOnPlayButton = true;
+    if(play.hovered(m_window)) {
+        play.mouseOnButton = true;
     }
     else {
-        mouseOnPlayButton = false;
+        play.mouseOnButton = false;
     }
-    if(quitTextBounds.contains(mousePos)) {
-        mouseOnQuitButton = true;
+    if(quit.hovered(m_window)) {
+        quit.mouseOnButton = true;
     }
     else {
-        mouseOnQuitButton = false;
+        quit.mouseOnButton = false;
     }
 }
 
 void MainMenuState::draw() {
     m_window.clear();
 
-    if(mouseOnPlayButton) {
-        playText.setColor(sf::Color(226, 90, 0));
-    }
-    else {
-        playText.setColor(sf::Color(255, 255, 255));
-    }
-    if(mouseOnQuitButton) {
-        quitText.setColor(sf::Color(226, 90, 0));
-    }
-    else {
-        quitText.setColor(sf::Color(255, 255, 255));
-    }
+    play.setHoveredColor();
+    quit.setHoveredColor();
 
-    m_window.draw(titleText);
-    m_window.draw(playText);
-    m_window.draw(quitText);
+    title.draw(m_window);
+    play.draw(m_window);
+    quit.draw(m_window);
 
     m_window.display();
 }

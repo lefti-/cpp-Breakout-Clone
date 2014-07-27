@@ -10,6 +10,7 @@
 #include "PlayState.hpp"
 #include "LevelSelectState.hpp"
 #include "LevelIntroState.hpp"
+#include "../MenuButtons/TextButton.hpp"
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -30,11 +31,8 @@ public:
     void update(sf::Time deltaTime);
     void draw();
 private:
-    bool mouseOnPlayButton;
-    bool mouseOnQuitButton;
-    sf::Font font;
-    sf::Text titleText;
-    sf::Text playText;
-    sf::Text quitText;
+    TextButton title;
+    TextButton play;
+    TextButton quit;
 };
 #endif

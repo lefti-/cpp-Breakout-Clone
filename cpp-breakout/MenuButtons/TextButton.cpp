@@ -12,22 +12,22 @@ TextButton::TextButton() { }
 void TextButton::init(int charSize, sf::Vector2f pos, sf::Color color, sf::String levelName) {
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
-    levelText.setFont(font);
-    levelText.setString(levelName);
-    levelText.setCharacterSize(charSize);
-    levelText.setColor(color);
-    levelText.setPosition(pos);
+    text.setFont(font);
+    text.setString(levelName);
+    text.setCharacterSize(charSize);
+    text.setColor(color);
+    text.setPosition(pos);
 
-    levelTextRect = levelText.getLocalBounds();
-    levelText.setOrigin(sf::Vector2f(levelTextRect.left + levelTextRect.width / 2, levelTextRect.top + levelTextRect.height / 2));
+    textRect = text.getLocalBounds();
+    text.setOrigin(sf::Vector2f(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2));
 
-    levelTextBounds = levelText.getGlobalBounds();
+    textBounds = text.getGlobalBounds();
 }
 
 bool TextButton::hovered(sf::RenderWindow& window) {
     sf::Vector2f mousePos(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
 
-    if(levelTextBounds.contains(mousePos)) {
+    if(textBounds.contains(mousePos)) {
         return true;
     }
     else {
@@ -37,14 +37,14 @@ bool TextButton::hovered(sf::RenderWindow& window) {
 
 void TextButton::setHoveredColor() {
     if(mouseOnButton) {
-        levelText.setColor(sf::Color(226, 90, 0));
+        text.setColor(sf::Color(226, 90, 0));
     }
     else {
-        levelText.setColor(sf::Color(255, 255, 255));
+        text.setColor(sf::Color(255, 255, 255));
     }
 }
 
 void TextButton::draw(sf::RenderWindow& window) {
-    window.draw(levelText);
+    window.draw(text);
     //std::cout << "Drawing textbutton.." << std::endl;
 }
