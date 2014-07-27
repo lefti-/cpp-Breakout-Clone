@@ -1,3 +1,7 @@
+/*
+    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
+*/
+
 // Started on 13.7.2014.
 // Breakout clone made in C++, SFML and Box2D.
 

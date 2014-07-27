@@ -1,9 +1,15 @@
+/*
+    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
+*/
+
+
 #ifndef PLAYSTATE_HPP
 #define PLAYSTATE_HPP
 
 #include "GameState.hpp"
 #include "MainMenuState.hpp"
 #include "GameOverState.hpp"
+#include "GameWonState.hpp"
 #include "../Levels//Level.hpp"
 #include "../Entities/Ball.hpp"
 #include "../Entities/Tile.hpp"
@@ -43,7 +49,7 @@ public:
     int currentLevel;
 private:
     const float PTM_RATIO = 32.f;
-
+    int lastLevel = 3;
     b2World* world;
     b2Body* borderBody;
     b2MouseJointDef md;
