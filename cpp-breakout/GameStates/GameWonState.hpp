@@ -3,12 +3,11 @@
 */
 
 
-#ifndef MAINMENUSTATE_HPP
-#define MAINMENUSTATE_HPP
+#ifndef GAMEWONSTATE_HPP
+#define GAMEWONSTATE_HPP
 
-#include "PlayState.hpp"
 #include "GameState.hpp"
-#include "LevelIntroState.hpp"
+#include "MainMenuState.hpp"
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -22,18 +21,19 @@ namespace sf {
     class RenderWindow;
 }
 
-class MainMenuState : public GameState {
+class GameWonState : public GameState {
 public:
-    MainMenuState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
+    GameWonState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();
 private:
-    bool mouseOnPlayButton;
+    bool mouseOnMenuButton;
     bool mouseOnQuitButton;
     sf::Font font;
-    sf::Text titleText;
-    sf::Text playText;
+    sf::Text gratsText;
+    sf::Text completionText;
+    sf::Text mainMenuText;
     sf::Text quitText;
 };
-#endif // INTROSTATE_HPP
+#endif // GAMEWONSTATE_HPP

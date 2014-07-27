@@ -1,3 +1,8 @@
+/*
+    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
+*/
+
+
 #ifndef PADDLE_HPP
 #define PADDLE_HPP
 

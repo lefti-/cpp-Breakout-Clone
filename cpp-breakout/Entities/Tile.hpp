@@ -1,3 +1,8 @@
+/*
+    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
+*/
+
+
 #ifndef TILE_HPP
 #define TILE_HPP
 

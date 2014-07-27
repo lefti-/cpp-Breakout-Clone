@@ -1,3 +1,8 @@
+/*
+    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
+*/
+
+
 #include "Level.hpp"
 #include "../GameStates/PlayState.hpp"
 
