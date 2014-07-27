@@ -24,7 +24,7 @@ public:
     b2Body* paddleBody;
 private:
     const float PTM_RATIO = 32.f;
-    const int HALF_WIDTH = 64;
+    const int HALF_WIDTH = 48;
     const int HALF_HEIGHT = 12;
     bool m_contacting = false;
     b2BodyDef paddleBodyDef;

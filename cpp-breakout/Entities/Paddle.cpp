@@ -41,7 +41,7 @@ void Paddle::setBodyAndSprite(b2World* world, float posX, float posY) {
     // Create fixture.
     paddleBody->CreateFixture(&paddleFixtureDef);
 
-    if(texture.loadFromFile("data/images/paddle_128x24.png")) {
+    if(texture.loadFromFile("data/images/paddle_96x24.png")) {
         sprite.setTexture(texture);
     }
     sprite.setOrigin(sf::Vector2f(HALF_WIDTH, HALF_HEIGHT));

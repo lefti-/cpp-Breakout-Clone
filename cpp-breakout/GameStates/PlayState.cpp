@@ -17,6 +17,7 @@
 ////    * Sounds.
 ////    * High-scores. (check high score when game completed.. check high score also when game over)
 ////    * HighScoreState.
+////        - If GameOverState or GameWonState, go to HighScoreState AFTER these states (that is, if you got score worthy of high score).
 ////    * Restrict ball from going too horizontal or vertical!
 ////    * Multiply score by lives?
 ////    * Pressing ESC.
@@ -89,7 +90,7 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
 
 void PlayState::createLifeIcons() {
     // Create lives.
-    if(lifeTexture.loadFromFile("data/images/life_icon.png")) {
+    if(lifeTexture.loadFromFile("data/images/life_icon2.png")) {
         lifeSprite1.setTexture(lifeTexture);
         lifeSprite2.setTexture(lifeTexture);
         lifeSprite3.setTexture(lifeTexture);
@@ -97,10 +98,10 @@ void PlayState::createLifeIcons() {
         lifeSprite5.setTexture(lifeTexture);
     }
     lifeSprite1.setPosition(10, 10);
-    lifeSprite2.setPosition(75, 10);
-    lifeSprite3.setPosition(140, 10);
-    lifeSprite4.setPosition(205, 10);
-    lifeSprite5.setPosition(270, 10);
+    lifeSprite2.setPosition(65, 10);
+    lifeSprite3.setPosition(120, 10);
+    lifeSprite4.setPosition(175, 10);
+    lifeSprite5.setPosition(230, 10);
 }
 void PlayState::createUITexts() {
     font.loadFromFile("data/fonts/centurygothic.ttf");
@@ -169,6 +170,26 @@ void PlayState::removeTiles() {
         if(level.solidTiles[i]->flaggedToErase == true) {
             level.solidTiles.erase(level.solidTiles.begin() + i);
         }
+    }
+}
+
+void PlayState::checkWin() {
+    // Condition for completing a level
+    if(level.solidTiles.size() == 0) {
+        // Condition for completing the game
+        if(currentLevel == lastLevel) {
+            m_next = StateMachine::build<GameWonState>(0, state_machine, m_window, true);
+        }
+        else {
+            m_next = StateMachine::build<LevelIntroState>(currentLevel + 1, state_machine, m_window, true);
+        }
+    }
+}
+
+void PlayState::checkLoss() {
+    // Game over condition
+    if(GlobalVar::lives == 0) {
+        m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
     }
 }
 
@@ -263,33 +284,22 @@ void PlayState::update(sf::Time deltaTime) {
         fpsText.setString(fpsString + " fps");
         fpsClock.restart();
 
-        // Game over condition
-        if(GlobalVar::lives == 0) {
-            m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
-        }
-        // Condition for completing a level
-        if(level.solidTiles.size() == 0) {
-            // Condition for completing the game
-            if(currentLevel == lastLevel) {
-                m_next = StateMachine::build<GameWonState>(0, state_machine, m_window, true);
-            }
-            else {
-                m_next = StateMachine::build<LevelIntroState>(currentLevel + 1, state_machine, m_window, true);
-            }
-        }
+        checkWin();
+        checkLoss();
+
         // Track score.
         std::string scoreString = std::to_string(GlobalVar::score);
         scoreText.setString(scoreString);
 
-        // Simulate a smaller timestep, to prevent tunneling on high velocities.
-        float subSteps = 1;
-        for(int i = 0; i < subSteps; i++) {
-            world->Step(1.f / 60.f / subSteps, 6, 2);
-            ball.update(paddle, deltaTime);
-            paddle.update(m_window, deltaTime);
-            sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)) / PTM_RATIO);
-            m_mouseJoint->SetTarget(b2Vec2(mousePos.x, mousePos.y));
-        }
+        // Physics calculations.
+        world->Step(1.f / 60.f, 6, 2);
+
+        ball.update(paddle, deltaTime);
+
+        // Move paddle towards mouse.
+        sf::Vector2f mousePos(m_window.mapPixelToCoords(sf::Mouse::getPosition(m_window)) / PTM_RATIO);
+        m_mouseJoint->SetTarget(b2Vec2(mousePos.x, mousePos.y));
+
         removeTiles();
         removeTileBodies();
     }

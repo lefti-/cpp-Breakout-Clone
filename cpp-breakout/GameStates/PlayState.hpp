@@ -43,6 +43,8 @@ public:
     void createBordersAroundScreen();
     void removeTileBodies();
     void removeTiles();
+    void checkWin();
+    void checkLoss();
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();
