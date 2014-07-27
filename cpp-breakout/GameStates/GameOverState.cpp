@@ -1,8 +1,3 @@
-/*
-    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
-*/
-
-
 #include "GameOverState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
@@ -101,10 +96,10 @@ void GameOverState::update(sf::Time deltaTime) {
     sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
 
     if(mainMenuTextBounds.contains(mousePos)) {
-        mouseOnMenuButton = true;
+        mouseOnPlayButton = true;
     }
     else {
-        mouseOnMenuButton = false;
+        mouseOnPlayButton = false;
     }
     if(quitTextBounds.contains(mousePos)) {
         mouseOnQuitButton = true;
@@ -117,7 +112,7 @@ void GameOverState::update(sf::Time deltaTime) {
 void GameOverState::draw() {
     m_window.clear();
 
-    if(mouseOnMenuButton) {
+    if(mouseOnPlayButton) {
         mainMenuText.setColor(sf::Color(255, 0, 0));
     }
     else {

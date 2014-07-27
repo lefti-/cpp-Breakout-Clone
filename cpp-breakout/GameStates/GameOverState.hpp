@@ -1,8 +1,3 @@
-/*
-    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
-*/
-
-
 #ifndef GAMEOVERSTATE_HPP
 #define GAMEOVERSTATE_HPP
 
@@ -28,7 +23,7 @@ public:
     void update(sf::Time deltaTime);
     void draw();
 private:
-    bool mouseOnMenuButton;
+    bool mouseOnPlayButton;
     bool mouseOnQuitButton;
     sf::Font font;
     sf::Text gameOverText;

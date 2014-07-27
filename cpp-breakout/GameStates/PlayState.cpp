@@ -1,34 +1,21 @@
-﻿/*
-    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
-*/
-
-
-#include "PlayState.hpp"
+﻿#include "PlayState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
 
 ///////////////////////////////////////////////////////////////////////////////////
 //// TO-DO:
-////    * Change font/color of States with text. (now they're white)
+////    * WinState.
+////    * GameOverState.
 ////    * More levels.
-////        - 5 levels?
-////    * Level selection screen.
-////        - Unlocking levels?
+////    * High-scores.
 ////    * Sounds.
-////    * High-scores. (check high score when game completed.. check high score also when game over)
-////    * HighScoreState.
 ////    * Restrict ball from going too horizontal or vertical!
 ////    * Multiply score by lives?
-////    * Pressing ESC.
-////        - Pauses game.
-////        - Main menu.
-////        - Level selection screen.
-////        - Quit.
 //// MAYBE:
 ////    * Power-ups?
 ////    * Options.
-////        - Volume.
-////        - Control scheme (Keyboard, mouse).
+////        - Volume
+///         - Control scheme (Keyboard, mouse).
 ///////////////////////////////////////////////////////////////////////////////////
 
 
@@ -252,6 +239,15 @@ void PlayState::processEvents() {
 }
 
 void PlayState::update(sf::Time deltaTime) {
+    // Condition for completing a level
+    if(level.solidTiles.size() == 0) {
+        m_next = StateMachine::build<LevelIntroState>(currentLevel + 1, state_machine, m_window, true);
+    }
+    // Game over condition
+    if(GlobalVar::lives == 0) {
+        m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
+    }
+
     // Measure FPS.
     time = fpsClock.getElapsedTime();
     sf::Int64 fps = 1000000 / time.asMicroseconds();
@@ -259,20 +255,6 @@ void PlayState::update(sf::Time deltaTime) {
     fpsText.setString(fpsString + " fps");
     fpsClock.restart();
 
-    // Game over condition
-    if(GlobalVar::lives == 0) {
-        m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
-    }
-    // Condition for completing a level
-    if(level.solidTiles.size() == 0) {
-        // Condition for completing the game
-        if(currentLevel == lastLevel) {
-            m_next = StateMachine::build<GameWonState>(0, state_machine, m_window, true);
-        }
-        else {
-            m_next = StateMachine::build<LevelIntroState>(currentLevel + 1, state_machine, m_window, true);
-        }
-    }
     // Track score.
     std::string scoreString = std::to_string(GlobalVar::score);
     scoreText.setString(scoreString);

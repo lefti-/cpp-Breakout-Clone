@@ -1,8 +1,3 @@
-/*
-    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
-*/
-
-
 #include "MainMenuState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 

@@ -1,8 +1,3 @@
-/*
-    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
-*/
-
-
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 

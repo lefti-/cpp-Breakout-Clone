@@ -1,8 +1,3 @@
-/*
-    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
-*/
-
-
 #ifndef MAINMENUSTATE_HPP
 #define MAINMENUSTATE_HPP
 
