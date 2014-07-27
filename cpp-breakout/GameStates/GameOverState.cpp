@@ -119,16 +119,16 @@ void GameOverState::draw() {
     m_window.clear();
 
     if(mouseOnMenuButton) {
-        mainMenuText.setColor(sf::Color(0, 32, 216));
-    }
-    else {
         mainMenuText.setColor(sf::Color(226, 90, 0));
     }
+    else {
+        mainMenuText.setColor(sf::Color(255, 255, 255));
+    }
     if(mouseOnQuitButton) {
-        quitText.setColor(sf::Color(0, 32, 216));
+        quitText.setColor(sf::Color(226, 90, 0));
     }
     else {
-        quitText.setColor(sf::Color(226, 90, 0));
+        quitText.setColor(sf::Color(255, 255, 255));
     }
 
     m_window.draw(gameOverText);

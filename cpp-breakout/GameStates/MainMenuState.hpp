@@ -6,8 +6,9 @@
 #ifndef MAINMENUSTATE_HPP
 #define MAINMENUSTATE_HPP
 
-#include "PlayState.hpp"
 #include "GameState.hpp"
+#include "PlayState.hpp"
+#include "LevelSelectState.hpp"
 #include "LevelIntroState.hpp"
 
 #include <SFML/Window.hpp>

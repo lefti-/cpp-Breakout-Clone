@@ -76,7 +76,7 @@ void MainMenuState::processEvents() {
                 sf::FloatRect quitTextBounds = quitText.getGlobalBounds();
 
                 if(playTextBounds.contains(mousePos)) {
-                    m_next = StateMachine::build<LevelIntroState>(1, state_machine, m_window, true);
+                    m_next = StateMachine::build<LevelSelectState>(1, state_machine, m_window, true);
                     GlobalVar::lives = 5;
                     GlobalVar::score = 0;
                 }
@@ -120,16 +120,16 @@ void MainMenuState::draw() {
     m_window.clear();
 
     if(mouseOnPlayButton) {
-        playText.setColor(sf::Color(0, 32, 216));
-    }
-    else {
         playText.setColor(sf::Color(226, 90, 0));
     }
+    else {
+        playText.setColor(sf::Color(255, 255, 255));
+    }
     if(mouseOnQuitButton) {
-        quitText.setColor(sf::Color(0, 32, 216));
+        quitText.setColor(sf::Color(226, 90, 0));
     }
     else {
-        quitText.setColor(sf::Color(226, 90, 0));
+        quitText.setColor(sf::Color(255, 255, 255));
     }
 
     m_window.draw(titleText);
