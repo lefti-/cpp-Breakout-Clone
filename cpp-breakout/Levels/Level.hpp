@@ -24,8 +24,8 @@ public:
     std::vector<std::unique_ptr<Tile>> solidTiles;
 private:
     const float PTM_RATIO = 32.f;
-    const int HALF_WIDTH = 32;
-    const int HALF_HEIGHT = 16;
+    const float HALF_WIDTH = 32.f;
+    const float HALF_HEIGHT = 16.f;
     const int TILE_WIDTH = 64;
     const int TILE_HEIGHT = 32;
     std::vector<std::vector<sf::Vector2i>> map;

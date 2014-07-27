@@ -24,8 +24,8 @@ public:
     bool paddleHasBall = true;
 private:
     const float PTM_RATIO = 32.f;
-    const int HALF_WIDTH = 12;
-    const int HALF_HEIGHT = 12;
+    const float HALF_WIDTH = 12.f;
+    const float HALF_HEIGHT = 12.f;
     b2BodyDef ballBodyDef;
     b2Body* ballBody;
     b2Vec2 velocity;

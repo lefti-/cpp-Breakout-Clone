@@ -36,7 +36,7 @@ void Ball::setBodyAndSprite(b2World* world) {
 
     // Define shape.
     b2CircleShape ballShape;
-    ballShape.m_radius = 12.0 / PTM_RATIO;
+    ballShape.m_radius = 12.f / PTM_RATIO;
 
     // Define fixture.
     b2FixtureDef ballFixtureDef;

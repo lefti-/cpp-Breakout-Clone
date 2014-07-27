@@ -8,6 +8,7 @@
 
 #include "PlayState.hpp"
 #include "GameState.hpp"
+#include "../MenuButtons/TextButton.hpp"
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -35,8 +36,7 @@ private:
     sf::RectangleShape currentLevelIntro;
     sf::Color introAlpha;
     sf::Color introAlpha2;
-    sf::Font font;
-    sf::Text levelNumberText;
-    sf::Text getReadyText;
+    TextButton level;
+    TextButton getReady;
 };
 #endif

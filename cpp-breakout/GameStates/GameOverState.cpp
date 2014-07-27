@@ -11,10 +11,10 @@ GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderW
     : GameState(levelNumber, machine, window, replace) {
 
     // Create texts.
-    gameOver.init(80, sf::Vector2f(m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Game Over");
+    gameOver.init(80, sf::Vector2f((float)m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Game Over");
     gameOver.text.setStyle(sf::Text::Bold);
-    mainMenu.init(60, sf::Vector2f(m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Main menu");
-    quit.init(60, sf::Vector2f(m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Quit");
+    mainMenu.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Main menu");
+    quit.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Quit");
 }
 
 void GameOverState::processEvents() {

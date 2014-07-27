@@ -12,33 +12,17 @@ LevelIntroState::LevelIntroState(int levelNumber, StateMachine& machine, sf::Ren
 
     currentLevel = levelNumber;
 
-    font.loadFromFile("data/fonts/centurygothic.ttf");
-
     std::string levelNumberStr = std::to_string(currentLevel);
     std::string levelStr = "Level ";
     std::string fullStr = levelStr + levelNumberStr;
 
     // Create texts.
-    levelNumberText.setString(fullStr);
-    levelNumberText.setFont(font);
-    levelNumberText.setCharacterSize(80);
-
-    getReadyText.setString("Get ready!");
-    getReadyText.setFont(font);
-    getReadyText.setCharacterSize(60);
-
-    // Center texts.
-    sf::FloatRect levelNumberTextRect = levelNumberText.getLocalBounds();
-    levelNumberText.setOrigin(sf::Vector2f(levelNumberTextRect.left + levelNumberTextRect.width / 2, levelNumberTextRect.top + levelNumberTextRect.height / 2));
-    levelNumberText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 250));
-
-    sf::FloatRect getReadyTextRect = getReadyText.getLocalBounds();
-    getReadyText.setOrigin(sf::Vector2f(getReadyTextRect.left + getReadyTextRect.width / 2, getReadyTextRect.top + getReadyTextRect.height / 2));
-    getReadyText.setPosition(sf::Vector2f(m_window.getSize().x / 2, 400));
+    level.init(80, sf::Vector2f((float)m_window.getSize().x / 2, 250), sf::Color(226, 90, 0), fullStr);
+    getReady.init(50, sf::Vector2f((float)m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Get ready!");
 
     // Set background.
     currentLevelIntro.setFillColor(sf::Color(0, 0, 0));
-    currentLevelIntro.setSize(sf::Vector2f(m_window.getSize().x, m_window.getSize().y));
+    currentLevelIntro.setSize(sf::Vector2f((float)m_window.getSize().x, (float)m_window.getSize().y));
 
     // Start off opaque (not transparent).
     introAlpha = sf::Color(0, 0, 0, 255);
@@ -47,9 +31,9 @@ LevelIntroState::LevelIntroState(int levelNumber, StateMachine& machine, sf::Ren
 
     // Fill the fader surface with black.
     introFader.setFillColor(introAlpha);
-    introFader.setSize(sf::Vector2f(m_window.getSize().x, m_window.getSize().y));
+    introFader.setSize(sf::Vector2f((float)m_window.getSize().x, (float)m_window.getSize().y));
     introFader2.setFillColor(introAlpha2);
-    introFader2.setSize(sf::Vector2f(m_window.getSize().x, m_window.getSize().y));
+    introFader2.setSize(sf::Vector2f((float)m_window.getSize().x, (float)m_window.getSize().y));
 
     std::cout << "<< LevelIntroState initialized >>" << std::endl;
 }
@@ -109,8 +93,8 @@ void LevelIntroState::draw() {
     m_window.clear();
 
     m_window.draw(currentLevelIntro);
-    m_window.draw(levelNumberText);
-    m_window.draw(getReadyText);
+    level.draw(m_window);
+    getReady.draw(m_window);
 
     // No need to draw the first fader if the fader background is transparent
     if(introAlpha.a != 0)

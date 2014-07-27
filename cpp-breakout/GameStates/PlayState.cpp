@@ -11,18 +11,15 @@
 //// TO-DO:
 ////    * More levels.
 ////        - 5 levels?
-////    * Level selection screen.
-////        - Unlocking levels?
 ////    * Sounds.
 ////    * High-scores. (check high score when game completed.. check high score also when game over)
-////    * HighScoreState.
+////        - Multiply score by lives?
+////        - HighScoreState.
 ////        - If GameOverState or GameWonState, go to HighScoreState AFTER these states (that is, if you got score worthy of high score).
 ////    * Restrict ball from going too horizontal or vertical!
-////    * Multiply score by lives?
 ////    * Pressing ESC.
 ////        - Pauses game.
 ////        - Main menu.
-////        - Level selection screen.
 ////        - Quit.
 //// MAYBE:
 ////    * Power-ups?
@@ -53,7 +50,7 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     world->SetContactListener(&m_contactListener);
 
     // Create paddle and ball.
-    paddle.setBodyAndSprite(world, window.getSize().x / 2, window.getSize().y - paddle.HEIGHT);
+    paddle.setBodyAndSprite(world, (float)window.getSize().x / 2, (float)window.getSize().y - paddle.HEIGHT);
     ball.setBodyAndSprite(world);
 
     createLifeIcons();
@@ -212,9 +209,9 @@ void PlayState::processEvents() {
                     gamePaused = false;
 
                     // When unpaused, center mouse position to paddle body position.
-                    int playerPosX = (int)paddle.paddleBody->GetPosition().x * PTM_RATIO;
-                    int playerPosY = (int)paddle.paddleBody->GetPosition().y * PTM_RATIO;
-                    sf::Mouse::setPosition(sf::Vector2i(playerPosX, playerPosY), m_window);
+                    float32 playerPosX = paddle.paddleBody->GetPosition().x * PTM_RATIO;
+                    float32 playerPosY = paddle.paddleBody->GetPosition().y * PTM_RATIO;
+                    sf::Mouse::setPosition(sf::Vector2i((int)playerPosX, (int)playerPosY), m_window);
                 }
                 else {
                     gamePaused = true;

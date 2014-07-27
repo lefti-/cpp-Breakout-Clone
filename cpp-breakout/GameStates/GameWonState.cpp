@@ -11,11 +11,11 @@ GameWonState::GameWonState(int levelNumber, StateMachine& machine, sf::RenderWin
     : GameState(levelNumber, machine, window, replace) {
 
     // Create texts.
-    congratulations.init(80, sf::Vector2f(m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Congratulations!");
+    congratulations.init(80, sf::Vector2f((float)m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Congratulations!");
     congratulations.text.setStyle(sf::Text::Bold);
-    completed.init(50, sf::Vector2f(m_window.getSize().x / 2, 300), sf::Color(226, 90, 0), "You have completed the game!");
-    mainMenu.init(60, sf::Vector2f(m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Main menu");
-    quit.init(60, sf::Vector2f(m_window.getSize().x / 2, 600), sf::Color(255, 255, 255), "Quit");
+    completed.init(50, sf::Vector2f((float)m_window.getSize().x / 2, 300), sf::Color(226, 90, 0), "You have completed the game!");
+    mainMenu.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Main menu");
+    quit.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 600), sf::Color(255, 255, 255), "Quit");
 }
 
 void GameWonState::processEvents() {
