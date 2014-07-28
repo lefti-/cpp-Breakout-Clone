@@ -46,5 +46,4 @@ void TextButton::setHoveredColor() {
 
 void TextButton::draw(sf::RenderWindow& window) {
     window.draw(text);
-    //std::cout << "Drawing textbutton.." << std::endl;
 }

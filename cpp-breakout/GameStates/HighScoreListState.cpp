@@ -3,11 +3,11 @@
 */
 
 
-#include "HighScoreState.hpp"
+#include "HighScoreListState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
 
-HighScoreState::HighScoreState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
+HighScoreListState::HighScoreListState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
 
     // Create texts.
@@ -101,7 +101,7 @@ HighScoreState::HighScoreState(int levelNumber, StateMachine& machine, sf::Rende
 
 }
 
-void HighScoreState::processEvents() {
+void HighScoreListState::processEvents() {
     sf::Event event;
 
     while(m_window.pollEvent(event)) {
@@ -146,7 +146,7 @@ void HighScoreState::processEvents() {
     }
 }
 
-void HighScoreState::update(sf::Time deltaTime) {
+void HighScoreListState::update(sf::Time deltaTime) {
     if(mainMenu.hovered(m_window)) {
         mainMenu.mouseOnButton = true;
     }
@@ -155,7 +155,7 @@ void HighScoreState::update(sf::Time deltaTime) {
     }
 }
 
-void HighScoreState::draw() {
+void HighScoreListState::draw() {
     m_window.clear();
 
     mainMenu.setHoveredColor();

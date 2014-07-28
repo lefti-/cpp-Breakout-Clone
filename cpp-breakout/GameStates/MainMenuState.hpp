@@ -8,7 +8,8 @@
 
 #include "GameState.hpp"
 #include "LevelIntroState.hpp"
-#include "HighScoreState.hpp"
+#include "HighScoreListState.hpp"
+#include "NewHighScoreState.hpp"
 #include "../MenuButtons/TextButton.hpp"
 
 #include <SFML/Window.hpp>

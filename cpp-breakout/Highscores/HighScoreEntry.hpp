@@ -11,7 +11,7 @@ struct HighScoreEntry {
     int score;
     std::string name;
 
-    // Override the < operator, for comparing scores, higher first
+    // Override the < operator, for comparing scores, from highest to lowest.
     bool operator<(const HighScoreEntry& a) const {
         return score > a.score;
     }

@@ -20,7 +20,6 @@
 
 
 namespace HighScore {
-    void readFile();
     void writeFile(HighScoreEntry a);
 }
 #endif
