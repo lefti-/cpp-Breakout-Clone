@@ -7,8 +7,8 @@
 #define MAINMENUSTATE_HPP
 
 #include "GameState.hpp"
-#include "PlayState.hpp"
 #include "LevelIntroState.hpp"
+#include "HighScoreState.hpp"
 #include "../MenuButtons/TextButton.hpp"
 
 #include <SFML/Window.hpp>
@@ -32,6 +32,7 @@ public:
 private:
     TextButton title;
     TextButton play;
+    TextButton highScores;
     TextButton quit;
 };
 #endif

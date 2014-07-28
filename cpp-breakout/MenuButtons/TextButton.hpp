@@ -23,8 +23,8 @@ public:
     bool mouseOnButton;
     sf::Text text;
     sf::FloatRect textBounds;
+    sf::FloatRect textRect;
 private:
     sf::Font font;
-    sf::FloatRect textRect;
 };
 #endif

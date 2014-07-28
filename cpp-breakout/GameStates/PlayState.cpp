@@ -13,9 +13,12 @@
 ////        - 5 levels?
 ////    * Sounds.
 ////    * High-scores. (check high score when game completed.. check high score also when game over)
-////        - Multiply score by lives?
-////        - HighScoreState.
-////        - If GameOverState or GameWonState, go to HighScoreState AFTER these states (that is, if you got score worthy of high score).
+////        1. NewHighScoreState! (fade from black)
+////            - New highscore! Please enter your name:
+////            - (fade to black)
+////            - ---> Go to HighScoreListState.
+////        2. Multiply score by lives left.
+////        3. If GameOverState or GameWonState, go to NewHighScoreState AFTER these states (that is, if you got score worthy of high score).
 ////    * Restrict ball from going too horizontal or vertical!
 ////    * Pressing ESC.
 ////        - Pauses game.
@@ -76,12 +79,13 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     b2PrismaticJointDef jointDef;
     b2Vec2 worldAxis(1.0f, 0.0f);
     jointDef.collideConnected = true;
-    jointDef.Initialize(paddle.paddleBody, borderBody,
-                        paddle.paddleBody->GetWorldCenter(), worldAxis);
+    jointDef.Initialize(paddle.paddleBody, borderBody, paddle.paddleBody->GetWorldCenter(), worldAxis);
     world->CreateJoint(&jointDef);
     
     std::cout << "World created, bodycount: " << world->GetBodyCount() << std::endl;
     std::cout << "<< PlayState initialized >>" << std::endl;
+
+
 }
 
 void PlayState::createLifeIcons() {
@@ -186,6 +190,14 @@ void PlayState::checkLoss() {
     // Game over condition
     if(GlobalVar::lives == 0) {
         m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
+        if(GlobalVar::score > 0) {
+            newEntry.name = "Jesper";
+            newEntry.score = GlobalVar::score;
+
+            HighScore::writeFile(newEntry);
+            std::cout << "New highscore!" << std::endl;
+        }
+
     }
 }
 

@@ -2,7 +2,6 @@
     This software uses The MIT License (MIT). See license agreement LICENSE for full details.
 */
 
-
 #include "MainMenuState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
@@ -13,7 +12,8 @@ MainMenuState::MainMenuState(int levelNumber, StateMachine& machine, sf::RenderW
     // Create texts.
     title.init(80, sf::Vector2f((float)m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Breakout");
     play.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Play");
-    quit.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Quit");
+    highScores.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Highscores");
+    quit.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 600), sf::Color(255, 255, 255), "Quit");
 }
 
 void MainMenuState::processEvents() {
@@ -50,6 +50,11 @@ void MainMenuState::processEvents() {
                     GlobalVar::lives = 5;
                     GlobalVar::score = 0;
                 }
+                if(highScores.hovered(m_window)) {
+                    m_next = StateMachine::build<HighScoreState>(0, state_machine, m_window, true);
+                    GlobalVar::lives = 5;
+                    GlobalVar::score = 0;
+                }
                 if(quit.hovered(m_window)) {
                     state_machine.quit();
                 }
@@ -73,6 +78,12 @@ void MainMenuState::update(sf::Time deltaTime) {
     else {
         play.mouseOnButton = false;
     }
+    if(highScores.hovered(m_window)) {
+        highScores.mouseOnButton = true;
+    }
+    else {
+        highScores.mouseOnButton = false;
+    }
     if(quit.hovered(m_window)) {
         quit.mouseOnButton = true;
     }
@@ -85,10 +96,12 @@ void MainMenuState::draw() {
     m_window.clear();
 
     play.setHoveredColor();
+    highScores.setHoveredColor();
     quit.setHoveredColor();
 
     title.draw(m_window);
     play.draw(m_window);
+    highScores.draw(m_window);
     quit.draw(m_window);
 
     m_window.display();

@@ -32,11 +32,12 @@ int main() {
     // Main loop.
     while(state_machine.running())
     {
-    // Fixed timestep
+        // Fixed timestep
         timeSinceLastUpdate += clock.restart();
         // This loop is executed at a constant rate.
         while(timeSinceLastUpdate > deltaTime) {
             timeSinceLastUpdate -= deltaTime;
+
 
             state_machine.nextState();
             state_machine.processEvents();
