@@ -7,8 +7,8 @@
 #define NEWHIGHSCORESTATE_HPP
 
 #include "GameState.hpp"
-#include "HighScoreListState.hpp"
-#include "../Highscores/HighScoreEntry.hpp"
+#include "HighscoreListState.hpp"
+#include "../Highscores/HighscoreEntry.hpp"
 #include "../MenuButtons/TextButton.hpp"
 
 #include <SFML/Window.hpp>
@@ -21,9 +21,9 @@ namespace sf {
     class RenderWindow;
 }
 
-class NewHighScoreState : public GameState {
+class NewHighscoreState : public GameState {
 public:
-    NewHighScoreState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
+    NewHighscoreState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();
@@ -35,6 +35,6 @@ private:
     std::string renderString = "_";
     sf::Font font;
     sf::Text nameText;
-    HighScoreEntry newEntry;
+    HighscoreEntry newEntry;
 };
 #endif

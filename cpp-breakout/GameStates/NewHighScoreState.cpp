@@ -3,12 +3,15 @@ This software uses The MIT License (MIT). See license agreement LICENSE for full
 */
 
 
-#include "NewHighScoreState.hpp"
+#include "NewHighscoreState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
 
-NewHighScoreState::NewHighScoreState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
+NewHighscoreState::NewHighscoreState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
+
+    //FADE FROM BLACK.
+    //FADE TO BLACK.
 
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
@@ -27,7 +30,7 @@ NewHighScoreState::NewHighScoreState(int levelNumber, StateMachine& machine, sf:
     nameText.setPosition(sf::Vector2f(510, 400));
 }
 
-void NewHighScoreState::processEvents() {
+void NewHighscoreState::processEvents() {
     sf::Event event;
 
     while(m_window.pollEvent(event)) {
@@ -43,13 +46,13 @@ void NewHighScoreState::processEvents() {
             switch(event.key.code) {
 
             case sf::Keyboard::Escape:
-                m_next = StateMachine::build<HighScoreListState>(0, state_machine, m_window, true);
+                m_next = StateMachine::build<HighscoreListState>(0, state_machine, m_window, true);
                 break;
 
             case sf::Keyboard::Return:
                 newEntry.score = GlobalVar::score;
-                HighScore::writeFile(newEntry);
-                m_next = StateMachine::build<HighScoreListState>(0, state_machine, m_window, true);
+                Highscore::writeFile(newEntry);
+                m_next = StateMachine::build<HighscoreListState>(0, state_machine, m_window, true);
                 break;
 
             default:
@@ -67,8 +70,8 @@ void NewHighScoreState::processEvents() {
                 }
                 if(OK.hovered(m_window)) {
                     newEntry.score = GlobalVar::score;
-                    HighScore::writeFile(newEntry);
-                    m_next = StateMachine::build<HighScoreListState>(0, state_machine, m_window, true);
+                    Highscore::writeFile(newEntry);
+                    m_next = StateMachine::build<HighscoreListState>(0, state_machine, m_window, true);
                 }
                 break;
             }
@@ -99,7 +102,7 @@ void NewHighScoreState::processEvents() {
     }
 }
 
-void NewHighScoreState::update(sf::Time deltaTime) {
+void NewHighscoreState::update(sf::Time deltaTime) {
     if(OK.hovered(m_window)) {
         OK.mouseOnButton = true;
     }
@@ -108,7 +111,7 @@ void NewHighScoreState::update(sf::Time deltaTime) {
     }
 }
 
-void NewHighScoreState::draw() {
+void NewHighscoreState::draw() {
     m_window.clear();
 
     OK.setHoveredColor();

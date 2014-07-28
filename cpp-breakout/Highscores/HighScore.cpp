@@ -3,10 +3,10 @@
 */
 
 
-#include "HighScore.hpp"
+#include "Highscore.hpp"
 
 
-void HighScore::writeFile(HighScoreEntry a) {
+void Highscore::writeFile(HighscoreEntry a) {
     // If file exists...
     if(std::ifstream("data/highscores.txt")) { 
         // Read highscore.txt lines.
@@ -14,9 +14,9 @@ void HighScore::writeFile(HighScoreEntry a) {
         std::string line;
 
         // Create temp struct which is used to fill vector.
-        HighScoreEntry temp;
+        HighscoreEntry temp;
 
-        std::vector<HighScoreEntry> entries;
+        std::vector<HighscoreEntry> entries(10);
 
         while(hsFileRead.good()) {
 
@@ -40,9 +40,9 @@ void HighScore::writeFile(HighScoreEntry a) {
         // Sort from highest score to lowest.
         std::sort(entries.begin(), entries.end());
 
-        // Write all high scores again.
+        // Write all highscores again.
         std::ofstream hsFileWrite("data/highscores.txt");
-        for(int i = 0; i < entries.size(); ++i) {
+        for(int i = 0; i < MAX_ENTRIES; ++i) {
             if(entries[i].score == 0) {}
             else {
                 hsFileWrite << entries[i].score << " " << entries[i].name << '\n';

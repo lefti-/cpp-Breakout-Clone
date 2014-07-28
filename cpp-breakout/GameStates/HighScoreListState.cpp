@@ -3,11 +3,11 @@
 */
 
 
-#include "HighScoreListState.hpp"
+#include "HighscoreListState.hpp"
 #include "../GameStateMachine/StateMachine.hpp"
 
 
-HighScoreListState::HighScoreListState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
+HighscoreListState::HighscoreListState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
 
     // Create texts.
@@ -27,9 +27,9 @@ HighScoreListState::HighScoreListState(int levelNumber, StateMachine& machine, s
         std::string line;
 
         // Create temp struct which is used to fill vector.
-        HighScoreEntry temp;
+        HighscoreEntry temp;
 
-        std::vector<HighScoreEntry> entries(10);
+        std::vector<HighscoreEntry> entries(10);
 
         while(hsFile.good()) {
 
@@ -101,7 +101,7 @@ HighScoreListState::HighScoreListState(int levelNumber, StateMachine& machine, s
 
 }
 
-void HighScoreListState::processEvents() {
+void HighscoreListState::processEvents() {
     sf::Event event;
 
     while(m_window.pollEvent(event)) {
@@ -146,7 +146,7 @@ void HighScoreListState::processEvents() {
     }
 }
 
-void HighScoreListState::update(sf::Time deltaTime) {
+void HighscoreListState::update(sf::Time deltaTime) {
     if(mainMenu.hovered(m_window)) {
         mainMenu.mouseOnButton = true;
     }
@@ -155,7 +155,7 @@ void HighScoreListState::update(sf::Time deltaTime) {
     }
 }
 
-void HighScoreListState::draw() {
+void HighscoreListState::draw() {
     m_window.clear();
 
     mainMenu.setHoveredColor();

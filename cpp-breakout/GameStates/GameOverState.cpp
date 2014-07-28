@@ -15,6 +15,42 @@ GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderW
     gameOver.text.setStyle(sf::Text::Bold);
     mainMenu.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Main menu");
     quit.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Quit");
+
+
+    // TIMER//CLICK goes to MainMenu/NewHighscoreState.
+
+    // If file exists...
+    if(std::ifstream("data/highscores.txt")) {
+        // Read highscore.txt lines.
+        std::ifstream hsFileRead("data/highscores.txt");
+        std::string line;
+
+        // Create temp struct which is used to fill vector.
+        HighscoreEntry temp;
+
+        std::vector<HighscoreEntry> entries;
+
+        while(hsFileRead.good()) {
+
+            std::getline(hsFileRead, line);
+
+            // Split the line.
+            // Get substring from index 0 to space and convert it to integer.
+            std::string xx = line.substr(0, line.find(' '));
+            int x = atoi(xx.c_str());
+            temp.score = x;
+            temp.name = line.substr(line.find(' ') + 1);    // Get substring from space and to the end of the string.
+            entries.push_back(temp);                        // Add highscore to vector.
+        }
+        hsFileRead.close();
+
+        // Sort from highest score to lowest.
+        std::sort(entries.begin(), entries.end());
+
+        if(GlobalVar::score > entries[entries.size() - 1].score) {
+            m_next = StateMachine::build<NewHighscoreState>(0, state_machine, m_window, true);
+        }
+    }
 }
 
 void GameOverState::processEvents() {

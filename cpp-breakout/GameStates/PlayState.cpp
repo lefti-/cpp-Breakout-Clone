@@ -16,7 +16,7 @@
 ////        1. NewHighScoreState! (fade from black)
 ////            - New highscore! Please enter your name:
 ////            - (fade to black)
-////            - ---> Go to HighScoreListState.
+////            - FIX: MAXIMUM CHARACTERS ALLOWED FOR NAME.
 ////        2. Multiply score by lives left.
 ////        3. If GameOverState or GameWonState, go to NewHighScoreState AFTER these states (that is, if you got score worthy of high score).
 ////    * Restrict ball from going too horizontal or vertical!
@@ -190,14 +190,6 @@ void PlayState::checkLoss() {
     // Game over condition
     if(GlobalVar::lives == 0) {
         m_next = StateMachine::build<GameOverState>(0, state_machine, m_window, true);
-        if(GlobalVar::score > 0) {
-            newEntry.name = "Jesper";
-            newEntry.score = GlobalVar::score;
-
-            HighScore::writeFile(newEntry);
-            std::cout << "New highscore!" << std::endl;
-        }
-
     }
 }
 

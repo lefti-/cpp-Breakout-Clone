@@ -36,7 +36,7 @@ void MainMenuState::processEvents() {
                 break;
 
             case sf::Keyboard::Up:
-                m_next = StateMachine::build<NewHighScoreState>(1, state_machine, m_window, true);
+                m_next = StateMachine::build<NewHighscoreState>(1, state_machine, m_window, true);
                 break;
 
             default:
@@ -55,7 +55,7 @@ void MainMenuState::processEvents() {
                     GlobalVar::score = 0;
                 }
                 if(highScores.hovered(m_window)) {
-                    m_next = StateMachine::build<HighScoreListState>(0, state_machine, m_window, true);
+                    m_next = StateMachine::build<HighscoreListState>(0, state_machine, m_window, true);
                     GlobalVar::lives = 5;
                     GlobalVar::score = 0;
                 }

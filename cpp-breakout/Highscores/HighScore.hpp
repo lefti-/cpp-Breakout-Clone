@@ -6,7 +6,7 @@
 #ifndef HIGHSCORE_HPP
 #define HIGHSCORE_HPP
 
-#include "HighScoreEntry.hpp"
+#include "HighscoreEntry.hpp"
 
 #include <vector>
 #include <sstream>
@@ -19,7 +19,8 @@
 //Creating a struct (something that will contain data about players):
 
 
-namespace HighScore {
-    void writeFile(HighScoreEntry a);
+namespace Highscore {
+    void writeFile(HighscoreEntry a);
+    const int MAX_ENTRIES = 10;
 }
 #endif

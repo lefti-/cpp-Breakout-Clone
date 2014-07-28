@@ -19,12 +19,12 @@
     <ClCompile Include="GameStates\GameOverState.cpp" />
     <ClCompile Include="GameStates\GameState.cpp" />
     <ClCompile Include="GameStates\GameWonState.cpp" />
-    <ClCompile Include="GameStates\HighScoreListState.cpp" />
+    <ClCompile Include="GameStates\HighscoreListState.cpp" />
     <ClCompile Include="GameStates\LevelIntroState.cpp" />
     <ClCompile Include="GameStates\MainMenuState.cpp" />
-    <ClCompile Include="GameStates\NewHighScoreState.cpp" />
+    <ClCompile Include="GameStates\NewHighscoreState.cpp" />
     <ClCompile Include="GameStates\PlayState.cpp" />
-    <ClCompile Include="Highscores\HighScore.cpp" />
+    <ClCompile Include="Highscores\Highscore.cpp" />
     <ClCompile Include="MenuButtons\TextButton.cpp" />
     <ClCompile Include="Levels\Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -39,13 +39,13 @@
     <ClInclude Include="GameStates\GameOverState.hpp" />
     <ClInclude Include="GameStates\GameState.hpp" />
     <ClInclude Include="GameStates\GameWonState.hpp" />
-    <ClInclude Include="GameStates\HighScoreListState.hpp" />
+    <ClInclude Include="GameStates\HighscoreListState.hpp" />
     <ClInclude Include="GameStates\LevelIntroState.hpp" />
     <ClInclude Include="GameStates\MainMenuState.hpp" />
-    <ClInclude Include="GameStates\NewHighScoreState.hpp" />
+    <ClInclude Include="GameStates\NewHighscoreState.hpp" />
     <ClInclude Include="GameStates\PlayState.hpp" />
-    <ClInclude Include="Highscores\HighScore.hpp" />
-    <ClInclude Include="Highscores\HighScoreEntry.hpp" />
+    <ClInclude Include="Highscores\Highscore.hpp" />
+    <ClInclude Include="Highscores\HighscoreEntry.hpp" />
     <ClInclude Include="MenuButtons\TextButton.hpp" />
     <ClInclude Include="Levels\Level.hpp" />
   </ItemGroup>

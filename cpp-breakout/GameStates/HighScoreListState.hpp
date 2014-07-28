@@ -20,9 +20,9 @@ namespace sf {
     class RenderWindow;
 }
 
-class HighScoreListState : public GameState {
+class HighscoreListState : public GameState {
 public:
-    HighScoreListState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
+    HighscoreListState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();

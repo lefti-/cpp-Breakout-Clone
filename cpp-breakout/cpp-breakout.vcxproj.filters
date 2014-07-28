@@ -57,13 +57,13 @@
     <ClCompile Include="MenuButtons\TextButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Highscores\HighScore.cpp">
+    <ClCompile Include="GameStates\HighscoreListState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameStates\HighScoreListState.cpp">
+    <ClCompile Include="GameStates\NewHighscoreState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameStates\NewHighScoreState.cpp">
+    <ClCompile Include="Highscores\Highscore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,16 +110,16 @@
     <ClInclude Include="MenuButtons\TextButton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Highscores\HighScoreEntry.hpp">
+    <ClInclude Include="GameStates\HighscoreListState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Highscores\HighScore.hpp">
+    <ClInclude Include="GameStates\NewHighscoreState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameStates\HighScoreListState.hpp">
+    <ClInclude Include="Highscores\Highscore.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameStates\NewHighScoreState.hpp">
+    <ClInclude Include="Highscores\HighscoreEntry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

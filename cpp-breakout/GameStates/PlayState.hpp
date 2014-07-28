@@ -10,8 +10,8 @@
 #include "MainMenuState.hpp"
 #include "GameOverState.hpp"
 #include "GameWonState.hpp"
-#include "../Highscores/HighScore.hpp"
-#include "../Highscores/HighScoreEntry.hpp"
+#include "../Highscores/Highscore.hpp"
+#include "../Highscores/HighscoreEntry.hpp"
 #include "../Levels//Level.hpp"
 #include "../Entities/Ball.hpp"
 #include "../Entities/Tile.hpp"
@@ -78,6 +78,6 @@ private:
     Paddle paddle;
     Ball ball;
     Level level;
-    HighScoreEntry newEntry;
+    HighscoreEntry newEntry;
 };
 #endif // PLAYSTATE_HPP
