@@ -33,7 +33,6 @@ private:
     int alphaCounter = 0;
     sf::RectangleShape introFader;
     sf::RectangleShape introFader2;
-    sf::RectangleShape currentLevelIntro;
     sf::Color introAlpha;
     sf::Color introAlpha2;
     TextButton level;

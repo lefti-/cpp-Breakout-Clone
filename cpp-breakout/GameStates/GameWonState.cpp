@@ -14,11 +14,17 @@ GameWonState::GameWonState(int levelNumber, StateMachine& machine, sf::RenderWin
     congratulations.init(80, sf::Vector2f((float)m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Congratulations!");
     congratulations.text.setStyle(sf::Text::Bold);
     completed.init(50, sf::Vector2f((float)m_window.getSize().x / 2, 300), sf::Color(226, 90, 0), "You have completed the game!");
-    mainMenu.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Main menu");
-    quit.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 600), sf::Color(255, 255, 255), "Quit");
+    OK.init(55, sf::Vector2f((float)m_window.getSize().x / 2, 650), sf::Color(255, 255, 255), "OK");
 
-    // TIMER//CLICK goes to MainMenu/NewHighscoreState.
+    // Start off transparent.
+    introAlpha = sf::Color(0, 0, 0, 0);
 
+    // Fill the fader surface with black.
+    introFader.setFillColor(introAlpha);
+    introFader.setSize(sf::Vector2f((float)m_window.getSize().x, (float)m_window.getSize().y));
+}
+
+void GameWonState::checkHighscore() {
     // If file exists...
     if(std::ifstream("data/highscores.txt")) {
         // Read highscore.txt lines.
@@ -50,6 +56,9 @@ GameWonState::GameWonState(int levelNumber, StateMachine& machine, sf::RenderWin
         if(GlobalVar::score > entries[entries.size() - 1].score) {
             m_next = StateMachine::build<NewHighscoreState>(0, state_machine, m_window, true);
         }
+        else {
+            m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
+        }
     }
 }
 
@@ -72,6 +81,10 @@ void GameWonState::processEvents() {
                 m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
                 break;
 
+            case sf::Keyboard::Return:
+                alphaCounter = 1;
+                break;
+
             default:
                 break;
             }
@@ -82,12 +95,7 @@ void GameWonState::processEvents() {
             switch(event.key.code) {
 
             case sf::Mouse::Button::Left: {
-                if(mainMenu.hovered(m_window)) {
-                    m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
-                }
-                if(quit.hovered(m_window)) {
-                    state_machine.quit();
-                }
+                alphaCounter = 1;
                 break;
             }
             default:
@@ -102,30 +110,34 @@ void GameWonState::processEvents() {
 }
 
 void GameWonState::update(sf::Time deltaTime) {
-    if(mainMenu.hovered(m_window)) {
-        mainMenu.mouseOnButton = true;
+    if(OK.hovered(m_window)) {
+        OK.mouseOnButton = true;
     }
     else {
-        mainMenu.mouseOnButton = false;
+        OK.mouseOnButton = false;
     }
-    if(quit.hovered(m_window)) {
-        quit.mouseOnButton = true;
+    if(introAlpha.a < 250 && alphaCounter == 1) {
+        introAlpha.a += 3;
     }
-    else {
-        quit.mouseOnButton = false;
+    introFader.setFillColor(introAlpha);
+
+    if(introAlpha.a > 250) {
+        checkHighscore();
     }
 }
 
 void GameWonState::draw() {
     m_window.clear();
 
-    mainMenu.setHoveredColor();
-    quit.setHoveredColor();
+    OK.setHoveredColor();
 
     congratulations.draw(m_window);
     completed.draw(m_window);
-    mainMenu.draw(m_window);
-    quit.draw(m_window);
+    OK.draw(m_window);
+
+    if(introAlpha.a != 255) {
+        m_window.draw(introFader);
+    }
 
     m_window.display();
 }

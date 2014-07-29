@@ -28,13 +28,17 @@ public:
     void update(sf::Time deltaTime);
     void draw();
 private:
+    int alphaCounter = 0;
+    std::string renderString = "_";
+    std::string scoreStr;
+    sf::Font font;
+    sf::Text nameText;
+    sf::RectangleShape introFader;
+    sf::Color introAlpha;
     TextButton newHighScore;
     TextButton score;
     TextButton enterName;
     TextButton OK;
-    std::string renderString = "_";
-    sf::Font font;
-    sf::Text nameText;
     HighscoreEntry newEntry;
 };
 #endif

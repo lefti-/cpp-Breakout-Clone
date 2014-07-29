@@ -12,13 +12,6 @@
 ////    * More levels.
 ////        - 5 levels?
 ////    * Sounds.
-////    * High-scores. (check high score when game completed.. check high score also when game over)
-////        1. NewHighScoreState! (fade from black)
-////            - New highscore! Please enter your name:
-////            - (fade to black)
-////            - FIX: MAXIMUM CHARACTERS ALLOWED FOR NAME.
-////        2. Multiply score by lives left.
-////        3. If GameOverState or GameWonState, go to NewHighScoreState AFTER these states (that is, if you got score worthy of high score).
 ////    * Restrict ball from going too horizontal or vertical!
 ////    * Pressing ESC.
 ////        - Pauses game.
@@ -26,9 +19,6 @@
 ////        - Quit.
 //// MAYBE:
 ////    * Power-ups?
-////    * Options.
-////        - Volume.
-////        - Control scheme (Keyboard, mouse).
 ///////////////////////////////////////////////////////////////////////////////////
 
 

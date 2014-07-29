@@ -20,10 +20,6 @@ LevelIntroState::LevelIntroState(int levelNumber, StateMachine& machine, sf::Ren
     level.init(80, sf::Vector2f((float)m_window.getSize().x / 2, 250), sf::Color(226, 90, 0), fullStr);
     getReady.init(50, sf::Vector2f((float)m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Get ready!");
 
-    // Set background.
-    currentLevelIntro.setFillColor(sf::Color(0, 0, 0));
-    currentLevelIntro.setSize(sf::Vector2f((float)m_window.getSize().x, (float)m_window.getSize().y));
-
     // Start off opaque (not transparent).
     introAlpha = sf::Color(0, 0, 0, 255);
     // Start off transparent.
@@ -87,12 +83,15 @@ void LevelIntroState::update(sf::Time deltaTime) {
     introFader.setFillColor(introAlpha);
 
     introFader2.setFillColor(introAlpha2);
+
+    if(introAlpha2.a > 250) {
+        m_next = StateMachine::build<PlayState>(currentLevel, state_machine, m_window, true);
+    }
 }
 
 void LevelIntroState::draw() {
     m_window.clear();
 
-    m_window.draw(currentLevelIntro);
     level.draw(m_window);
     getReady.draw(m_window);
 
@@ -104,9 +103,6 @@ void LevelIntroState::draw() {
     // No need to draw the second fader if the fader background is opaque
     if(introAlpha2.a != 255) {
         m_window.draw(introFader2);
-    }
-    if(introAlpha2.a > 250) {
-        m_next = StateMachine::build<PlayState>(currentLevel, state_machine, m_window, true);
     }
 
     m_window.display();

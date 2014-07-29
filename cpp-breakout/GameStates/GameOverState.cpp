@@ -13,12 +13,18 @@ GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderW
     // Create texts.
     gameOver.init(80, sf::Vector2f((float)m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "Game Over");
     gameOver.text.setStyle(sf::Text::Bold);
-    mainMenu.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 400), sf::Color(255, 255, 255), "Main menu");
-    quit.init(60, sf::Vector2f((float)m_window.getSize().x / 2, 500), sf::Color(255, 255, 255), "Quit");
+    tryAgain.init(50, sf::Vector2f((float)m_window.getSize().x / 2, 300), sf::Color(226, 90, 0), "You should try again!");
+    OK.init(55, sf::Vector2f((float)m_window.getSize().x / 2, 650), sf::Color(255, 255, 255), "OK");
 
+    // Start off transparent.
+    introAlpha = sf::Color(0, 0, 0, 0);
 
-    // TIMER//CLICK goes to MainMenu/NewHighscoreState.
+    // Fill the fader surface with black.
+    introFader.setFillColor(introAlpha);
+    introFader.setSize(sf::Vector2f((float)m_window.getSize().x, (float)m_window.getSize().y));
+}
 
+void GameOverState::checkHighscore() {
     // If file exists...
     if(std::ifstream("data/highscores.txt")) {
         // Read highscore.txt lines.
@@ -50,6 +56,9 @@ GameOverState::GameOverState(int levelNumber, StateMachine& machine, sf::RenderW
         if(GlobalVar::score > entries[entries.size() - 1].score) {
             m_next = StateMachine::build<NewHighscoreState>(0, state_machine, m_window, true);
         }
+        else {
+            m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
+        }
     }
 }
 
@@ -72,6 +81,10 @@ void GameOverState::processEvents() {
                 m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
                 break;
 
+            case sf::Keyboard::Return:
+                alphaCounter = 1;
+                break;
+
             default:
                 break;
             }
@@ -82,11 +95,8 @@ void GameOverState::processEvents() {
             switch(event.key.code) {
 
             case sf::Mouse::Button::Left: {
-                if(mainMenu.hovered(m_window)) {
-                    m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
-                }
-                if(quit.hovered(m_window)) {
-                    state_machine.quit();
+                if(OK.hovered(m_window)) {
+                    alphaCounter = 1;
                 }
                 break;
             }
@@ -102,29 +112,35 @@ void GameOverState::processEvents() {
 }
 
 void GameOverState::update(sf::Time deltaTime) {
-    if(mainMenu.hovered(m_window)) {
-        mainMenu.mouseOnButton = true;
+    if(OK.hovered(m_window)) {
+        OK.mouseOnButton = true;
     }
     else {
-        mainMenu.mouseOnButton = false;
+        OK.mouseOnButton = false;
     }
-    if(quit.hovered(m_window)) {
-        quit.mouseOnButton = true;
+
+    if(introAlpha.a < 250 && alphaCounter == 1) {
+        introAlpha.a += 3;
     }
-    else {
-        quit.mouseOnButton = false;
+    introFader.setFillColor(introAlpha);
+
+    if(introAlpha.a > 250) {
+        checkHighscore();
     }
 }
 
 void GameOverState::draw() {
     m_window.clear();
 
-    mainMenu.setHoveredColor();
-    quit.setHoveredColor();
+    OK.setHoveredColor();
 
     gameOver.draw(m_window);
-    mainMenu.draw(m_window);
-    quit.draw(m_window);
+    tryAgain.draw(m_window);
+    OK.draw(m_window);
+
+    if(introAlpha.a != 255) {
+        m_window.draw(introFader);
+    }
 
     m_window.display();
 }

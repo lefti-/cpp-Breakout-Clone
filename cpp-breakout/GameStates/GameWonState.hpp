@@ -23,13 +23,16 @@ namespace sf {
 class GameWonState : public GameState {
 public:
     GameWonState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace = true);
+    void checkHighscore();
     void processEvents();
     void update(sf::Time deltaTime);
     void draw();
 private:
+    int alphaCounter = 0;
+    sf::RectangleShape introFader;
+    sf::Color introAlpha;
     TextButton congratulations;
     TextButton completed;
-    TextButton mainMenu;
-    TextButton quit;
+    TextButton OK;
 };
 #endif

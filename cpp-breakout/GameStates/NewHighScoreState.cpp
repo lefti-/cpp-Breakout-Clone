@@ -1,5 +1,5 @@
 /*
-This software uses The MIT License (MIT). See license agreement LICENSE for full details.
+    This software uses The MIT License (MIT). See license agreement LICENSE for full details.
 */
 
 
@@ -10,16 +10,19 @@ This software uses The MIT License (MIT). See license agreement LICENSE for full
 NewHighscoreState::NewHighscoreState(int levelNumber, StateMachine& machine, sf::RenderWindow& window, bool replace)
     : GameState(levelNumber, machine, window, replace) {
 
-    //FADE FROM BLACK.
-    //FADE TO BLACK.
-
     font.loadFromFile("data/fonts/centurygothic.ttf");
 
-    GlobalVar::score = 37550;
     // Create texts.
     newHighScore.init(70, sf::Vector2f((float)m_window.getSize().x / 2, 100), sf::Color(226, 90, 0), "New highscore!");
     newHighScore.text.setStyle(sf::Text::Bold);
-    std::string scoreStr = std::to_string(GlobalVar::score);
+
+    if(GlobalVar::lives > 0) {
+        scoreStr = std::to_string(GlobalVar::score * GlobalVar::lives);
+    }
+    else {
+        scoreStr = std::to_string(GlobalVar::score);
+    }
+    
 
     score.init(50, sf::Vector2f((float)m_window.getSize().x / 2, 250), sf::Color(255, 255, 255), scoreStr);
     enterName.init(40, sf::Vector2f(155, 400), sf::Color(255, 255, 255), "Enter your name: ");
@@ -28,6 +31,13 @@ NewHighscoreState::NewHighscoreState(int levelNumber, StateMachine& machine, sf:
 
     nameText = sf::Text(renderString, font, 40);
     nameText.setPosition(sf::Vector2f(510, 400));
+
+    // Start off transparent.
+    introAlpha = sf::Color(0, 0, 0, 0);
+
+    // Fill the fader surface with black.
+    introFader.setFillColor(introAlpha);
+    introFader.setSize(sf::Vector2f((float)m_window.getSize().x, (float)m_window.getSize().y));
 }
 
 void NewHighscoreState::processEvents() {
@@ -50,9 +60,14 @@ void NewHighscoreState::processEvents() {
                 break;
 
             case sf::Keyboard::Return:
-                newEntry.score = GlobalVar::score;
+                alphaCounter = 1;
+                if(GlobalVar::lives > 0) {
+                    newEntry.score = GlobalVar::score * GlobalVar::lives;
+                }
+                else {
+                    newEntry.score = GlobalVar::score;
+                }
                 Highscore::writeFile(newEntry);
-                m_next = StateMachine::build<HighscoreListState>(0, state_machine, m_window, true);
                 break;
 
             default:
@@ -65,13 +80,15 @@ void NewHighscoreState::processEvents() {
             switch(event.key.code) {
 
             case sf::Mouse::Button::Left: {
-                if(enterName.hovered(m_window)) {
-                    //m_next = StateMachine::build<MainMenuState>(0, state_machine, m_window, true);
-                }
                 if(OK.hovered(m_window)) {
-                    newEntry.score = GlobalVar::score;
+                    alphaCounter = 1;
+                    if(GlobalVar::lives > 0) {
+                        newEntry.score = GlobalVar::score * GlobalVar::lives;
+                    }
+                    else {
+                        newEntry.score = GlobalVar::score;
+                    }
                     Highscore::writeFile(newEntry);
-                    m_next = StateMachine::build<HighscoreListState>(0, state_machine, m_window, true);
                 }
                 break;
             }
@@ -85,7 +102,9 @@ void NewHighscoreState::processEvents() {
             if(event.text.unicode > 32 && event.text.unicode < 128 && event.text.unicode != 8) {
                 if(renderString == "_") { renderString = ""; }
 
-                renderString += static_cast<char>(event.text.unicode);
+                if(renderString.size() < 11) {
+                    renderString += static_cast<char>(event.text.unicode);
+                }
             }
             else if(event.text.unicode == 8) {
                 // Backspace, delete char.
@@ -93,6 +112,7 @@ void NewHighscoreState::processEvents() {
             }
             nameText.setString(renderString);
             newEntry.name = renderString;
+            std::cout << renderString.size();
             break;
         }
 
@@ -109,6 +129,16 @@ void NewHighscoreState::update(sf::Time deltaTime) {
     else {
         OK.mouseOnButton = false;
     }
+
+    if(introAlpha.a < 250 && alphaCounter == 1) {
+        introAlpha.a += 3;
+    }
+
+    introFader.setFillColor(introAlpha);
+
+    if(introAlpha.a > 250) {
+        m_next = StateMachine::build<HighscoreListState>(0, state_machine, m_window, true);
+    }
 }
 
 void NewHighscoreState::draw() {
@@ -121,6 +151,10 @@ void NewHighscoreState::draw() {
     enterName.draw(m_window);
     m_window.draw(nameText);
     OK.draw(m_window);
+
+    if(introAlpha.a != 255) {
+        m_window.draw(introFader);
+    }
 
     m_window.display();
 }
