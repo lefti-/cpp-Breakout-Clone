@@ -74,8 +74,6 @@ PlayState::PlayState(int levelNumber, StateMachine& machine, sf::RenderWindow& w
     
     std::cout << "World created, bodycount: " << world->GetBodyCount() << std::endl;
     std::cout << "<< PlayState initialized >>" << std::endl;
-
-
 }
 
 void PlayState::createLifeIcons() {
@@ -93,6 +91,7 @@ void PlayState::createLifeIcons() {
     lifeSprite4.setPosition(175, 10);
     lifeSprite5.setPosition(230, 10);
 }
+
 void PlayState::createUITexts() {
     font.loadFromFile("data/fonts/centurygothic.ttf");
 

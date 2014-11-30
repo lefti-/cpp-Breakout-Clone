@@ -38,6 +38,10 @@ void Ball::setBodyAndSprite(b2World* world) {
     b2CircleShape ballShape;
     ballShape.m_radius = 12.f / PTM_RATIO;
 
+    b2PolygonShape ballShape2;
+    ballShape2.SetAsBox(HALF_HEIGHT / PTM_RATIO, HALF_HEIGHT / PTM_RATIO);
+
+
     // Define fixture.
     b2FixtureDef ballFixtureDef;
     ballFixtureDef.shape = &ballShape;
@@ -69,6 +73,10 @@ void Ball::update(Paddle paddle, sf::Time deltaTime) {
         b2Vec2 velocity = ballBody->GetLinearVelocity();
         float32 speed = velocity.Length();
 
+        std::cout << "Ball speed: " << speed << std::endl;
+        
+
+
         // If the ball is too fast, apply linear damping to gradually slow down the ball.
         if(speed > maxSpeed) {
             ballBody->SetLinearDamping(0.5);
@@ -76,13 +84,15 @@ void Ball::update(Paddle paddle, sf::Time deltaTime) {
         // If the ball is too slow, apply linear impulse to gradually fasten the ball.
         else if(speed < maxSpeed - 1) {
             ballBody->SetLinearDamping(0.0);
-            if(ballBody->GetLinearVelocity().x > 0) {
+            // Apply horizontal speed
+            if(velocity.x > 0) {
                 ballBody->ApplyLinearImpulse(b2Vec2(0.25f, 0), ballBodyDef.position, true);
             }
             else {
                 ballBody->ApplyLinearImpulse(b2Vec2(-0.25f, 0), ballBodyDef.position, true);
             }
-            if(ballBody->GetLinearVelocity().y > 0) {
+            // Apply vertical speed
+            if(velocity.y > 0) {
                 ballBody->ApplyLinearImpulse(b2Vec2(0, 0.25f), ballBodyDef.position, true);
             }
             else {

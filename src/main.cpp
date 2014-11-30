@@ -2,10 +2,7 @@
     This software uses The MIT License (MIT). See license agreement LICENSE for full details.
 */
 
-// Started on 13.7.2014.
-// Breakout clone made in C++, SFML and Box2D.
-
-// A small game engine or better state machine.
+// Uses a modified "small game engine or better state machine".
 // https://github.com/eXpl0it3r/SmallGameEngine
 
 #include "GameStates/MainMenuState.hpp"

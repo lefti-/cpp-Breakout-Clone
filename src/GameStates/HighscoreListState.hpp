@@ -3,8 +3,8 @@
 */
 
 
-#ifndef HIGHSCORESTATE_HPP
-#define HIGHSCORESTATE_HPP
+#ifndef HIGHSCORELISTSTATE_HPP
+#define HIGHSCORELISTSTATE_HPP
 
 #include "GameState.hpp"
 #include "MainMenuState.hpp"
