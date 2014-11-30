@@ -18,9 +18,9 @@ int main() {
     sf::Time deltaTime = sf::seconds(1.f / 60.f);
 
     sf::RenderWindow m_window;
-    m_window.create(sf::VideoMode{1024, 768}, "Game State Machine Test v0.1");
+    m_window.create(sf::VideoMode{1024, 768}, "Breakout");
 
-    //m_window.setVerticalSyncEnabled(true);
+    m_window.setVerticalSyncEnabled(true);
 
     // Initialize the Game State engine.
     StateMachine state_machine;
