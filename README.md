@@ -2,7 +2,7 @@ Breakout Clone
 ----------
 What?
 -----
-This repo contains a clone of Bong! This is a game I developed as my second serious game project. 
+This repo contains a clone of Breakout. This is a game I developed as my second serious game project. 
 The game is programmed in C++, using SFML and Box2D.
 
 - SFML (Simple and Fast Multimedia Library) is used for handling input, graphics, audio, windowing and text
@@ -10,17 +10,19 @@ The game is programmed in C++, using SFML and Box2D.
 
 Project:
 ---------
-- Features gameplay well-known from Breakout! 
+- Features gameplay well-known from Breakout
 - Local highscores
 - Graphics created in Paint.net
 
 How to play?
 ------------
-Try to destroy all of the blocks to get to the next level!
+Try to destroy all of the blocks to get to the next level
 
 TODO
 ----
 Provide the compiled binaries
+Image in README.md
+Finish README.md
 
 Other
 -----
