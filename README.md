@@ -1,5 +1,6 @@
 Breakout Clone
 ----------
+![alt-tag](https://cloud.githubusercontent.com/assets/5671281/5287645/a45b8e3e-7b36-11e4-8f25-104ad96591e4.png)
 What?
 -----
 This repo contains a clone of Breakout. This is a game I'm developing as my second serious game project. 
@@ -21,6 +22,7 @@ Try to destroy all of the blocks to get to the next level
 
 TODO
 ----
+Add sounds
 Finish levels, add polish
 Provide the compiled binaries
 Image in README.md
