@@ -18,7 +18,7 @@ Project:
 
 How to play?
 ------------
-Try to destroy all of the blocks to get to the next level
+Destroy all of the blocks to get to the next level, you know the drill
 
 TODO
 ----
