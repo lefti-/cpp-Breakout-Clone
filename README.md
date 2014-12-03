@@ -25,7 +25,6 @@ TODO
 - Add sounds
 - Finish levels, add polish
 - Provide the compiled binaries
-- Image in README.md
 - Finish README.md
 
 Other
