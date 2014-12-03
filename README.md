@@ -22,11 +22,11 @@ Try to destroy all of the blocks to get to the next level
 
 TODO
 ----
-Add sounds
-Finish levels, add polish
-Provide the compiled binaries
-Image in README.md
-Finish README.md
+- Add sounds
+- Finish levels, add polish
+- Provide the compiled binaries
+- Image in README.md
+- Finish README.md
 
 Other
 -----
