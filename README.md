@@ -33,6 +33,6 @@ This project uses the MIT license. Feel free to poke.
 
 More screenshots
 ----------------
-![alt-tag]
-![alt-tag]
-![alt-tag]
+![alt-tag](https://raw.githubusercontent.com/lefti-/cpp-Breakout-Clone/master/data/devimages/get_ready.png)
+![alt-tag](https://raw.githubusercontent.com/lefti-/cpp-Breakout-Clone/master/data/devimages/new_highscore.png)
+![alt-tag](https://raw.githubusercontent.com/lefti-/cpp-Breakout-Clone/master/data/devimages/highscores.png)
